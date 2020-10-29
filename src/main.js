@@ -1,9 +1,31 @@
+import 'babel-polyfill'
 import Vue from 'vue'
-import App from './App.vue'
+
+import './config/import-ant-design'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
+import '@/config/axios'
+
 import router from './router'
 import store from './store'
+import '@/filters/text-clip'
+import '@/filters/moment-time'
+import GlobalComponentsPlugin from '@/components/global'
+
+import App from './app.vue'
+
+import '@/assets/styles/antd-custom-styles.less'
+import '@/assets/styles/rcdcore-styles.less'
+
+// 配置 NProgress
+NProgress.configure({
+  showSpinner: false
+})
 
 Vue.config.productionTip = false
+
+Vue.use(GlobalComponentsPlugin)
 
 new Vue({
   router,

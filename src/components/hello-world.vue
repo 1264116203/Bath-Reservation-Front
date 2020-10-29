@@ -1,6 +1,23 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <a-alert>CNM</a-alert>
+    <a-space>
+      <a-select default-value="lucy" style="width: 120px">
+        <a-select-option value="jack">
+          Jack
+        </a-select-option>
+        <a-select-option value="lucy">
+          Lucy
+        </a-select-option>
+        <a-select-option value="disabled" disabled>
+          Disabled
+        </a-select-option>
+        <a-select-option value="Yiminghe">
+          yiminghe
+        </a-select-option>
+      </a-select>
+    </a-space>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the

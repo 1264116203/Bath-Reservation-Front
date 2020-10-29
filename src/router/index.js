@@ -1,24 +1,34 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+
+import pages from './modules/pages'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
+/** 页面级总路由表 */
+const routes = []
+/** 框架内子路由表 */
+const layoutChildrenRoutes = []
+
+// 添加主框架页面到总路由表
+routes.push({
+  path: '/main',
+  redirect: '/main/home',
+  name: '主框架',
+  meta: {
+    isTab: false
   },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+  component: () => import(/* webpackChunkName: "base" */ '@/pages/layout/layout-index'),
+  children: layoutChildrenRoutes
+})
+// 添加其他页面到总路由表
+routes.push(...pages)
+// 将该匹配放到最后，使不存在路由导航至404
+routes.push({
+  path: '*',
+  name: '404',
+  component: () => import(/* webpackChunkName: "base" */ '@/pages/exception/404')
+})
 
 const router = new VueRouter({
   routes
