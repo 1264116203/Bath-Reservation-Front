@@ -22,6 +22,9 @@ export function getMessageFromHttpStatusCode(statusCode) {
     case 500:
       message = '服务器内部错误。'
       break
+    case 503:
+      message = '该服务暂时不可用。'
+      break
     default:
   }
   return message

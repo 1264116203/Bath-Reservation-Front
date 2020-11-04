@@ -8,5 +8,5 @@ if (env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-  default: baseUrl
+  baseUrl
 }

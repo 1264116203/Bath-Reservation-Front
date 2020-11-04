@@ -1,16 +1,21 @@
 <template>
   <div class="no-border-margin-tabs">
-    <a-tabs v-model="activeTabKey" type="editable-card" :hide-add="true"
-            @change="onTabClick" @edit="onEdit"
+    <a-tabs v-model="activeTabKey"
+            type="editable-card"
+            :hide-add="true"
+            @change="onTabClick"
+            @edit="onEdit"
     >
-      <a-tab-pane v-for="tabElem in tabList"
-                  :key="tabElem.key"
-                  :closable="tabElem.closeable"
+      <a-tab-pane v-for="item in tabList"
+                  :key="item.key"
+                  :closable="item.closeable"
       >
-        <span slot="tab" v-contextmenu:contextmenu class="tab-slot" :tab-key="tabElem.key"
+        <span slot="tab" v-contextmenu:contextmenu
+              class="tab-slot"
+              :tab-key="item.key"
               @contextmenu="onRightClick"
         >
-          {{ tabElem.label }}
+          {{ item.label }}
         </span>
       </a-tab-pane>
     </a-tabs>
@@ -30,14 +35,16 @@
 </template>
 
 <script>
-import { TabPanelMixin } from '@/components/mixins/tab-panel/tab-panel-mixin'
+
+import { mapActions, mapMutations, mapState } from 'vuex'
+import { isUrl } from '@/util/validate-util'
 
 export default {
   name: 'Tabs',
-  mixins: [TabPanelMixin],
   computed: {
-    closeTabItemDisabled() {
-      const tab = this.tabList.find(elem => elem.key === this.rightTabKey)
+    ...mapState('tab', ['tabList']),
+    closeTabItemDisabled () {
+      const tab = this.tabList.find(elem => elem.key === this.contextMenuTabKey)
       if (!tab) {
         return true
       }
@@ -45,27 +52,76 @@ export default {
     },
     activeTabKey: {
       get () {
-        return this.$store.state.tabs.activeTabKey
+        return this.$store.state.tab.activeTabKey
       },
-      set(val) {
-        this.$store.commit('tabs/UPDATE_ACTIVE_TAB_KEY', val)
+      set (val) {
+        this.$store.commit('tabs/setActiveTabKey', val)
       }
     },
-    rightTabKey: {
+    contextMenuTabKey: {
       get () {
-        return this.$store.state.tabs.rightTabKey
+        return this.$store.state.tab.contextMenuTabKey
       },
-      set(val) {
-        this.$store.commit('tabs/UPDATE_RIGHT_TAB_KEY', val)
+      set (val) {
+        this.$store.commit('tabs/setContextMenuTabKey', val)
       }
     }
   },
   methods: {
-    onRightClick(event) {
-      this.rightTabKey = event.target.getAttribute('tab-key')
+    ...mapMutations('tab', ['switchTab', 'closeOther', 'closeAll']),
+    ...mapMutations('tab', { closeTabMutation: 'closeTab' }),
+    ...mapActions('tab', ['openTab']),
+    onTabClick(key) {
+      const found = this.tabList.find((val) => val.key === key)
+      if (found) {
+        if (isUrl(found.path)) {
+          this.openIframeTab(found)
+        } else {
+          this.openTab(found)
+        }
+      }
     },
-    closeTabByContextMenu() {
-      this.closeTab(this.rightTabKey)
+    onRightClick (event) {
+      this.contextMenuTabKey = event.target.getAttribute('tab-key')
+    },
+    openIframeTab(iframeElem) {
+      this.openTab({
+        ...iframeElem,
+        path: '/layout-iframe'
+      })
+    },
+    onEdit(targetKey, action) {
+      if (action === 'remove') {
+        this.closeTab(targetKey)
+      }
+    },
+    closeTabByContextMenu () {
+      this.closeTab(this.contextMenuTabKey)
+    },
+    closeOtherTabs() {
+      this.closeOther(this.contextMenuTabKey)
+      this.onTabClick(this.contextMenuTabKey)
+    },
+    closeAllTabs() {
+      this.closeAll()
+      this.openTab(null)
+    },
+    closeTab(key) {
+      const index = this.tabList.findIndex((val) => val.key === key)
+      if (index || index === 0) {
+        this.closeTabMutation(key)
+      }
+      if (this.tabList.length === 0) {
+        this.openTab(null)
+        return
+      }
+      if (key === this.activeTabKey) {
+        if (index === 0) {
+          this.onTabClick(this.tabList[0].key)
+        } else {
+          this.onTabClick(this.tabList[index - 1].key)
+        }
+      }
     }
   }
 }
@@ -74,25 +130,26 @@ export default {
 <style lang="less" scoped>
 </style>
 <style lang="less">
-  @import "../../../custom-variables";
+@import "../../../assets/styles/antd-custom-variables";
+.no-border-margin-tabs {
+  padding-top: 1px;
+  background-color: @body-background;
+  border-top: 1px solid #e8e8e8;
 
-  .no-border-margin-tabs {
-    padding-top: 1px;
-    background-color: @body-background;
-    border-top: 1px solid #e8e8e8;
-    .ant-tabs-bar {
-      margin: 0;
-      padding: 0 1rem;
+  .ant-tabs-bar {
+    margin: 0;
+    padding: 0 1rem;
 
-      .ant-tabs-nav {
-        .ant-tabs-tab {
-          padding: 0 16px 0 0;
-          .tab-slot {
-            padding: 16px 0 16px 16px;
-            user-select: none;
-          }
+    .ant-tabs-nav {
+      .ant-tabs-tab {
+        padding: 0 16px 0 0;
+
+        .tab-slot {
+          padding: 16px 0 16px 16px;
+          user-select: none;
         }
       }
     }
   }
+}
 </style>

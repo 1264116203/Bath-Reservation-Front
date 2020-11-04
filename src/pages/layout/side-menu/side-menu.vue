@@ -20,34 +20,42 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import MySubMenu from '@/page/layout/side-menu/my-sub-menu'
-import website from '@/config/website'
-import { tabDiff } from '@/util/tabs-util'
-import { deepSearch } from '@/util/tree'
-import { componentDestroy } from '@/util/component-destroy-util'
+import { mapActions, mapState } from 'vuex'
+import application from '@/config/application'
 import router from '@/router'
+import { tabDiff } from '@/util/tab-util'
+import { deepSearch } from '@/util/tree-util'
+import { destroyCurrentRouteComponent } from '@/util/router-util'
+import MySubMenu from './my-sub-menu'
 
-const iconDefault = website.menu.iconDefault
+const iconDefault = application.menu.iconDefault
 
 export default {
   name: 'SideMenu',
   components: { MySubMenu },
   data() {
     return {
-      isLoading: false,
       iconDefault,
       openKeys: []
     }
   },
   computed: {
-    ...mapGetters(['menuList', 'isCollapse']),
-    selectedKeys: {
+    ...mapState('common', ['isCollapse']),
+    ...mapState('side-menu', ['menuList']),
+    isLoading: {
       get() {
-        return this.$store.state.sidemenu.selectedKeys
+        return this.$store.state['side-menu'].loading
       },
       set(val) {
-        this.$store.commit('sidemenu/UPDATE_SELECTED_KEYS', val)
+        this.$store.commit('side-menu/setLoading', val)
+      }
+    },
+    selectedKeys: {
+      get() {
+        return this.$store.state['side-menu'].selectedKeys
+      },
+      set(val) {
+        this.$store.commit('side-menu/setSelectedKeys', val)
       }
     }
   },
@@ -65,23 +73,15 @@ export default {
       }
     }
   },
-  created() {
-    this.isLoading = true
-    this.getMenu()
-      .finally(() => {
-        this.isLoading = false
-      })
-  },
   methods: {
-    ...mapActions('user', ['getMenu']),
-    ...mapActions('tabs', ['navTo']),
+    ...mapActions('tab', ['openTab']),
     menuSelected(item) {
       const menuItem = deepSearch(this.menuList, item.key, 'path')
       if (menuItem && menuItem.isOpen) {
         if (menuItem.path.indexOf('http') === 0) {
           window.open(menuItem.path)
         } else {
-          let path = window.location.href.substring(0, window.location.href.indexOf('#'))
+          const path = window.location.href.substring(0, window.location.href.indexOf('#'))
           window.open(path + '#' + menuItem.path)
         }
         return
@@ -99,7 +99,7 @@ export default {
       } else {
         if (menuItem.path.indexOf('http') === 0) {
           tabElem = {
-            path: '/myiframe/url-path',
+            path: '/layout-iframe',
             name: menuItem.name,
             query: {
               tabName: menuItem.name,
@@ -114,11 +114,11 @@ export default {
         }
       }
       // 如果待切换Tab和当前Tab是同一个，则刷新
-      if (tabDiff(this.$store.getters['tabs/activeTab'], tabElem)) {
-        componentDestroy()
+      if (tabDiff(this.$store.getters['tab/activeTab'], tabElem)) {
+        destroyCurrentRouteComponent()
         router.replace('/hot-refresh')
       } else {
-        this.navTo(tabElem)
+        this.openTab(tabElem)
       }
     },
     onOpenChange(val) {

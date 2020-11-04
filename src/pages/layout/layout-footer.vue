@@ -12,11 +12,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "../../custom-variables";
+@import "../../assets/styles/antd-custom-variables";
 
-  .view-layout-footer {
-    text-align: center;
-    padding: 1em 0 !important;
-    background-color: darken(@layout-body-background, 10%) !important;
-  }
+.view-layout-footer {
+  text-align: center;
+  padding: 1em 0 !important;
+  background-color: darken(@layout-body-background, 10%) !important;
+}
 </style>

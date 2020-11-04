@@ -3,12 +3,16 @@ import VueRouter from 'vue-router'
 
 import pages from './modules/pages'
 
+import base from './modules/base'
+
 Vue.use(VueRouter)
 
 /** 页面级总路由表 */
 const routes = []
 /** 框架内子路由表 */
 const layoutChildrenRoutes = []
+
+layoutChildrenRoutes.push(...base)
 
 // 添加主框架页面到总路由表
 routes.push({

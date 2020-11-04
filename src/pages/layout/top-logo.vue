@@ -1,17 +1,23 @@
 <template>
   <div class="logo">
-    <span v-if="!isCollapse" class="title">{{ website.title }}</span>
-    <span v-else class="subtitle">{{ website.subtitle }}</span>
+    <span v-if="!isCollapse" class="title">{{ application.title }}</span>
+    <span v-else class="subtitle">{{ application.subtitle }}</span>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import application from '@/config/application'
+import { mapState } from 'vuex'
 
 export default {
   name: 'TopLogo',
+  data() {
+    return {
+      application
+    }
+  },
   computed: {
-    ...mapGetters(['website', 'isCollapse'])
+    ...mapState('common', ['isCollapse'])
   }
 }
 </script>

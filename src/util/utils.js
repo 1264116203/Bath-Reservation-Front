@@ -1,4 +1,4 @@
-import { validateNull } from './validate'
+import { validateNull } from './validate-util'
 
 // 表单序列化
 export const serialize = data => {

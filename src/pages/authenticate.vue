@@ -26,7 +26,7 @@ export default {
         return this.$store.getters.authenticated
       },
       set(val) {
-        this.$store.commit('user/SET_AUTHENTICATED', val)
+        this.$store.commit('auth/setAuthenticated', val)
       }
     },
     lastPageBeforeLogin() {

@@ -5,19 +5,31 @@
         <div class="login-time">
           {{ time | momentTime('yyyy-MM-DD HH:mm:ss') }}
         </div>
-        <img class="img" src="../../assets/login/logo.png">
-        <p class="title">
+        <div>
+          <img class="img" src="../../assets/login/logo.png">
+        </div>
+        <div class="title">
           {{ application.title }}
-        </p>
+        </div>
       </div>
 
       <div class="login-right">
         <div class="login-main">
           <h4 class="login-title">
-            {{ application.title }}用户登录
+            用户登录
           </h4>
-          <user-login/>
+          <user-login />
         </div>
+        <!--在需要扩展登录时使用-->
+        <!--<div class="login-footer">
+          <a-button type="link">
+            账号密码登录
+          </a-button>
+          <span>|</span>
+          <a-button type="link">
+            第三方认证登录
+          </a-button>
+        </div>-->
       </div>
     </div>
   </div>
@@ -53,6 +65,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "../../assets/styles/antd-custom-variables.less";
+
 @keyframes animate-cloud {
   from {
     background-position: 600px 100%;
@@ -79,24 +93,24 @@ export default {
     width: 1000px;
 
     display: flex;
-    color: #fff;
 
     .login-left, .login-right {
       min-height: 500px;
-      flex: 1 0;
+      flex: 1 1;
       display: flex;
+      flex-direction: column;
     }
 
     .login-left {
       text-align: center;
+      color: #fff;
+
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px;
-      background-color: #409EFF;
-      flex-direction: column;
-      justify-content: space-between;
+      background-color: @primary-color;
+      justify-content: space-around;
 
       .login-time {
-        margin-top: 25px;
         font-weight: 200;
         opacity: 0.9;
         font-size: 18px;
@@ -104,9 +118,7 @@ export default {
       }
 
       img {
-        display: block;
-        width: 16rem;
-        margin: auto;
+        width: 15rem;
       }
 
       .title {
@@ -122,6 +134,7 @@ export default {
 
       background-color: #fff;
       align-items: center;
+      justify-content: center;
 
       .login-main {
         margin: 0 auto;
@@ -137,6 +150,9 @@ export default {
           letter-spacing: 4px;
         }
       }
+      .login-footer {
+        margin-top: 2rem;
+      }
     }
   }
 }
@@ -145,6 +161,7 @@ export default {
   .login-container {
     .login-wrapper {
       margin: 0 20px;
+      max-width: 600px;
 
       .login-left {
         flex-grow: 0;

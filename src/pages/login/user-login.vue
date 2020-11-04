@@ -1,41 +1,58 @@
 <template>
   <a-spin :spinning="spinning">
-    <a-form
+    <a-form-model
+      ref="formRef"
+      :model="formData"
+      :rules="loginRules"
+      layout="horizontal"
       @keyup.enter.native="handleLogin"
     >
-      <a-form-item prop="username">
+      <a-form-model-item prop="username">
         <a-input
-          v-model="loginForm.username"
+          v-model="formData.username"
           placeholder="请输入用户名"
           auto-complete="off"
-          @keyup.enter.native="handleLogin"
         >
           <a-icon slot="prefix" type="user" />
         </a-input>
-      </a-form-item>
-      <a-form-item prop="password">
+      </a-form-model-item>
+      <a-form-model-item prop="password">
         <a-input
-          v-model="loginForm.password"
+          v-model="formData.password"
           :type="passwordType"
           placeholder="请输入密码"
           auto-complete="off"
-          @keyup.enter.native="handleLogin"
         >
           <a-icon slot="suffix" :type="passwordType ? 'eye' : 'eye-invisible'" @click="showPassword" />
           <a-icon slot="prefix" type="lock" />
         </a-input>
-      </a-form-item>
+      </a-form-model-item>
+      <!--<a-form-model-item prop="refreshTokenValidHours"
+                         label="令牌有效期"
+                         :label-col="{ span: 6 }"
+                         :wrapper-col="{ span:18 }"
+      >
+        <a-select
+          v-model="formData.refreshTokenValidHours"
+        >
+          <a-select-option :value="6">6小时</a-select-option>
+          <a-select-option :value="24">24小时</a-select-option>
+          <a-select-option :value="24 * 7">1星期</a-select-option>
+          <a-select-option :value="24 * 7 * 30">1个月</a-select-option>
+        </a-select>
+      </a-form-model-item>-->
       <div>
         <a-button type="primary" block @click.native.prevent="handleLogin">
           提交
         </a-button>
       </div>
-    </a-form>
+    </a-form-model>
   </a-spin>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
+import application from '@/config/application'
 
 const devUsername = process.env.NODE_ENV === 'development' ? 'admin' : ''
 const devPassword = process.env.NODE_ENV === 'development' ? 'admin' : ''
@@ -46,16 +63,13 @@ export default {
   data() {
     return {
       spinning: false,
-      loginForm: {
-        rememberMe: false,
+      formData: {
         username: devUsername,
         password: devPassword,
-        pwdEncoded: true
+        refreshTokenValidHours: 24,
+        pwdEncoded: application.pwdEncoded
       },
       loginRules: {
-        tenantId: [
-          { required: false, message: '请输入租户ID', trigger: 'blur' }
-        ],
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
@@ -68,14 +82,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['homepageTab']),
-    ...mapState('user', ['lastPageBeforeLogin'])
+    ...mapState('auth', ['lastPageBeforeLogin'])
   },
   created() {
   },
   mounted() {
   },
   methods: {
+    ...mapActions('auth', ['loginByPassword']),
+    ...mapMutations('auth', ['setLastPageBeforeLogin']),
     showPassword() {
       this.passwordType === ''
         ? (this.passwordType = 'password')
@@ -83,23 +98,31 @@ export default {
     },
     handleLogin() {
       this.spinning = true
-      const loginData = {
-        ...this.loginForm
-      }
-      loginData.password = window.btoa(loginData.password)
-      this.$store.dispatch('user/loginByUsername', loginData)
-        .then(() => {
-          this.$router.push(this.lastPageBeforeLogin ? this.lastPageBeforeLogin : { path: this.homepageTab.path })
-            .then(() => {
-              this.$store.commit('user/SET_LAST_PAGE_BEFORE_LOGIN', null)
-            })
-        })
-        .catch(err => {
-          console.error(err)
-        })
-        .finally(() => {
+      this.$refs.formRef.validate(async valid => {
+        if (!valid) {
           this.spinning = false
-        })
+          return false
+        }
+        const loginData = {
+          ...this.formData
+        }
+        if (loginData.pwdEncoded) {
+          loginData.password = btoa(loginData.password)
+        }
+        try {
+          // 先登录，登录成功后跳转至登录前想访问的路由
+          await this.loginByPassword(loginData)
+          await this.jumpToLastPageBeforeLogin()
+        } catch (ex) {
+          console.error(ex)
+        }
+
+        this.spinning = false
+      })
+    },
+    async jumpToLastPageBeforeLogin() {
+      await this.$router.push(this.lastPageBeforeLogin ? this.lastPageBeforeLogin : { path: '/' })
+      this.setLastPageBeforeLogin(null)
     }
   }
 }

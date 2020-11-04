@@ -1,14 +1,20 @@
 import Vue from 'vue'
 import NProgress from 'nprogress'
 import axios from 'axios'
-import baseUrl from '@/config/base-url'
+import { baseUrl } from '@/config/base-url'
 import store from '@/store'
 import router from '@/router'
 import { serialize } from '@/util/utils'
-import { getCsrfToken } from '@/util/auth'
+import { getCsrfToken } from '@/util/auth-util'
 import { getMessageFromHttpStatusCode } from '@/util/http-status-message'
-
-axios.defaults.timeout = 10000
+const env = process.env
+if (env.NODE_ENV === 'development') {
+  // 开发环境下，默认不设置超时时间
+  axios.defaults.timeout = 0
+} else {
+  // 生产环境下，默认超时时间1分钟
+  axios.defaults.timeout = 60000
+}
 // 返回其他状态码
 axios.defaults.validateStatus = function (status) {
   return status >= 200 && status < 400
@@ -37,6 +43,10 @@ axios.interceptors.request.use(config => {
   // 如果不想在请求失败时弹出notification，设置此属性为真
   if (meta.doNotMessage) {
     config.headers['X-DONT-MESSAGE'] = 'YES'
+  }
+
+  if (store.state.auth.accessToken) {
+    config.headers.Authorization = 'Bearer ' + store.state.auth.accessToken
   }
 
   // 如果不想使用JSON作为body而是使用序列化表单，设置此值为真
@@ -72,15 +82,15 @@ axios.interceptors.response.use(res => {
   if (status === 401) {
     // 如果返回内容为"invalid refresh token"，说明此时已经执行过刷新令牌重请求，但刷新令牌已失效，故跳回登录页
     if (res.data && res.data.refreshToken === 'invalid refresh token') {
-      return store.dispatch('user/logout')
+      return store.dispatch('auth/logout')
         .then(() => router.push({ path: '/login' }))
     } else {
       // 其他情况下，说明还没开始换取refreshToken
       // 如果返回体内容为"invalid jwt token"，则说明服务器认定JWT令牌已失效，此时应发请求换取新的JWT令牌
       // 只有存在refreshToken时，再提交令牌重刷
-      const refreshToken = store.state.user.refreshToken
+      const refreshToken = store.state.auth.refreshToken
       if (res.data && res.data === 'invalid jwt token' && refreshToken) {
-        return store.dispatch('user/refreshToken').then(() => {
+        return store.dispatch('auth/refreshToken').then(() => {
           return axios.request(res.config)
         })
       }

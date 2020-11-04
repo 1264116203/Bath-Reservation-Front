@@ -11,9 +11,9 @@ export default {
   // 首页文字
   indexTitle: 'RCDCore Front',
   // 客户端id
-  clientId: 'rcdcore-front',
+  clientId: 'user-client',
   // 客户端密钥
-  clientSecret: 'rcore_secret',
+  clientSecret: 'user-secret-8888',
   // 配置首页不可关闭
   firstPageCloseable: false,
   homepageTab: {
@@ -28,5 +28,7 @@ export default {
   // 配置菜单的属性
   menu: {
     iconDefault: 'check-circle'
-  }
+  },
+  // 密码在传递是是否经过Base64转码
+  pwdEncoded: false
 }

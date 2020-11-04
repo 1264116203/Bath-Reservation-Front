@@ -3,6 +3,7 @@ import Vue from 'vue'
 
 import './config/import-ant-design'
 import NProgress from 'nprogress'
+import VContextMenu from 'v-contextmenu'
 import 'nprogress/nprogress.css'
 
 import '@/config/axios'
@@ -25,6 +26,7 @@ NProgress.configure({
 
 Vue.config.productionTip = false
 
+Vue.use(VContextMenu)
 Vue.use(GlobalComponentsPlugin)
 
 new Vue({

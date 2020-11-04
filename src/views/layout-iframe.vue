@@ -13,10 +13,10 @@ export default {
   computed: {
     isIframeShow: {
       get () {
-        return this.$store.state.tabs.isIframeShow
+        return this.$store.state.tab.isIframeShow
       },
       set (val) {
-        this.$store.commit('tabs/UPDATE_IS_IFRAME_SHOW', val)
+        this.$store.commit('tab/setIframeShow', val)
       }
     }
   }

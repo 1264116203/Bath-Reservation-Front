@@ -2,44 +2,26 @@
   <div class="top-banner">
     <div class="top-banner-left">
       <span>
-        <a-icon v-if="showCollapse"
-                class="collapseButton"
-                :type="isCollapse ? 'menu-unfold' : 'menu-fold'"
-                @click="toggleCollapsed"
-        />
+        <a-tooltip placement="bottom" title="切换菜单折叠">
+          <a-icon v-if="showCollapse"
+                  class="collapseButton"
+                  :type="isCollapse ? 'menu-unfold' : 'menu-fold'"
+                  @click="onToggleCollapse"
+          />
+        </a-tooltip>
       </span>
       <top-menu />
     </div>
     <div class="top-banner-right">
-      <div v-if="isDev">
-        <demo-menu />
-      </div>
+      <!--<div v-if="isDev">
+        <demo-menu/>
+      </div>-->
       <div>
         <a-tooltip placement="bottom" title="全屏切换">
-          <a-button type="link" class="right-button" @click="toggleFullScreenClicked">
-            <a-icon :type="isFullScreen ? 'fullscreen-exit' : 'fullscreen'" />
-          </a-button>
-        </a-tooltip>
-      </div>
-      <div v-if="wsNotificationEnabled">
-        <a-popover v-model="showNewsDropdown" placement="bottomRight">
-          <a-button type="link" class="right-button">
-            <a-badge :count="newsTotal" :offset="[0, -7]">
-              <a-icon type="mail" />
-            </a-badge>
-          </a-button>
-          <notice-popup slot="content" style="width: 700px;" />
-        </a-popover>
-      </div>
-
-      <div v-if="wsNotificationEnabled">
-        <a-tooltip placement="bottom">
-          <template slot="title">
-            {{ webSocketMsg }}
-          </template>
-          <a-button type="link" class="right-button">
-            <a-icon :type="webSocketState ? 'link' : 'disconnect'" />
-          </a-button>
+          <a-icon class="right-button"
+                  :type="isFullScreen ? 'fullscreen-exit' : 'fullscreen'"
+                  @click="onToggleFullScreen"
+          />
         </a-tooltip>
       </div>
 
@@ -69,67 +51,38 @@
 </template>
 
 <script>
-import website from '@/config/website'
-import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
-import { fullscreenListener, toggleFullscreen } from '@/util/util'
-import TopMenu from '@/page/layout/top-menu/top-menu'
-import NoticePopup from '@/views/notification/notice-popup'
-import DemoMenu from '@/page/demo/demo-menu'
-
-const isDev = process.env.NODE_ENV === 'development'
-
+import { mapActions, mapMutations, mapState } from 'vuex'
+import { fullscreenListener, toggleFullscreen } from '@/util/utils'
+import TopMenu from './top-menu'
+// import DemoMenu from '@/page/demo/demo-menu'
 export default {
   name: 'TopBanner',
-  components: { DemoMenu, TopMenu, NoticePopup },
+  components: {
+    TopMenu
+  },
   computed: {
-    ...mapState('common', ['isCollapse', 'showCollapse']),
-    ...mapGetters(['isFullScreen', 'userInfo']),
-    wsNotificationEnabled() {
-      return website.wsNotificationEnabled
-    },
-    webSocketState: {
-      get () {
-        return this.$store.state.websocket.webSocketState
-      }
-    },
+    ...mapState('common', ['isCollapse', 'isFullScreen', 'showCollapse']),
+    ...mapState('auth', ['userInfo']),
     isDev () {
-      return isDev
-    },
-    webSocketMsg: {
-      get() {
-        return this.$store.state.websocket.webSocketMsg
-      }
-    },
-    showNewsDropdown: {
-      get() {
-        return this.$store.state.notification.dropdownVisible
-      },
-      set (val) {
-        this.$store.commit('notification/SET_DROPDOWN_VISIBLE', val)
-      }
-    },
-    newsTotal: {
-      get() {
-        return this.$store.state.notification.total
-      }
+      return process.env.NODE_ENV === 'development'
     }
   },
-  mounted() {
+  mounted () {
     fullscreenListener(() => {
-      this.TOGGLE_FULLSCREEN()
+      this.toggleFullScreen()
     })
   },
   methods: {
-    ...mapMutations('common', ['TOGGLE_COLLAPSE', 'TOGGLE_FULLSCREEN']),
-    ...mapActions('user', ['logout']),
-    ...mapActions('tabs', ['navTo']),
-    toggleCollapsed() {
-      this.TOGGLE_COLLAPSE()
+    ...mapMutations('common', ['toggleCollapse', 'toggleFullScreen']),
+    ...mapActions('auth', ['logout']),
+    ...mapActions('tab', ['openTab']),
+    onToggleCollapse () {
+      this.toggleCollapse()
     },
-    toggleFullScreenClicked () {
+    onToggleFullScreen () {
       toggleFullscreen()
     },
-    doLogout() {
+    doLogout () {
       this.logout()
         .then(() => {
           this.$router.push('/login')
@@ -139,7 +92,7 @@ export default {
           console.error(err)
         })
     },
-    doBackHome() {
+    doBackHome () {
       this.navTo({
         path: '/main/home',
         meta: {
@@ -148,8 +101,8 @@ export default {
         }
       })
     },
-    doUserInfo() {
-      this.navTo({
+    doUserInfo () {
+      this.openTab({
         path: '/user/info',
         meta: {
           isAuth: true,
@@ -162,50 +115,51 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "../../../custom-variables";
+@import "../../../assets/styles/antd-custom-variables";
 
-  .pointer {
-    cursor: pointer;
-  }
+.pointer {
+  cursor: pointer;
+}
 
-  .top-banner {
-    padding: 0 1rem;
-    display: flex;
-    justify-content: space-between;
+.top-banner {
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
 
-    .top-banner-left {
-      display: inline-flex;
-      justify-items: center;
+  .top-banner-left {
+    display: inline-flex;
+    justify-items: center;
 
-      .collapseButton {
-        margin: 0 1rem;
-        font-size: 1.2rem;
-      }
-
-      .quick-action {
-        margin-left: 2em;
-        margin-top: -0.125rem;
-      }
+    .collapseButton {
+      margin: 0 1rem;
+      font-size: 1.2rem;
     }
 
-    .top-banner-right {
-      display: inline-flex;
-      justify-items: center;
+    .quick-action {
+      margin-left: 2em;
+      margin-top: -0.125rem;
+    }
+  }
 
-      .right-button {
+  .top-banner-right {
+    display: inline-flex;
+    justify-items: center;
+
+    .right-button {
+      font-size: 18px;
+      color: @text-color;
+      padding: 0 0.5rem;
+
+      .ant-badge {
         font-size: 18px;
         color: @text-color;
-        padding: 0 0.5rem;
-        .ant-badge{
-          font-size: 18px;
-          color: @text-color;
-        }
-      }
-
-      .avatar-dropdown {
-        margin-left: 0.5rem;
-        margin-top: -0.125rem;
       }
     }
+
+    .avatar-dropdown {
+      margin-left: 0.5rem;
+      margin-top: -0.125rem;
+    }
   }
+}
 </style>

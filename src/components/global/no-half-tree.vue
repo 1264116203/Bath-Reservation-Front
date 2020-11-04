@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { conductCheck } from '@/util/tree-util'
+import { conductCheck } from '@/util/tree-select-util'
 
 /**
  * 无半选状态的树形选择组件

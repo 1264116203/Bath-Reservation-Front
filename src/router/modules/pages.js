@@ -11,6 +11,10 @@ const pages = [
     name: '登录页',
     component: LoginIndex
   }, {
+    path: '/hot-refresh',
+    name: '热刷新',
+    component: () => import(/* webpackChunkName: "base" */ '@/pages/hot-refresh')
+  }, {
     path: '/authenticate',
     name: '权限鉴定页',
     component: AuthenticatePage

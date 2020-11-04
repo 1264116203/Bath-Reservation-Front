@@ -1,4 +1,4 @@
-const { default: baseUrl } = require('./src/config/base-url')
+const { baseUrl } = require('./src/config/base-url')
 
 module.exports = {
   lintOnSave: true,
