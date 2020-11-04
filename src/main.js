@@ -16,7 +16,6 @@ import GlobalComponentsPlugin from '@/components/global'
 
 import App from './app.vue'
 
-import '@/assets/styles/antd-custom-styles.less'
 import '@/assets/styles/rcdcore-styles.less'
 
 // 配置 NProgress

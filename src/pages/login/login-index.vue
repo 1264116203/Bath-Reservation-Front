@@ -65,8 +65,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../assets/styles/antd-custom-variables.less";
-
 @keyframes animate-cloud {
   from {
     background-position: 600px 100%;

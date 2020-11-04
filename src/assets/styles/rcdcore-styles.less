@@ -1,3 +1,23 @@
+@general-padding: 1.2rem;
+@small-padding: 0.5rem;
+
+@table-zebra-dark-color: fade(@primary-color, 5%);
+
+// 要覆写的Ant Design样式
+.zebra-table {
+  tr.ant-table-row:nth-child(even) {
+    background-color: @table-zebra-dark-color;
+  }
+}
+
+.table-list-warp {
+  margin: @general-padding;
+
+  .operation-btn-container {
+    margin: @general-padding 0;
+  }
+}
+
 .d1-col-form {
   .ant-row {
     display: inline-block;

@@ -115,8 +115,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../assets/styles/antd-custom-variables";
-
 .pointer {
   cursor: pointer;
 }

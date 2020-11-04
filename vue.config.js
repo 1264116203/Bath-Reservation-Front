@@ -5,7 +5,17 @@ module.exports = {
   css: {
     loaderOptions: {
       less: {
-        javascriptEnabled: true
+        lessOptions: {
+          modifyVars: {
+            black: '#000',
+            'text-color': 'fade(@black, 65%)',
+            'primary-color': '#409EFF',
+            'body-background': '#fff',
+            'layout-header-background': '#20222a',
+            'layout-body-background': '#f0f2f5'
+          },
+          javascriptEnabled: true
+        }
       }
     }
   },

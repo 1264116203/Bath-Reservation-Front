@@ -130,7 +130,6 @@ export default {
 <style lang="less" scoped>
 </style>
 <style lang="less">
-@import "../../../assets/styles/antd-custom-variables";
 .no-border-margin-tabs {
   padding-top: 1px;
   background-color: @body-background;

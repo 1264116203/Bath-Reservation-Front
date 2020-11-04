@@ -71,7 +71,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import "../../assets/styles/antd-custom-variables";
   .header {
     background: #fff;
     padding: 0;
