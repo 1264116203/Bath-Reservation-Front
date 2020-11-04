@@ -1,4 +1,5 @@
 const { baseUrl } = require('./src/config/base-url')
+const { modifyVars } = require('./build/less-modify-vars')
 
 module.exports = {
   lintOnSave: true,
@@ -6,14 +7,7 @@ module.exports = {
     loaderOptions: {
       less: {
         lessOptions: {
-          modifyVars: {
-            black: '#000',
-            'text-color': 'fade(@black, 65%)',
-            'primary-color': '#409EFF',
-            'body-background': '#fff',
-            'layout-header-background': '#20222a',
-            'layout-body-background': '#f0f2f5'
-          },
+          modifyVars,
           javascriptEnabled: true
         }
       }

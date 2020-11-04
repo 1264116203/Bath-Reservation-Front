@@ -52,7 +52,6 @@ export default {
 }
 </script>
 <style lang="less">
-@import "~ant-design-vue/lib/style/index";
 .exception {
   display: flex;
   align-items: center;
