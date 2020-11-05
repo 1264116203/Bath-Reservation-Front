@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import application from '@/config/application'
 import router from '@/router'
 import { tabDiff } from '@/util/tab-util'
@@ -74,27 +74,27 @@ export default {
     }
   },
   methods: {
-    ...mapActions('tab', ['openTab']),
     menuSelected(item) {
+      // 首先根据菜单点击，深度优先找到菜单项
       const menuItem = deepSearch(this.menuList, item.key, 'path')
+      // 如果菜单项上标记了isOpen，说明要在新窗口打开
       if (menuItem && menuItem.isOpen) {
         if (menuItem.path.indexOf('http') === 0) {
           window.open(menuItem.path)
         } else {
+          // 如果要打开的不是一个http开头的页面，则说明是本系统内部的路由
           const path = window.location.href.substring(0, window.location.href.indexOf('#'))
+          // 此处直接使用了锚点路由的相关判断。如果路由模式变为history，则失效
           window.open(path + '#' + menuItem.path)
         }
         return
       }
       let tabElem
+      // 如果找不到菜单项，默认使用首页项（防弹）
       if (!menuItem) {
         tabElem = {
           path: '/main/home',
-          name: '首页',
-          meta: {
-            isAuth: true,
-            isTab: true
-          }
+          name: '首页'
         }
       } else {
         if (menuItem.path.indexOf('http') === 0) {
@@ -118,7 +118,7 @@ export default {
         destroyCurrentRouteComponent()
         router.replace('/hot-refresh')
       } else {
-        this.openTab(tabElem)
+        this.$router.push(tabElem)
       }
     },
     onOpenChange(val) {

@@ -1,4 +1,4 @@
-import { loginByPassword } from '@/api/common/auth'
+import { loginByPassword, requestRefreshToken } from '@/api/common/auth'
 import { getStore, setStore } from '@/util/browser-storage-util'
 
 export default {
@@ -44,7 +44,14 @@ export default {
     }
   },
   actions: {
-    // 根据用户名登录
+    /**
+     * 根据用户名密码登录
+     * @param userInfo
+     * @param {string}  userInfo.username 用户名
+     * @param {string}  userInfo.password 密码
+     * @param {boolean} userInfo.pwdEncoded 密码是否转码
+     * @param {number}  userInfo.refreshTokenValidHours 刷新令牌的有效时间
+     */
     loginByPassword({ commit, dispatch }, userInfo) {
       dispatch('clearAll')
       return loginByPassword(userInfo.username, userInfo.password, userInfo.pwdEncoded)
@@ -55,26 +62,32 @@ export default {
           } else {
             commit('setAccessToken', data.access_token)
             commit('setRefreshToken', data.refresh_token)
-            // commit('setUserInfo', data)
             commit('setAuthenticated', 'yes')
+            // commit('setUserInfo', data)
           }
         })
     },
-    // 注销session
+    /**
+     * 清空所有用户鉴权信息及配套的
+     * 页面信息
+     */
     clearAll({ commit }) {
       commit('setAccessToken', '')
       commit('setRefreshToken', '')
       commit('setRoleList', [])
       commit('setAuthorityList', [])
       commit('setAuthenticated', 'no')
+      // 清空顶部菜单数据、左侧菜单的选择数据和标签页开启数据
       commit('top-menu/setCurrentTopMenuKey', '', { root: true })
-      // commit('common/UNLOCK', null, { root: true })
-      // commit('tabs/CLOSE_ALL', null, { root: true })
-      // commit('sidemenu/UPDATE_SELECTED_KEYS', [], { root: true })
+      commit('side-menu/setSelectedKeys', [], { root: true })
+      commit('tabs/closeAll', null, { root: true })
     },
-    refreshToken() {
-      // eslint-disable-next-line prefer-promise-reject-errors
-      return Promise.reject('not-yet')
+    refreshToken({ commit, state }) {
+      return requestRefreshToken(state.refreshToken).then(res => {
+        const data = res.data
+        commit('setAccessToken', data.access_token)
+        commit('setRefreshToken', data.refresh_token)
+      })
     },
     // 登出
     logout({ commit, dispatch }) {

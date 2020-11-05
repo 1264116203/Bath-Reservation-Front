@@ -45,8 +45,11 @@ axios.interceptors.request.use(config => {
     config.headers['X-DONT-MESSAGE'] = 'YES'
   }
 
+  // TODO: 此处以后改为Cookie模式
   if (store.state.auth.accessToken) {
-    config.headers.Authorization = 'Bearer ' + store.state.auth.accessToken
+    if (!meta.basicAuth) {
+      config.headers.Authorization = 'Bearer ' + store.state.auth.accessToken
+    }
   }
 
   // 如果不想使用JSON作为body而是使用序列化表单，设置此值为真
@@ -89,7 +92,7 @@ axios.interceptors.response.use(res => {
       // 如果返回体内容为"invalid jwt token"，则说明服务器认定JWT令牌已失效，此时应发请求换取新的JWT令牌
       // 只有存在refreshToken时，再提交令牌重刷
       const refreshToken = store.state.auth.refreshToken
-      if (res.data && res.data === 'invalid jwt token' && refreshToken) {
+      if (res.data && res.data.error === 'invalid_token' && refreshToken) {
         return store.dispatch('auth/refreshToken').then(() => {
           return axios.request(res.config)
         })

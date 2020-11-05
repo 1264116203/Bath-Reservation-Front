@@ -36,8 +36,7 @@
 
 <script>
 
-import { mapActions, mapMutations, mapState } from 'vuex'
-import { isUrl } from '@/util/validate-util'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   name: 'Tabs',
@@ -68,27 +67,19 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('tab', ['switchTab', 'closeOther', 'closeAll']),
-    ...mapMutations('tab', { closeTabMutation: 'closeTab' }),
-    ...mapActions('tab', ['openTab']),
+    ...mapMutations('tab', ['switchTab']),
     onTabClick(key) {
       const found = this.tabList.find((val) => val.key === key)
       if (found) {
-        if (isUrl(found.path)) {
-          this.openIframeTab(found)
-        } else {
-          this.openTab(found)
-        }
+        this.$router.push({
+          path: found.path,
+          params: found.params,
+          query: found.query
+        })
       }
     },
     onRightClick (event) {
       this.contextMenuTabKey = event.target.getAttribute('tab-key')
-    },
-    openIframeTab(iframeElem) {
-      this.openTab({
-        ...iframeElem,
-        path: '/layout-iframe'
-      })
     },
     onEdit(targetKey, action) {
       if (action === 'remove') {
@@ -99,20 +90,20 @@ export default {
       this.closeTab(this.contextMenuTabKey)
     },
     closeOtherTabs() {
-      this.closeOther(this.contextMenuTabKey)
+      this.$store.commit('tab/closeOtherTabs', this.contextMenuTabKey)
       this.onTabClick(this.contextMenuTabKey)
     },
     closeAllTabs() {
-      this.closeAll()
-      this.openTab(null)
+      this.$store.commit('tab/closeAllTabs')
+      this.switchTab(this.tabList[0])
     },
     closeTab(key) {
       const index = this.tabList.findIndex((val) => val.key === key)
       if (index || index === 0) {
-        this.closeTabMutation(key)
+        this.$store.commit('tab/closeTab', key)
       }
       if (this.tabList.length === 0) {
-        this.openTab(null)
+        this.switchTab(this.tabList[0])
         return
       }
       if (key === this.activeTabKey) {
