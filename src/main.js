@@ -8,6 +8,7 @@ import 'nprogress/nprogress.css'
 
 import '@/config/axios'
 
+import '@/config/router-config'
 import router from './router'
 import store from './store'
 import '@/filters/text-clip'

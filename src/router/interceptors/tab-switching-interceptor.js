@@ -2,12 +2,16 @@
  * 专门处理路由-tab切换的拦截器
  */
 import router from '@/router'
-import NProgress from 'nprogress'
 import store from '@/store'
-import { validateNull } from '@/util/validate'
+import { validateNull } from '@/util/validate-util'
 
 router.beforeEach(async (to, from, next) => {
   const meta = Object.assign({ isAuth: false, isTab: false }, (to.meta || {}))
+  // 如果不是tab路由则直接放行
+  if (!meta.isTab) {
+    return next()
+  }
+
   let path = ''
 
   // 针对iframe组件的特殊处理
@@ -17,18 +21,19 @@ router.beforeEach(async (to, from, next) => {
     path = to.path
   }
 
+  // 如果不是基于path指定的路由跳转，则放行
   if (validateNull(path)) {
     return next()
   }
 
   try {
     // 根据路径、参数，查找tabs列表，如果找到，直接切换过去
-    await store.dispatch('tabs/getTabItem', {
+    await store.dispatch('tab/getTabItem', {
       path,
       query: to.query,
       params: to.params
     })
-    store.commit('tabs/switchTab', {
+    store.commit('tab/switchTab', {
       path,
       params: to.params,
       query: to.query
@@ -36,8 +41,8 @@ router.beforeEach(async (to, from, next) => {
   } catch (e) {
     try {
       // 如果tab列表找不到，去左侧菜单列表查找
-      const menuItem = await store.dispatch('user/getMenuItemByPath', path)
-      store.commit('tabs/switchTab', {
+      const menuItem = await store.dispatch('side-menu/getMenuItemByPath', path)
+      store.commit('tab/switchTab', {
         path,
         params: to.params,
         query: to.query,
@@ -51,7 +56,7 @@ router.beforeEach(async (to, from, next) => {
     } catch (e) {
       // 如果左侧菜单也找不到，而且这个路由的确是Tab页形式的路由
       if (to.meta && to.meta.isTab) {
-        store.commit('tabs/switchTab', {
+        store.commit('tab/switchTab', {
           path,
           params: to.params,
           query: to.query,
@@ -70,7 +75,6 @@ router.beforeEach(async (to, from, next) => {
 })
 
 router.afterEach((to, from) => {
-  NProgress.done()
   if (to.meta.isTab) {
     if (store.getters.nowTab) {
       const title = store.getters.nowTab.label

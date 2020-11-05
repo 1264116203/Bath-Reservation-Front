@@ -1,13 +1,16 @@
-import { listCurrentUserMenuByTopMenuIdWithTree } from '@/api/system/side-menu'
 import { deepClone } from '@/util/utils'
 import { validateNull } from '@/util/validate-util'
 import application from '@/config/application'
+import { deepSearch } from '@/util/tree-util'
+import { listCurrentUserMenuByTopMenuIdWithTree, getMenuItemByPath } from '@/api/common/side-menu'
 
 export default {
   namespaced: true,
   state: {
+    /** 左侧菜单的加载状态 */
     loading: false,
-    selectedKeys: ['/main/home'],
+    /** 左侧菜单选中的key */
+    selectedKeys: [application.homepageTab.path],
     menuList: []
   },
   mutations: {
@@ -25,6 +28,11 @@ export default {
     }
   },
   actions: {
+    /**
+     * 以树形结构拉取左侧菜单数据
+     *
+     * @param {string} topMenuId 顶部菜单的ID，为空则全量拉取
+     */
     async listSideMenuWithTree({ commit, state, dispatch }, topMenuId = '') {
       const data = (await listCurrentUserMenuByTopMenuIdWithTree(topMenuId)).data
 
@@ -51,6 +59,18 @@ export default {
           ele.children = []
         }
       }
+    },
+    /**
+     * 根据路由路径拉取菜单项
+     * @param path 传入的路由路径
+     */
+    async getMenuItemByPath({ commit, state }, path) {
+      let found = deepSearch(state.menuList, path, 'path')
+      // 如果菜单列表里面找不到，就去服务器端拉取
+      if (!found) {
+        found = (await getMenuItemByPath(path)).data
+      }
+      return found
     }
   }
 }

@@ -1,6 +1,10 @@
 import axios from 'axios'
+import store from '@/store'
 import application from '@/config/application'
 
+/**
+ * @return {*}
+ */
 function getBasicHeaderConfig() {
   const config = {
     meta: {
@@ -44,4 +48,10 @@ export function requestRefreshToken(refreshToken) {
     grantType: 'refresh_token',
     refreshToken: refreshToken
   }, getBasicHeaderConfig())
+}
+
+/** 检查当前用户的登录状态 */
+export function checkAuthenticate() {
+  // TODO 因为没有对应的接口，所以直接判断store中是否有token吧
+  return store.state.auth.accessToken
 }

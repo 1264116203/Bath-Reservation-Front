@@ -31,3 +31,9 @@ export function listCurrentUserMenuByTopMenuIdWithTree(topMenuId) {
     }
   })
 }
+
+/** 根据路由路径获取菜单项。注意路由路径是经过encodeURIComponent转码的 */
+export function getMenuItemByPath (path) {
+  path = encodeURIComponent(path)
+  return axios.get(contextPath + '/by-path/' + path)
+}

@@ -9,8 +9,8 @@
 </template>
 
 <script>
-// import { checkAuthenticate } from '@/api/user-account'
-// import store from '@/store'
+import { checkAuthenticate } from '@/api/common/auth'
+import store from '@/store'
 
 export default {
   name: 'Authenticate',
@@ -30,43 +30,51 @@ export default {
       }
     },
     lastPageBeforeLogin() {
-      return this.$store.state.user.lastPageBeforeLogin
+      return this.$store.state.auth.lastPageBeforeLogin
     },
     token() {
-      return this.$store.state.user.token
+      return this.$store.state.auth.token
     }
   },
-  created() {
-    const doCheck = () => {
-      // return checkAuthenticate()
-      //   .then((res) => {
-      //     const status = res.status
-      //     if (status === 401) {
-      //       if (res.data && res.data.refreshToken !== 'invalid refresh token') {
-      //         return store.dispatch('user/refreshToken').then(doCheck)
-      //       } else {
-      //         this.authenticated = 'no'
-      //         this.$router.push('/login')
-      //       }
-      //     } else {
-      //       this.authenticated = 'yes'
-      //       this.$store.commit('user/SET_TOKEN', res.data)
-      //       if (this.lastPageBeforeLogin) {
-      //         this.$router.push(this.lastPageBeforeLogin)
-      //           .then(() => {
-      //             this.$store.commit('user/SET_LAST_PAGE_BEFORE_LOGIN', null)
-      //           })
-      //       } else {
-      //         this.$router.push('/login')
-      //       }
-      //     }
-      //   })
-      //   .catch(() => {
-      //     this.gotError = true
-      //     this.tip = '鉴定用户身份时发生了未知异常，似乎没能连接至后端服务！'
-      //   })
+  async created() {
+    try {
+      const res = await checkAuthenticate()
+      const status = res.status
+      if (status === 401) {
+        if (res.data && res.data.refreshToken !== 'invalid refresh token') {
+          try {
+            await store.dispatch('auth/refreshToken')
+            this.authenticated = 'yes'
+            if (this.lastPageBeforeLogin) {
+              await this.$router.push(this.lastPageBeforeLogin)
+              this.$store.commit('auth/setLastPageBeforeLogin', null)
+            } else {
+              await this.$router.push('/')
+            }
+          } catch (e) {
+            console.error(e)
+            this.authenticated = 'no'
+            await this.$router.push('/login')
+          }
+        } else {
+          this.authenticated = 'no'
+          await this.$router.push('/login')
+        }
+      } else {
+        this.authenticated = 'yes'
+        this.$store.commit('auth/setAccessToken', res.data)
+        if (this.lastPageBeforeLogin) {
+          await this.$router.push(this.lastPageBeforeLogin)
+          this.$store.commit('auth/setLastPageBeforeLogin', null)
+        } else {
+          await this.$router.push('/')
+        }
+      }
+    } catch (err) {
+      console.error(err)
+      this.gotError = true
+      this.tip = '鉴定用户身份时发生了未知异常，似乎没能连接至后端服务！'
     }
-    doCheck()
   }
 }
 </script>
