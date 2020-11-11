@@ -56,7 +56,7 @@ export default {
       setStore('tabList', state.tabList)
     },
     closeAllTabs: (state) => {
-      state.tabList = [state.homepageTab]
+      state.tabList = [homepageTab]
       setStore('tabList', state.tabList)
     },
     closeOtherTabs: (state, key) => {
@@ -87,7 +87,7 @@ export default {
     /** 根据传入的tab数据，查找其在标签列表中是否存在 */
     getTabItem({ state }, tabElem) {
       const found = state.tabList.find(val => tabDiff(tabElem, val))
-      return found ? Promise.resolve(found) : Promise.reject(new Error('找不到这个标签数据'))
+      return Promise.resolve(found)
     }
   },
   getters: {

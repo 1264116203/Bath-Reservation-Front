@@ -75,7 +75,6 @@ export default {
   methods: {
     ...mapMutations('common', ['toggleCollapse', 'toggleFullScreen']),
     ...mapActions('auth', ['logout']),
-    ...mapActions('tab', ['openTab']),
     onToggleCollapse () {
       this.toggleCollapse()
     },
@@ -93,22 +92,10 @@ export default {
         })
     },
     doBackHome () {
-      this.navTo({
-        path: '/main/home',
-        meta: {
-          isAuth: true,
-          isTab: true
-        }
-      })
+      this.$router.push('/main/home')
     },
     doUserInfo () {
-      this.openTab({
-        path: '/user/info',
-        meta: {
-          isAuth: true,
-          isTab: true
-        }
-      })
+      this.$router.push('/user/info')
     }
   }
 }

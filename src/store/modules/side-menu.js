@@ -2,7 +2,7 @@ import { deepClone } from '@/util/utils'
 import { validateNull } from '@/util/validate-util'
 import application from '@/config/application'
 import { deepSearch } from '@/util/tree-util'
-import { listCurrentUserMenuByTopMenuIdWithTree, getMenuItemByPath } from '@/api/common/side-menu'
+import { listCurrentUserMenuByTopMenuIdWithTree } from '@/api/common/side-menu'
 
 export default {
   namespaced: true,
@@ -65,12 +65,7 @@ export default {
      * @param path 传入的路由路径
      */
     async getMenuItemByPath({ commit, state }, path) {
-      let found = deepSearch(state.menuList, path, 'path')
-      // 如果菜单列表里面找不到，就去服务器端拉取
-      if (!found) {
-        found = (await getMenuItemByPath(path)).data
-      }
-      return found
+      return deepSearch(state.menuList, path, 'path')
     }
   }
 }

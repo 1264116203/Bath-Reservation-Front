@@ -4,6 +4,8 @@
 import router from '@/router'
 import store from '@/store'
 import { validateNull } from '@/util/validate-util'
+import { tabDiff } from '@/util/tab-util'
+import application from '@/config/application'
 
 router.beforeEach(async (to, from, next) => {
   const meta = Object.assign({ isAuth: false, isTab: false }, (to.meta || {}))
@@ -26,47 +28,46 @@ router.beforeEach(async (to, from, next) => {
     return next()
   }
 
-  try {
+  const tabElem = {
+    path,
+    query: to.query,
+    params: to.params
+  }
+
+  // 如果是主页，直接跳转
+  if (tabDiff(tabElem, application.homepageTab)) {
+    store.commit('tab/switchTab', tabElem)
+  } else {
     // 根据路径、参数，查找tabs列表，如果找到，直接切换过去
-    await store.dispatch('tab/getTabItem', {
-      path,
-      query: to.query,
-      params: to.params
-    })
-    store.commit('tab/switchTab', {
-      path,
-      params: to.params,
-      query: to.query
-    })
-  } catch (e) {
-    try {
+    const tab = await store.dispatch('tab/getTabItem', tabElem)
+    if (tab) {
+      store.commit('tab/switchTab', tabElem)
+    } else {
       // 如果tab列表找不到，去左侧菜单列表查找
       const menuItem = await store.dispatch('side-menu/getMenuItemByPath', path)
-      store.commit('tab/switchTab', {
-        path,
-        params: to.params,
-        query: to.query,
-        // 直接使用左侧菜单的标签名，而非路由表中的标签名
-        label: menuItem.name,
-        meta: {
-          ...meta,
-          isIframe: path.indexOf('http') === 0
-        }
-      })
-    } catch (e) {
-      // 如果左侧菜单也找不到，而且这个路由的确是Tab页形式的路由
-      if (to.meta && to.meta.isTab) {
+      if (menuItem) {
         store.commit('tab/switchTab', {
-          path,
-          params: to.params,
-          query: to.query,
-          // 标签名直接使用路由表中的name
-          label: to.query.tabName || to.name,
+          ...tabElem,
+          // 直接使用左侧菜单的标签名，而非路由表中的标签名
+          label: menuItem.name,
           meta: {
             ...meta,
             isIframe: path.indexOf('http') === 0
           }
         })
+      } else {
+        // 如果左侧菜单也找不到，直接以路由表中的名字跳转
+        if (to.meta) {
+          store.commit('tab/switchTab', {
+            ...tabElem,
+            // 标签名直接使用路由表中的name
+            label: to.query.tabName || to.name,
+            meta: {
+              ...meta,
+              isIframe: path.indexOf('http') === 0
+            }
+          })
+        }
       }
     }
   }

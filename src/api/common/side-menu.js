@@ -24,8 +24,7 @@ export function listMenuByTopMenuIdWithTree(topMenuId) {
 
 /** 当前登录用户的菜单列表数据 */
 export function listCurrentUserMenuByTopMenuIdWithTree(topMenuId) {
-  return axios.get(contextPath + '/current-user/menu-tree', {
-  // TODO 此处改一下 return axios.get(contextPath + '/menu-tree/current-user', {
+  return axios.get(contextPath + '/menu-tree/current-user', {
     params: {
       topMenuId
     }
@@ -34,6 +33,8 @@ export function listCurrentUserMenuByTopMenuIdWithTree(topMenuId) {
 
 /** 根据路由路径获取菜单项。注意路由路径是经过encodeURIComponent转码的 */
 export function getMenuItemByPath (path) {
-  path = encodeURIComponent(path)
-  return axios.get(contextPath + '/by-path/' + path)
+  // path = encodeURIComponent(path)
+  return axios.get(contextPath + '/by-path', {
+    params: { path }
+  })
 }

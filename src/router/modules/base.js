@@ -15,14 +15,14 @@ const base = [
       isAuth: true
     },
     component: () => import(/* webpackChunkName: "base" */ '@/views/layout-iframe')
-  // }, {
-  //   path: '/user/info',
-  //   name: '个人信息',
-  //   meta: {
-  //     isTab: true,
-  //     isAuth: true
-  //   },
-  //   component: () => import(/* webpackChunkName: "base" */ '@/views/user-info/user-info.vue')
+  }, {
+    path: '/user/info',
+    name: '个人信息',
+    meta: {
+      isTab: true,
+      isAuth: true
+    },
+    component: () => import(/* webpackChunkName: "base" */ '@/views/user-info/user-info-index')
   }
 ]
 export default base

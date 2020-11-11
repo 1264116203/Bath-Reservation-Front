@@ -54,7 +54,7 @@ export default {
         return this.$store.state.tab.activeTabKey
       },
       set (val) {
-        this.$store.commit('tabs/setActiveTabKey', val)
+        this.$store.commit('tab/setActiveTabKey', val)
       }
     },
     contextMenuTabKey: {
@@ -62,7 +62,7 @@ export default {
         return this.$store.state.tab.contextMenuTabKey
       },
       set (val) {
-        this.$store.commit('tabs/setContextMenuTabKey', val)
+        this.$store.commit('tab/setContextMenuTabKey', val)
       }
     }
   },

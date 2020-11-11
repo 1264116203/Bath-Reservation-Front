@@ -80,7 +80,7 @@ export default {
       // 清空顶部菜单数据、左侧菜单的选择数据和标签页开启数据
       commit('top-menu/setCurrentTopMenuKey', '', { root: true })
       commit('side-menu/setSelectedKeys', [], { root: true })
-      commit('tabs/closeAll', null, { root: true })
+      commit('tab/closeAllTabs', null, { root: true })
     },
     refreshToken({ commit, state }) {
       return requestRefreshToken(state.refreshToken).then(res => {
