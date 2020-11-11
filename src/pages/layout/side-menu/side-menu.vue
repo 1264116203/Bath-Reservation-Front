@@ -118,7 +118,7 @@ export default {
         destroyCurrentRouteComponent()
         router.replace('/hot-refresh')
       } else {
-        this.$router.push(tabElem)
+        this.$router.push(tabElem.path)
       }
     },
     onOpenChange(val) {

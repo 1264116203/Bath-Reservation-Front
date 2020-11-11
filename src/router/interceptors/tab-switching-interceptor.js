@@ -77,13 +77,14 @@ router.beforeEach(async (to, from, next) => {
 
 router.afterEach((to, from) => {
   if (to.meta.isTab) {
-    if (store.getters.nowTab) {
-      const title = store.getters.nowTab.label
+    const activeTab = store.getters['tab/activeTab']
+    if (activeTab) {
+      const title = activeTab.label
       // 根据当前的标签也获取label的值动态设置浏览器标题
       if (title) {
-        document.title = store.getters.website.title + ' - ' + title
+        document.title = application.title + ' - ' + title
       } else {
-        document.title = store.getters.website.title
+        document.title = application.title
       }
     }
   }

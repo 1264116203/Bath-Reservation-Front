@@ -1,10 +1,18 @@
 <template>
   <div>
-    <a-form ref="form" :form="passwordForm" class="d1-col-form width64-centered"
-            :label-col="{ span: 3 }" :wrapper-col="{ span: 21 }"
+    <a-form ref="form" :form="passwordForm"
+            class="width64-centered"
+            :label-col="{ span: 3 }"
+            :wrapper-col="{ span: 21 }"
     >
       <a-form-item label="原密码">
-        <a-input-password v-decorator="['oldPassword']" placeholder="请输入原密码" allow-clear />
+        <a-input-password
+          v-decorator="['oldPassword', { rules: [
+            { required: true, message: '请输入密码' }
+          ]}]"
+          placeholder="请输入原密码"
+          allow-clear
+        />
       </a-form-item>
       <a-form-item label="新密码">
         <a-input-password

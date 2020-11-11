@@ -11,6 +11,8 @@
 <script>
 import { checkAuthenticate } from '@/api/common/auth'
 import store from '@/store'
+import { getSelfInfo } from '@/api/common/user-self'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'Authenticate',
@@ -63,6 +65,8 @@ export default {
       } else {
         this.authenticated = 'yes'
         this.$store.commit('auth/setAccessToken', res.data)
+        const userInfo = (await getSelfInfo()).data
+        this.setUserInfo(userInfo)
         if (this.lastPageBeforeLogin) {
           await this.$router.push(this.lastPageBeforeLogin)
           this.$store.commit('auth/setLastPageBeforeLogin', null)
@@ -75,6 +79,9 @@ export default {
       this.gotError = true
       this.tip = '鉴定用户身份时发生了未知异常，似乎没能连接至后端服务！'
     }
+  },
+  methods: {
+    ...mapMutations('auth', ['setUserInfo'])
   }
 }
 </script>

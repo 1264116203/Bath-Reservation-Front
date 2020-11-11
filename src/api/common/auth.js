@@ -1,5 +1,4 @@
 import axios from 'axios'
-import store from '@/store'
 import application from '@/config/application'
 
 /**
@@ -52,6 +51,5 @@ export function requestRefreshToken(refreshToken) {
 
 /** 检查当前用户的登录状态 */
 export function checkAuthenticate() {
-  // TODO 因为没有对应的接口，所以直接判断store中是否有token吧
-  return store.state.auth.accessToken
+  return axios.get('/api/auth/login-status/check')
 }

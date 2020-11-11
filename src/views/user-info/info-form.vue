@@ -1,7 +1,9 @@
 <template>
   <div>
-    <a-form ref="form" :form="form" class="d1-col-form width64-centered"
-            :label-col="{ span: 3 }" :wrapper-col="{ span: 21 }"
+    <a-form ref="form" :form="form"
+            class="width64-centered"
+            :label-col="{ span: 4 }"
+            :wrapper-col="{ span: 20 }"
     >
       <a-form-item label="头像">
         <upload-avatar :action="action" :image-url.sync="imageUrl" :default-image-url="imageUrl" />
@@ -11,16 +13,16 @@
           v-decorator="['realName', { rules: [
             { required: true, message: '请输入用户姓名' }
           ]}]"
-          placeholder="请输入用户姓名"
+          placeholder="请输入用户真实姓名"
           allow-clear
         />
       </a-form-item>
-      <a-form-item label="用户名">
+      <a-form-item label="用户名（昵称）">
         <a-input
           v-decorator="['name', { rules: [
             { required: true, message: '请输入用户名' }
           ]}]"
-          placeholder="请输入用户名"
+          placeholder="请输入用户名（昵称）"
           allow-clear
         />
       </a-form-item>
@@ -78,17 +80,16 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.form.validateFields((errors, values) => {
+      this.form.validateFields(async (errors, values) => {
         if (!errors) {
           const formData = {
             ...this.form.getFieldsValue(),
             avatar: this.imageUrl,
             id: this.currentId
           }
-          updateSelfInfo(formData).then(res => {
-            this.$message.success('修改信息成功!')
-            this.$store.commit('user/SET_USER_INFO', formData)
-          })
+          await updateSelfInfo(formData)
+          this.$store.commit('auth/setUserInfo', (await getSelfInfo()).data)
+          this.$message.success('修改信息成功!')
         } else {
           this.$message.error('校验失败！')
           console.error(errors, values)

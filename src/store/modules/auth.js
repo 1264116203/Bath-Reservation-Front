@@ -1,5 +1,6 @@
 import { loginByPassword, requestRefreshToken } from '@/api/common/auth'
 import { getStore, setStore } from '@/util/browser-storage-util'
+import { getSelfInfo } from '@/api/common/user-self'
 
 export default {
   state: {
@@ -52,20 +53,19 @@ export default {
      * @param {boolean} userInfo.pwdEncoded 密码是否转码
      * @param {number}  userInfo.refreshTokenValidHours 刷新令牌的有效时间
      */
-    loginByPassword({ commit, dispatch }, userInfo) {
+    async loginByPassword({ commit, dispatch }, userInfo) {
       dispatch('clearAll')
-      return loginByPassword(userInfo.username, userInfo.password, userInfo.pwdEncoded)
-        .then(res => {
-          const data = res.data
-          if (data.error_description) {
-            return Promise.reject(data.error_description)
-          } else {
-            commit('setAccessToken', data.access_token)
-            commit('setRefreshToken', data.refresh_token)
-            commit('setAuthenticated', 'yes')
-            // commit('setUserInfo', data)
-          }
-        })
+      const data = (await loginByPassword(userInfo.username, userInfo.password, userInfo.pwdEncoded)).data
+      // 如果返回值里有异常描述，说明登录失败
+      if (data.error_description) {
+        return Promise.reject(data.error_description)
+      } else {
+        commit('setAccessToken', data.access_token)
+        commit('setRefreshToken', data.refresh_token)
+        commit('setAuthenticated', 'yes')
+        const userInfo = (await getSelfInfo()).data
+        commit('setUserInfo', userInfo)
+      }
     },
     /**
      * 清空所有用户鉴权信息及配套的
