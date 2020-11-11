@@ -43,7 +43,7 @@
         </a-form-model-item>
 
         <a-form-model-item label="日志时间" prop="createTime">
-          <a-date-picker v-model="formData.createTime" :disabled="isDisable" />
+          <a-date-picker v-model="formData.createTime" style="width: 100%" :disabled="isDisable" />
         </a-form-model-item>
 
         <a-form-model-item

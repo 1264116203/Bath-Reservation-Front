@@ -15,13 +15,13 @@ export default [
       isAuth: true
     },
     component: () => import(/* webpackChunkName: "monitor" */ '@/views/monitor/api-log/api-log-index')
-  // }, {
-  //   path: '/monitor/log/error',
-  //   name: '错误日志',
-  //   meta: {
-  //     isTab: true,
-  //     isAuth: true
-  //   },
-  //   component: () => import(/* webpackChunkName: "monitor" */ '@/views/monitor/log/error-log-list')
+  }, {
+    path: '/monitor/log/error',
+    name: '错误日志',
+    meta: {
+      isTab: true,
+      isAuth: true
+    },
+    component: () => import(/* webpackChunkName: "monitor" */ '@/views/monitor/error-log/error-log-index')
   }
 ]
