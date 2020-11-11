@@ -7,14 +7,14 @@ export default [
       isAuth: true
     },
     component: () => import(/* webpackChunkName: "monitor" */ '@/views/monitor/usual-log/usual-log-index')
-  // }, {
-  //   path: '/monitor/log/api',
-  //   name: '接口日志',
-  //   meta: {
-  //     isTab: true,
-  //     isAuth: true
-  //   },
-  //   component: () => import(/* webpackChunkName: "monitor" */ '@/views/monitor/log/api-log-list')
+  }, {
+    path: '/monitor/log/api',
+    name: '接口日志',
+    meta: {
+      isTab: true,
+      isAuth: true
+    },
+    component: () => import(/* webpackChunkName: "monitor" */ '@/views/monitor/api-log/api-log-index')
   // }, {
   //   path: '/monitor/log/error',
   //   name: '错误日志',
