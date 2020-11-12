@@ -9,70 +9,72 @@
       :footer="null"
       @cancel="onCancel"
     >
-      <a-form-model ref="form" :model="formData"
-                    class="d2-col-form"
-                    :label-col="{ span: 4 }"
-                    :wrapper-col="{ span: 20 }"
-      >
-        <a-form-model-item label="服务id" prop="serviceId">
-          <a-input v-model="formData.serviceId" :disabled="isDisable" />
-        </a-form-model-item>
-
-        <a-form-model-item label="服务host" prop="serverHost">
-          <a-input v-model="formData.serverHost" :disabled="isDisable" />
-        </a-form-model-item>
-
-        <a-form-model-item label="服务ip" prop="serverIp">
-          <a-input v-model="formData.serverIp" :disabled="isDisable" />
-        </a-form-model-item>
-
-        <a-form-model-item label="软件环境" prop="env">
-          <a-input v-model="formData.env" :disabled="isDisable" />
-        </a-form-model-item>
-
-        <a-form-model-item label="日志名" prop="title">
-          <a-input v-model="formData.title" :disabled="isDisable" />
-        </a-form-model-item>
-
-        <a-form-model-item label="请求方法" prop="method">
-          <a-input v-model="formData.method" :disabled="isDisable" />
-        </a-form-model-item>
-
-        <a-form-model-item label="请求接口" prop="requestUri">
-          <a-input v-model="formData.requestUri" :disabled="isDisable" />
-        </a-form-model-item>
-
-        <a-form-model-item label="日志时间" prop="createTime">
-          <a-date-picker v-model="formData.createTime" style="width: 100%" :disabled="isDisable" />
-        </a-form-model-item>
-
-        <a-form-model-item
-          label="用户代理" style="width: 100%"
-          :label-col="{ span: 2 }"
-          :wrapper-col="{ span: 22 }"
-          prop="userAgent"
+      <a-spin :spinning="spinning">
+        <a-form-model ref="form" :model="formData"
+                      class="d2-col-form"
+                      :label-col="{ span: 4 }"
+                      :wrapper-col="{ span: 20 }"
         >
-          <a-input v-model="formData.userAgent" :disabled="isDisable" />
-        </a-form-model-item>
+          <a-form-model-item label="服务id" prop="serviceId">
+            <a-input v-model="formData.serviceId" :disabled="isDisable" />
+          </a-form-model-item>
 
-        <a-form-model-item
-          label="请求数据" style="width: 100%"
-          :label-col="{ span: 2 }"
-          :wrapper-col="{ span: 22 }"
-          prop="params"
-        >
-          <a-textarea v-model="formData.params" :auto-size="{ minRows: 2, maxRows: 6 }" :disabled="isDisable" />
-        </a-form-model-item>
+          <a-form-model-item label="服务host" prop="serverHost">
+            <a-input v-model="formData.serverHost" :disabled="isDisable" />
+          </a-form-model-item>
 
-        <a-form-model-item
-          label="堆栈信息" style="width: 100%"
-          :label-col="{ span: 2 }"
-          :wrapper-col="{ span: 22 }"
-          prop="stackTrace"
-        >
-          <a-textarea v-model="formData.stackTrace" rows="15" :disabled="isDisable" />
-        </a-form-model-item>
-      </a-form-model>
+          <a-form-model-item label="服务ip" prop="serverIp">
+            <a-input v-model="formData.serverIp" :disabled="isDisable" />
+          </a-form-model-item>
+
+          <a-form-model-item label="软件环境" prop="env">
+            <a-input v-model="formData.env" :disabled="isDisable" />
+          </a-form-model-item>
+
+          <a-form-model-item label="日志名" prop="title">
+            <a-input v-model="formData.title" :disabled="isDisable" />
+          </a-form-model-item>
+
+          <a-form-model-item label="请求方法" prop="method">
+            <a-input v-model="formData.method" :disabled="isDisable" />
+          </a-form-model-item>
+
+          <a-form-model-item label="请求接口" prop="requestUri">
+            <a-input v-model="formData.requestUri" :disabled="isDisable" />
+          </a-form-model-item>
+
+          <a-form-model-item label="日志时间" prop="createTime">
+            <a-date-picker v-model="formData.createTime" style="width: 100%" :disabled="isDisable" />
+          </a-form-model-item>
+
+          <a-form-model-item
+            label="用户代理" style="width: 100%"
+            :label-col="{ span: 2 }"
+            :wrapper-col="{ span: 22 }"
+            prop="userAgent"
+          >
+            <a-input v-model="formData.userAgent" :disabled="isDisable" />
+          </a-form-model-item>
+
+          <a-form-model-item
+            label="请求数据" style="width: 100%"
+            :label-col="{ span: 2 }"
+            :wrapper-col="{ span: 22 }"
+            prop="params"
+          >
+            <a-textarea v-model="formData.params" :auto-size="{ minRows: 2, maxRows: 6 }" :disabled="isDisable" />
+          </a-form-model-item>
+
+          <a-form-model-item
+            label="堆栈信息" style="width: 100%"
+            :label-col="{ span: 2 }"
+            :wrapper-col="{ span: 22 }"
+            prop="stackTrace"
+          >
+            <a-textarea v-model="formData.stackTrace" rows="15" :disabled="isDisable" />
+          </a-form-model-item>
+        </a-form-model>
+      </a-spin>
     </a-modal>
   </div>
 </template>

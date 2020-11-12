@@ -19,7 +19,7 @@
       </a-form-model-item>
     </a-form-model>
 
-    <a-space class="operation-btn-container" />
+    <p></p>
 
     <a-table
       bordered
