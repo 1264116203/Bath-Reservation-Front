@@ -28,8 +28,10 @@
       <div class="pointer avatar-dropdown">
         <a-dropdown>
           <div style="display:inline-block; height: 3rem;">
-            <a-avatar v-if="userInfo.avatar" :src="userInfo.avatar" style="margin-right: 0.5rem;" :size="32" />
-            <a-avatar v-else icon="user" style="margin-right: 0.5rem;" :size="32" />
+            <a-avatar v-if="userInfo.avatar" :src="userInfo.avatar" class="top-banner-avatar" :size="32" />
+            <a-avatar v-else :size="32" class="top-banner-avatar">
+              {{ userInfo.name }}
+            </a-avatar>
             <a-icon type="down" />
           </div>
           <a-menu slot="overlay">
@@ -144,6 +146,11 @@ export default {
     .avatar-dropdown {
       margin-left: 0.5rem;
       margin-top: -0.125rem;
+    }
+
+    .top-banner-avatar {
+      margin-right: 0.5rem;
+      background-color: @primary-color;
     }
   }
 }
