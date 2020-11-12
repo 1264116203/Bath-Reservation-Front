@@ -5,6 +5,7 @@ import pages from './modules/pages'
 
 import base from './modules/base'
 import monitor from './modules/monitor'
+import system from './modules/system'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,7 @@ const layoutChildrenRoutes = []
 
 layoutChildrenRoutes.push(...base)
 layoutChildrenRoutes.push(...monitor)
+layoutChildrenRoutes.push(...system)
 
 // 添加主框架页面到总路由表
 routes.push({
