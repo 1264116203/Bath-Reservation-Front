@@ -20,13 +20,13 @@
     </a-form-model>
 
     <a-space class="operation-btn-container">
-      <a-button class="editable-add-btn" type="primary" @click="openCreateModal">
+      <a-button type="primary" @click="openCreateModal">
         添加
       </a-button>
-      <a-button class="editable-add-btn" type="danger" @click="commonBatchDelete">
+      <a-button type="danger" @click="commonBatchDelete">
         批量删除
       </a-button>
-      <a-button class="editable-add-btn" @click="onResetPassword">
+      <a-button @click="onResetPassword">
         重置密码
       </a-button>
     </a-space>
@@ -41,7 +41,7 @@
       @change="onTableChange"
     >
       <template #operation="text, record">
-        <a-space class="editable-row-operations">
+        <a-space>
           <a @click="openDetailModal(record.id)">
             <a-icon type="eye" />查看
           </a>

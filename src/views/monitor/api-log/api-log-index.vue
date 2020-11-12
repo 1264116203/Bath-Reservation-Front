@@ -34,7 +34,7 @@
         <span>{{ text | momentTime }}</span>
       </template>
       <template #operation="text, record">
-        <a-space class="editable-row-operations">
+        <a-space>
           <a @click="openDetailModal(record.id)">
             <a-icon type="eye" />查看
           </a>
