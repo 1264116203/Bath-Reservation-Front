@@ -71,7 +71,7 @@
 <script>
 import moment from 'moment'
 import { getApiLogById } from '@/api/system/logs'
-import { ModelMixin } from '@/mixins/common-crud-mixin'
+import { ModalMixin } from '@/mixins/common-crud-mixin'
 
 class FormData {
   constructor() {
@@ -89,8 +89,8 @@ class FormData {
 }
 
 export default {
-  name: 'ApiLogModel',
-  mixins: [ModelMixin],
+  name: 'ApiLogModal',
+  mixins: [ModalMixin],
   created() {
     this.setup({
       FormDataClass: FormData,

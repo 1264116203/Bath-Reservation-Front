@@ -1,7 +1,7 @@
 import ListMixin from './list-mixin'
-import ModelMixin from './model-mixin'
+import ModalMixin from './modal-mixin'
 
 export {
   ListMixin,
-  ModelMixin
+  ModalMixin
 }

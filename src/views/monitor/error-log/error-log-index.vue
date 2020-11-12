@@ -42,14 +42,14 @@
       </template>
     </a-table>
 
-    <edit-dialog ref="modal" @ok="onModalOk" />
+    <edit-modal ref="modal" @ok="onModalOk" />
   </a-spin>
 </template>
 
 <script>
 import { ListMixin } from '@/mixins/common-crud-mixin'
 import { listErrorLogWithPagination } from '@/api/system/logs'
-import ErrorLogModel from './error-log-model'
+import EditModal from './error-log-modal'
 
 const columns = [{
   title: '服务id',
@@ -81,7 +81,7 @@ const columns = [{
 
 export default {
   name: 'ErrorLogIndex',
-  components: { editDialog: ErrorLogModel },
+  components: { EditModal },
   mixins: [ListMixin],
   data() {
     return {

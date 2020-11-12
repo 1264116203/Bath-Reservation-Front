@@ -42,14 +42,14 @@
       </template>
     </a-table>
 
-    <edit-dialog ref="modal" @ok="onModalOk" />
+    <edit-modal ref="modal" @ok="onModalOk" />
   </a-spin>
 </template>
 
 <script>
 import { ListMixin } from '@/mixins/common-crud-mixin'
 import { listUsualLogWithPagination } from '@/api/system/logs'
-import UsualLogModel from './usual-log-model'
+import EditModal from './usual-log-modal'
 
 const columns = [{
   title: '服务id',
@@ -84,7 +84,7 @@ const columns = [{
 
 export default {
   name: 'UsualLogIndex',
-  components: { editDialog: UsualLogModel },
+  components: { EditModal },
   mixins: [ListMixin],
   data() {
     return {

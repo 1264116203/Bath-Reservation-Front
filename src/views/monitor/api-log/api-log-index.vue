@@ -42,14 +42,14 @@
       </template>
     </a-table>
 
-    <edit-dialog ref="modal" @ok="onModalOk" />
+    <edit-modal ref="modal" @ok="onModalOk" />
   </a-spin>
 </template>
 
 <script>
 import { ListMixin } from '@/mixins/common-crud-mixin'
 import { listApiLogWithPagination } from '@/api/system/logs'
-import ApiLogModel from './api-log-model'
+import EditModal from './api-log-modal'
 
 const columns = [{
   title: '服务id',
@@ -84,7 +84,7 @@ const columns = [{
 
 export default {
   name: 'ApiLogIndex',
-  components: { editDialog: ApiLogModel },
+  components: { EditModal },
   mixins: [ListMixin],
   data() {
     return {

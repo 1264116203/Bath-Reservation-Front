@@ -80,7 +80,7 @@
 <script>
 import moment from 'moment'
 import { getErrorLogById } from '@/api/system/logs'
-import { ModelMixin } from '@/mixins/common-crud-mixin'
+import { ModalMixin } from '@/mixins/common-crud-mixin'
 
 class FormData {
   constructor () {
@@ -99,8 +99,8 @@ class FormData {
 }
 
 export default {
-  name: 'ErrorLogModel',
-  mixins: [ModelMixin],
+  name: 'ErrorLogModal',
+  mixins: [ModalMixin],
   created() {
     this.setup({
       FormDataClass: FormData,
