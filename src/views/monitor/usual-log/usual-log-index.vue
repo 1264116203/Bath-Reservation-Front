@@ -19,7 +19,7 @@
       </a-form-model-item>
     </a-form-model>
 
-    <div class="operation-btn-container"></div>
+    <a-space class="operation-btn-container" />
 
     <a-table
       bordered
@@ -34,11 +34,11 @@
         <span>{{ text | momentTime }}</span>
       </template>
       <template #operation="text, record">
-        <div class="editable-row-operations">
+        <a-space class="editable-row-operations">
           <a @click="openDetailModal(record.id)">
             <a-icon type="eye" />查看
           </a>
-        </div>
+        </a-space>
       </template>
     </a-table>
 
