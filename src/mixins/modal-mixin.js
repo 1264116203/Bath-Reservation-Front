@@ -12,7 +12,7 @@ export default {
       /** 表单项是否可编辑 */
       isDisable: false,
       /** 对话框的显隐状态 */
-      formVisible: false,
+      isModalVisible: false,
       /** 加载状态 */
       spinning: false,
       formData: {},
@@ -44,7 +44,7 @@ export default {
      */
     async open(type, id) {
       this.setModelTitle(type)
-      this.formVisible = true
+      this.isModalVisible = true
       if (this.$refs.form) {
         this.$refs.form.clearValidate()
       }
@@ -111,7 +111,7 @@ export default {
         await this.axiosAdd(formData)
         this.$emit('ok', this.actionType, formData)
         this.$message.success('数据插入成功!')
-        this.formVisible = false
+        this.isModalVisible = false
       } catch (error) {
         console.error(error)
       }
@@ -132,7 +132,7 @@ export default {
         await this.axiosUpdate(formData)
         this.$emit('ok', this.actionType, formData)
         this.$message.success('数据更新成功!')
-        this.formVisible = false
+        this.isModalVisible = false
       } catch (error) {
         console.error(error)
       }
@@ -208,7 +208,7 @@ export default {
     },
     onDetail() {
       this.$emit('ok', this.actionType)
-      this.formVisible = false
+      this.isModalVisible = false
     }
   }
 }

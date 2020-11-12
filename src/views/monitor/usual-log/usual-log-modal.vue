@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-modal
-      v-model="formVisible"
+      v-model="isModalVisible"
       :title="title"
       :width="800"
       :mask-closable="true"
