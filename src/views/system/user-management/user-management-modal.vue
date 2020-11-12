@@ -2,6 +2,7 @@
   <div>
     <a-modal
       v-model="isModalVisible"
+      width="700px"
       :title="title"
       :mask-closable="false"
       :after-close="reset"
@@ -10,10 +11,10 @@
     >
       <a-spin :spinning="spinning">
         <a-form-model
-          ref="form"
-          :model="formData" class="d2-col-form"
-          :label-col="{ span: 8 }"
-          :wrapper-col="{ span: 16 }"
+          ref="form" class="d2-col-form"
+          :model="formData"
+          :label-col="{ span: 6 }"
+          :wrapper-col="{ span: 18 }"
         >
           <a-form-model-item label="登录账号" prop="account">
             <a-input
@@ -93,8 +94,8 @@
           <a-form-model-item
             label="电子邮箱"
             style="width: 100%;"
-            :label-col="{ span: 4 }"
-            :wrapper-col="{ span: 20 }"
+            :label-col="{ span: 3 }"
+            :wrapper-col="{ span: 21 }"
             prop="email"
           >
             <a-input
