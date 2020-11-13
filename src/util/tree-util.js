@@ -1,5 +1,5 @@
 /** 设置Tree当前节点和自己子节点不可选 */
-export function disabledNode(currentId, treeData) {
+export function disableNode(currentId, treeData) {
   for (let i = 0; i < treeData.length; i++) {
     const found = _findNode(currentId, treeData[i])
     if (found) {

@@ -8,7 +8,7 @@ export function listAllWithTree() {
 }
 
 /** 根据角色ID对应的树形结构数据 */
-export function listMenuByRoleIdWithTree(roleId) {
+export function listByRoleIdWithTree(roleId) {
   return axios.get(contextPath + '/tree/by-role/' + roleId)
 }
 

@@ -2,7 +2,7 @@ import { deepClone } from '@/util/utils'
 import { validateNull } from '@/util/validate-util'
 import application from '@/config/application'
 import { deepSearch } from '@/util/tree-util'
-import { listCurrentUserMenuByTopMenuIdWithTree } from '@/api/common/side-menu'
+import { listCurrentUserMenuByTopMenuIdWithTree } from '@/api/common/authrority'
 
 export default {
   namespaced: true,

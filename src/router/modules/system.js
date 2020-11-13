@@ -47,13 +47,13 @@ export default [
   //     isAuth: true
   //   },
   //   component: () => import(/* webpackChunkName: "system" */ '@/views/system/param-list')
-  // }, {
-  //   path: '/authority/role',
-  //   name: '角色管理',
-  //   meta: {
-  //     isTab: true,
-  //     isAuth: true
-  //   },
-  //   component: () => import(/* webpackChunkName: "system" */ '@/views/system/role-list')
+  }, {
+    path: '/authority/role',
+    name: '角色及权限管理',
+    meta: {
+      isTab: true,
+      isAuth: true
+    },
+    component: () => import(/* webpackChunkName: "system" */ '@/views/system/role-management/role-management-index')
   }
 ]

@@ -1,7 +1,7 @@
 import NoHalfTree from './no-half-tree'
 
 function install(vue) {
-  vue.component('r-no-half-tree', NoHalfTree)
+  vue.component('rcd-no-half-tree', NoHalfTree)
 }
 
 export default {

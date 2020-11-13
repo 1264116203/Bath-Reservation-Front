@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const contextPath = '/api/system/role'
+const contextPath = '/api/system/authority'
 
 export function add(row) {
   return axios.post(contextPath, row)
@@ -31,26 +31,5 @@ export function queryWithTree(params) {
     params: {
       ...params
     }
-  })
-}
-
-/** 拉取所有角色组成的角色树 */
-export function listAllWithTree() {
-  return axios.get(contextPath + '/tree')
-}
-
-/** 给角色授权权限资源 */
-export function grantAuthority(roleIdList, authorityIdList) {
-  return axios.put(contextPath + '/grant/authority', {
-    authorityIdList,
-    roleIdList
-  })
-}
-
-/** 设置角色对应的顶级菜单 */
-export function grantTopMenu(roleIdList, topMenuIdList) {
-  return axios.put(contextPath + '/grant/top-menu', {
-    roleIdList,
-    topMenuIdList
   })
 }
