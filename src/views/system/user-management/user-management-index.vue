@@ -69,12 +69,15 @@
 
     <a-modal v-model="isPasswordResetModalVisible" title="请输入重置的密码" @ok="onResetPasswordModalOk">
       <a-form-model ref="passwordResetForm" :model="passwordResetFormData">
-        <a-form-model-item prop="newPassword">
+        <a-form-model-item
+          prop="newPassword"
+          :rules="[
+            { required: true,message: '请输入密码'},
+            { pattern:/^(?=.*[0-9a-zA-Z])\w{4,16}$/, message: '必须有数字或者字母并且长度在4~16之间' }
+          ]"
+        >
           <a-input-password
-            v-decorator="['newPassword', { rules: [
-              { required: true,message: '请输入密码'},
-              { pattern:/^(?=.*[0-9a-zA-Z])\w{4,16}$/, message: '必须有数字或者字母并且长度在4~16之间' }
-            ]}]"
+            v-model="passwordResetFormData.newPassword"
             placeholder="请输入重置的密码"
           />
         </a-form-model-item>
@@ -182,6 +185,7 @@ export default {
           const newPassword = this.passwordResetFormData.newPassword
           await resetPassword(newPassword, this.selectedRowKeys)
           this.$message.success('操作成功!')
+          this.passwordResetFormData.newPassword = ''
           this.isPasswordResetModalVisible = false
           await this.fetchTableData()
         } else {

@@ -7,7 +7,8 @@ import application from '@/config/application'
 function getBasicHeaderConfig() {
   const config = {
     meta: {
-      basicAuth: true
+      basicAuth: true,
+      isSerialize: true
     }
   }
   let basicAuthVal = ''
@@ -32,10 +33,10 @@ function getBasicHeaderConfig() {
  */
 export function loginByPassword(username, password, pwdEncoded = false, refreshTokenValidHours = 24) {
   return axios.post('/api/auth/oauth/token', {
-    grantType: 'password',
+    grant_type: 'password',
     username,
     password,
-    pwdEncoded
+    pwd_encoded: pwdEncoded
     // TODO 暂未加入
     // refreshTokenValidHours
   }, getBasicHeaderConfig())
@@ -44,8 +45,8 @@ export function loginByPassword(username, password, pwdEncoded = false, refreshT
 /** 使用刷新令牌重新获取token */
 export function requestRefreshToken(refreshToken) {
   return axios.post('/api/auth/oauth/token', {
-    grantType: 'refresh_token',
-    refreshToken: refreshToken
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken
   }, getBasicHeaderConfig())
 }
 
