@@ -1,10 +1,36 @@
 import axios from 'axios'
+import { deepSort } from '@/util/tree-util'
 
 const contextPath = '/api/system/authority'
 
 /** 全菜单树形结构数据 */
 export function listAllWithTree() {
   return axios.get(contextPath + '/tree')
+}
+
+export function listAllWithTreeForTreeSelect() {
+  return listAllWithTree()
+    .then(res => {
+      const tree = res.data
+      deepSort(tree, (a, b) => {
+        const sa = a.sort ? a.sort : 100
+        const sb = b.sort ? b.sort : 100
+        return sa - sb
+      })
+
+      const result = tree.map(function transform(data) {
+        if (data.children) {
+          data.children = data.children.map(transform)
+        }
+        return {
+          ...data,
+          name: data.title,
+          key: data.id,
+          value: data.id
+        }
+      })
+      return Promise.resolve(result)
+    })
 }
 
 /** 根据角色ID对应的树形结构数据 */

@@ -27,6 +27,7 @@ import { tabDiff } from '@/util/tab-util'
 import { deepSearch } from '@/util/tree-util'
 import { destroyCurrentRouteComponent } from '@/util/router-util'
 import MySubMenu from './my-sub-menu'
+import { isUrl } from '@/util/validate-util'
 
 const iconDefault = application.menu.iconDefault
 
@@ -79,7 +80,7 @@ export default {
       const menuItem = deepSearch(this.menuList, item.key, 'path')
       // 如果菜单项上标记了isOpen，说明要在新窗口打开
       if (menuItem && menuItem.isOpen) {
-        if (menuItem.path.indexOf('http') === 0) {
+        if (isUrl(menuItem.path)) {
           window.open(menuItem.path)
         } else {
           // 如果要打开的不是一个http开头的页面，则说明是本系统内部的路由
@@ -97,7 +98,7 @@ export default {
           name: '首页'
         }
       } else {
-        if (menuItem.path.indexOf('http') === 0) {
+        if (isUrl(menuItem.path)) {
           tabElem = {
             path: '/layout-iframe',
             name: menuItem.name,
@@ -118,7 +119,10 @@ export default {
         destroyCurrentRouteComponent()
         router.replace('/hot-refresh')
       } else {
-        this.$router.push(tabElem.path)
+        this.$router.push({
+          path: tabElem.path,
+          query: tabElem.query
+        })
       }
     },
     onOpenChange(val) {

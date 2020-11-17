@@ -23,14 +23,14 @@ export default [
   //     isAuth: true
   //   },
   //   component: () => import(/* webpackChunkName: "system" */ '@/views/system/dict/dict-list.vue')
-  // }, {
-  //   path: '/system/menu',
-  //   name: '菜单管理',
-  //   meta: {
-  //     isTab: true,
-  //     isAuth: true
-  //   },
-  //   component: () => import(/* webpackChunkName: "system" */ '@/views/system/menu-list')
+  }, {
+    path: '/system/authority',
+    name: '权限项管理',
+    meta: {
+      isTab: true,
+      isAuth: true
+    },
+    component: () => import(/* webpackChunkName: "system" */ '@/views/system/authority-management/authority-management-index')
   // }, {
   //   path: '/system/topmenu',
   //   name: '顶部菜单',

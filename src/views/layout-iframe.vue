@@ -4,11 +4,15 @@
 
 <script>
 export default {
-  name: 'RouterIframe',
+  name: 'LayoutIframe',
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.isIframeShow = true
     })
+  },
+  beforeRouteLeave(to, from, next) {
+    this.isIframeShow = false
+    next()
   },
   computed: {
     isIframeShow: {

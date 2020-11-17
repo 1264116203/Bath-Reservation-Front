@@ -119,18 +119,17 @@ export default {
      * @return {Promise<void>}
      */
     async open(type, id) {
+      this.setModelTitle(type)
+      this.isModalVisible = true
+      if (this.$refs.form) {
+        this.$refs.form.clearValidate()
+      }
       this.clonedRoleTreeData = [{
         value: '0',
         key: '0',
         title: '顶级角色',
         children: deepClone(this.roleList)
       }]
-
-      this.setModelTitle(type)
-      this.isModalVisible = true
-      if (this.$refs.form) {
-        this.$refs.form.clearValidate()
-      }
       if (type !== ACTION_TYPE.CREATION && id) {
         this.id = id
         this.actionType = type

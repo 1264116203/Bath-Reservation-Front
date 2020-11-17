@@ -105,7 +105,10 @@ import {
   batchRemove, listAllWithTree as listAllRoleWithTree, queryWithTree, removeById,
   grantAuthority, grantTopMenu
 } from '@/api/system/role'
-import { listAllWithTree as listAllAuthorityWithTree, listByRoleIdWithTree } from '@/api/common/authrority'
+import {
+  listAllWithTreeForTreeSelect as listAllAuthorityWithTree,
+  listByRoleIdWithTree
+} from '@/api/common/authrority'
 import { listAll as listAllTopMenu, listByRoleId } from '@/api/common/top-menu'
 import { deepForEach, deepSort } from '@/util/tree-util'
 import { ListMixin } from '@/mixins/common-crud-mixin'
@@ -176,27 +179,9 @@ export default {
       listAllRoleWithTree()
         .then(res => { vm.roleListForModal = res.data })
       // 拉取赋权用权限数据
-      listAllAuthorityWithTree()
-        .then(res => {
-          const tree = res.data
-          deepSort(tree, (a, b) => {
-            const sa = a.sort ? a.sort : 100
-            const sb = b.sort ? b.sort : 100
-            return sa - sb
-          })
-
-          vm.authorityTreeData = tree.map(function transform(data) {
-            if (data.children) {
-              data.children = data.children.map(transform)
-            }
-            return {
-              ...data,
-              name: data.title,
-              key: data.id,
-              value: data.id
-            }
-          })
-        })
+      listAllAuthorityWithTree().then(result => {
+        vm.authorityTreeData = result
+      })
       // 拉取赋权用顶部菜单数据
       listAllTopMenu()
         .then(res => {

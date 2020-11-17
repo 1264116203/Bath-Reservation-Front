@@ -37,6 +37,7 @@
 <script>
 
 import { mapMutations, mapState } from 'vuex'
+import { isUrl } from '@/util/validate-util'
 
 export default {
   name: 'Tabs',
@@ -71,11 +72,19 @@ export default {
     onTabClick(key) {
       const found = this.tabList.find((val) => val.key === key)
       if (found) {
-        this.$router.push({
-          path: found.path,
-          params: found.params,
-          query: found.query
-        })
+        if (isUrl(found.path)) {
+          this.$router.push({
+            path: '/layout-iframe',
+            query: found.query,
+            params: found.params
+          })
+        } else {
+          this.$router.push({
+            path: found.path,
+            params: found.params,
+            query: found.query
+          })
+        }
       }
     },
     onRightClick (event) {

@@ -15,7 +15,7 @@ export default {
   computed: {
     activeTabKey: {
       get() {
-        return this.$store.state.tabs.activeTabKey
+        return this.$store.state.tab.activeTabKey
       }
     },
     ...mapGetters('tab', ['iframeTabList'])
