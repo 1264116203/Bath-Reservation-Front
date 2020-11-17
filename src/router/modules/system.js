@@ -31,14 +31,14 @@ export default [
       isAuth: true
     },
     component: () => import(/* webpackChunkName: "system" */ '@/views/system/authority-management/authority-management-index')
-  // }, {
-  //   path: '/system/topmenu',
-  //   name: '顶部菜单',
-  //   meta: {
-  //     isTab: true,
-  //     isAuth: true
-  //   },
-  //   component: () => import(/* webpackChunkName: "system" */ '@/views/system/top-menu-list')
+  }, {
+    path: '/system/topmenu',
+    name: '顶部菜单',
+    meta: {
+      isTab: true,
+      isAuth: true
+    },
+    component: () => import(/* webpackChunkName: "system" */ '@/views/system/top-menu-management/top-menu-management-index')
   // }, {
   //   path: '/system/param',
   //   name: '参数管理',

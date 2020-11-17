@@ -12,14 +12,6 @@ export function listByRoleId(roleId) {
   return axios.get(contextPath + '/list/by-role/' + roleId)
 }
 
-/** 给顶部菜单授权权限资源 */
-export function grant(authorityIdList, topMenuIdList) {
-  return axios.put(contextPath + '/grant', {
-    authorityIdList,
-    topMenuIdList
-  })
-}
-
 /** 获取所有顶部菜单记录 */
 export function listAll() {
   return axios.get(contextPath + '/list')

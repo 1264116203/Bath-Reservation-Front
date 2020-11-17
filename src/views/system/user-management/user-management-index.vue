@@ -85,6 +85,7 @@
     </a-modal>
   </a-spin>
 </template>
+
 <script>
 import { ListMixin } from '@/mixins/common-crud-mixin'
 import EditModal from './user-management-modal'

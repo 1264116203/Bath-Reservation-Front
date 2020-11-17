@@ -10,7 +10,7 @@ export function batchRemove(ids) {
   return axios.delete(contextPath + '/batch', { params: { ids } })
 }
 
-export function singleRemove(id) {
+export function removeById(id) {
   return axios.delete(contextPath + '/' + id)
 }
 
@@ -29,5 +29,13 @@ export function listWithPagination(page, size, params) {
       page,
       size
     }
+  })
+}
+
+/** 给顶部菜单授权权限资源 */
+export function grant(authorityIdList, topMenuIdList) {
+  return axios.put(contextPath + '/grant', {
+    authorityIdList,
+    topMenuIdList
   })
 }

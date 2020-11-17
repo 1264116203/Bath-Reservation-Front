@@ -124,7 +124,7 @@ export default {
       if (this.$refs.form) {
         this.$refs.form.clearValidate()
       }
-      this.clonedRoleTreeData = [{
+      const clonedRoleTreeData = [{
         value: '0',
         key: '0',
         title: '顶级角色',
@@ -133,10 +133,10 @@ export default {
       if (type !== ACTION_TYPE.CREATION && id) {
         this.id = id
         this.actionType = type
-        // 拉取服务期最新数据并赋值给组件的formData
         await this.getRecordById()
-        /** 上级角色选择时设置当前节点是不可选 */
-        disableNode(this.id, this.clonedRoleTreeData)
+        // 上级角色选择时设置当前节点是不可选
+        disableNode(this.id, clonedRoleTreeData)
+        this.clonedRoleTreeData = clonedRoleTreeData
       } else {
         this.id = null
         this.actionType = ACTION_TYPE.CREATION

@@ -2,7 +2,7 @@
   <div class="topMenuWarp">
     <a-menu v-show="isTopMenuShow" :selected-keys="selectedKeys" mode="horizontal" @click="onClick">
       <a-menu-item v-for="item in topMenuList" :key="item.id">
-        <a-icon :type="item.source" />{{ item.name }}
+        <a-icon :type="item.icon" />{{ item.name }}
       </a-menu-item>
     </a-menu>
   </div>

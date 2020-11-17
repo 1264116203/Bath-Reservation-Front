@@ -10,27 +10,7 @@ export function listAllWithTree() {
 
 export function listAllWithTreeForTreeSelect() {
   return listAllWithTree()
-    .then(res => {
-      const tree = res.data
-      deepSort(tree, (a, b) => {
-        const sa = a.sort ? a.sort : 100
-        const sb = b.sort ? b.sort : 100
-        return sa - sb
-      })
-
-      const result = tree.map(function transform(data) {
-        if (data.children) {
-          data.children = data.children.map(transform)
-        }
-        return {
-          ...data,
-          name: data.title,
-          key: data.id,
-          value: data.id
-        }
-      })
-      return Promise.resolve(result)
-    })
+    .then(res => Promise.resolve(transformForTreeSelect(res.data)))
 }
 
 /** 根据角色ID对应的树形结构数据 */
@@ -41,6 +21,11 @@ export function listByRoleIdWithTree(roleId) {
 /** 顶部菜单设置权限的全部菜单树形结构数据 */
 export function listAllMenuWithTree() {
   return axios.get(contextPath + '/menu-tree')
+}
+
+export function listAllMenuWithTreeForTreeSelect() {
+  return listAllMenuWithTree()
+    .then(res => Promise.resolve(transformForTreeSelect(res.data)))
 }
 
 /** 根据顶级菜单ID对应的树形结构数据 */
@@ -62,5 +47,25 @@ export function getMenuItemByPath (path) {
   // path = encodeURIComponent(path)
   return axios.get(contextPath + '/by-path', {
     params: { path }
+  })
+}
+
+function transformForTreeSelect(tree) {
+  deepSort(tree, (a, b) => {
+    const sa = a.sort ? a.sort : 100
+    const sb = b.sort ? b.sort : 100
+    return sa - sb
+  })
+
+  return tree.map(function transform(data) {
+    if (data.children) {
+      data.children = data.children.map(transform)
+    }
+    return {
+      ...data,
+      name: data.title,
+      key: data.id,
+      value: data.id
+    }
   })
 }

@@ -50,7 +50,7 @@
               v-model="formData.icon"
               placeholder="请选择图标"
               :disabled="isDisable"
-              @click="openMenuModal"
+              @click="openIconSelectionModal"
             />
           </a-form-model-item>
 
@@ -124,24 +124,7 @@
       </a-spin>
     </a-modal>
 
-    <!--菜单图标选择对话框-->
-    <a-modal v-model="isMenuSelectionModalVisible" title="请选择图标">
-      <div class="icons-list">
-        <a-tabs type="card">
-          <a-tab-pane v-for="(group, gIndex) in menuIconList"
-                      :key="gIndex"
-                      :tab="group.label"
-          >
-            <a-icon v-for="(item, index) in group.list"
-                    :key="index"
-                    :type="item"
-                    class="menu-icon"
-                    @click="onIconSelected(item)"
-            />
-          </a-tab-pane>
-        </a-tabs>
-      </div>
-    </a-modal>
+    <menu-icon-selection-modal ref="menuIconSelectionModal" @selected="onIconSelected" />
   </div>
 </template>
 
@@ -150,8 +133,8 @@ import { add, getById, update } from '@/api/system/authority'
 import { deepClone } from '@/util/utils'
 import { ACTION_TYPE } from '@/config/constants'
 import { disableNode } from '@/util/tree-util'
-import menuIconList from '@/config/menu-icon-list'
 import { ModalMixin } from '@/mixins/common-crud-mixin'
+import MenuIconSelectionModal from '@/views/system/menu-icon-selection-modal'
 
 class FormData {
   constructor() {
@@ -170,16 +153,13 @@ class FormData {
 
 export default {
   name: 'AuthorityManagementModal',
+  components: { MenuIconSelectionModal },
   mixins: [ModalMixin],
   props: {
     authorityTreeList: { type: Array, default: () => [] }
   },
   data() {
     return {
-      /** 图标选择的弹框 */
-      isMenuSelectionModalVisible: false,
-      menuIconList: menuIconList,
-
       /** 原始数据的深拷贝，上级选择时设置当前节点的disable状态 */
       clonedAuthorityTreeList: [],
 
@@ -218,7 +198,7 @@ export default {
         this.$refs.form.clearValidate()
       }
 
-      this.clonedAuthorityTreeList = [{
+      const clonedAuthorityTreeList = [{
         value: '0',
         key: '0',
         title: '顶级权限项',
@@ -227,22 +207,23 @@ export default {
 
       if (type !== ACTION_TYPE.CREATION && id) {
         this.id = id
-        await this.getRecordById()
         this.actionType = type
-        disableNode(this.id, this.clonedAuthorityTreeList)
+        await this.getRecordById()
+        disableNode(this.id, clonedAuthorityTreeList)
       } else {
         this.id = null
         this.actionType = ACTION_TYPE.CREATION
         this.formData = new this.FormDataClass()
       }
+
+      this.clonedAuthorityTreeList = clonedAuthorityTreeList
     },
-    openMenuModal() {
-      this.isMenuSelectionModalVisible = true
+    openIconSelectionModal() {
+      this.$refs.menuIconSelectionModal.open()
     },
     /** 菜单图标的点击事件 */
     onIconSelected(icon) {
       this.formData.icon = icon
-      this.isMenuSelectionModalVisible = false
     }
   }
 }
