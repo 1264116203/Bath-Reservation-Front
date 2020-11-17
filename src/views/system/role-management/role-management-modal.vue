@@ -10,11 +10,7 @@
       @ok="onOk"
     >
       <a-spin :spinning="spinning">
-        <a-form-model
-          ref="form"
-          layout="vertical"
-          :model="formData"
-        >
+        <a-form-model ref="form" layout="vertical" :model="formData">
           <a-form-model-item label="角色名称" prop="roleName">
             <a-input
               v-model="formData.roleName"
@@ -112,12 +108,6 @@ export default {
     })
   },
   methods: {
-    /**
-     * 打开对话框的方法，由父组件调用
-     * @param { string } type 打开类型，从<code>ACTION_TYPE</code>中选择
-     * @param { string } [id] 待处理记录的id，仅在查看详情和更新记录是使用
-     * @return {Promise<void>}
-     */
     async open(type, id) {
       this.setModelTitle(type)
       this.isModalVisible = true
@@ -136,12 +126,12 @@ export default {
         await this.getRecordById()
         // 上级角色选择时设置当前节点是不可选
         disableNode(this.id, clonedRoleTreeData)
-        this.clonedRoleTreeData = clonedRoleTreeData
       } else {
         this.id = null
         this.actionType = ACTION_TYPE.CREATION
         this.formData = new this.FormDataClass()
       }
+      this.clonedRoleTreeData = clonedRoleTreeData
     }
   }
 }

@@ -214,10 +214,48 @@ export default {
     /** 弹框确定按钮触发的回调（拉取分页数据，查看详情时除外） */
     async onModalOk(type, payload) {
       if (type !== 'detail') {
-        this.fetchTableData()
+        await this.fetchTableData()
         // 因为角色列表变化了，所以要再次拉取角色数据
         this.roleListForModal = (await (listAllRoleWithTree())).data
       }
+    },
+    /**
+     * 默认的批量删除方法
+     */
+    commonBatchDelete() {
+      return new Promise((resolve, reject) => {
+        if (this.selectedRowKeys.length === 0) {
+          this.$message.warning('请选择至少一条数据')
+          reject(new Error('请选择至少一条数据'))
+          return
+        }
+
+        this.$confirm({
+          title: '系统提示',
+          content: '确定将选择数据删除?',
+          okText: '是',
+          okType: 'danger',
+          cancelText: '否',
+          onOk: async () => {
+            await this.axiosBatchDelete(this.selectedRowKeys.join(','))
+            this.$message.success('操作成功!')
+            resolve()
+            this.roleListForModal = await listAllRoleWithTree()
+            await this.fetchTableData()
+          }
+        })
+      })
+    },
+    /**
+     * 默认的单个删除方法
+     *
+     * @param id 要删除的记录的ID
+     */
+    async commonDeleteRecord (id) {
+      await this.axiosDeleteRecord(id)
+      this.$message.success('操作成功!')
+      this.roleListForModal = await listAllRoleWithTree()
+      await this.fetchTableData()
     },
     /** 设置权限 */
     async onSetAuthority(id) {

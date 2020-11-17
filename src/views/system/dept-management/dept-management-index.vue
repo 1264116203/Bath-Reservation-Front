@@ -1,11 +1,8 @@
 <template>
   <a-spin class="table-list-warp" :spinning="isLoading">
     <a-form-model ref="searchForm" layout="inline" :model="searchInfo">
-      <a-form-model-item label="权限项名称" prop="name">
-        <a-input v-model="searchInfo.name" placeholder="权限项名称" />
-      </a-form-model-item>
-      <a-form-model-item label="权限项编码" prop="code">
-        <a-input v-model="searchInfo.code" placeholder="权限项编码" />
+      <a-form-model-item label="组织机构名称" prop="deptName">
+        <a-input v-model="searchInfo.deptName" placeholder="组织机构名称" />
       </a-form-model-item>
       <a-form-model-item>
         <a-button type="primary" @click="onSearch">
@@ -37,7 +34,7 @@
       :row-selection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
     >
       <template #operation="text, record">
-        <a-space>
+        <a-space class="editable-row-operations">
           <a @click="openDetailModal(record.id)">
             <a-icon type="eye" />查看
           </a>
@@ -49,73 +46,58 @@
           </a-popconfirm>
         </a-space>
       </template>
-      <template #icon="text, record">
-        <a-icon v-if="record.icon" :type="record.icon" />
-      </template>
     </a-table>
 
-    <edit-modal ref="modal" :authority-tree-list="authorityTreeData" @ok="onModalOk" />
+    <edit-modal ref="modal" :dept-list="deptTreeData" @ok="onModalOk" />
   </a-spin>
 </template>
+
 <script>
-import { queryWithTree, batchRemove, removeById } from '@/api/system/authority'
-import EditModal from './authority-management-modal'
+import {
+  listAllWithTree,
+  queryWithTree,
+  batchRemove,
+  removeById
+} from '@/api/system/dept'
+import EditModal from './dept-management-modal'
 import { ListMixin } from '@/mixins/common-crud-mixin'
 import { deepSort } from '@/util/tree-util'
-import { listAllWithTreeForTreeSelect as listAllAuthorityWithTree } from '@/api/common/authrority'
 
 const columns = [
   {
-    title: '名称',
-    dataIndex: 'name'
+    title: '组织机构名',
+    dataIndex: 'title'
   },
   {
-    title: '编码',
-    dataIndex: 'code'
+    title: '组织机构全称',
+    dataIndex: 'fullName'
   },
   {
-    title: '图标',
-    dataIndex: 'source',
-    scopedSlots: { customRender: 'icon' }
+    title: '组织机构编码',
+    dataIndex: 'alias'
   },
   {
-    title: '类型',
-    dataIndex: 'category',
-    customRender: (val) => {
-      if (val === 1) {
-        return '菜单项'
-      } else {
-        return '权限项'
-      }
-    }
-  },
-  {
-    title: '路由地址',
-    dataIndex: 'path'
-  },
-  {
-    title: '排序',
-    dataIndex: 'sort'
+    title: '组织机构类别',
+    dataIndex: 'category'
   },
   {
     title: '操作',
     dataIndex: 'operation',
-    width: '15em',
     scopedSlots: { customRender: 'operation' }
   }
 ]
+
 export default {
-  name: 'AuthorityManagementIndex',
+  name: 'DeptList',
   components: { EditModal },
   mixins: [ListMixin],
   data () {
     return {
       searchInfo: {
-        name: '',
-        code: ''
+        deptName: ''
       },
       columns,
-      authorityTreeData: []
+      deptTreeData: []
     }
   },
   created() {
@@ -127,12 +109,12 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     next(async vm => {
-      vm.authorityTreeData = await listAllAuthorityWithTree()
+      await vm.getDeptTreeData()
     })
   },
   methods: {
-    /** 拉取表格数据的缺省函数，如果不符合预期，则由组件去实现 */
-    async fetchTableData() {
+    /** 表格数据 */
+    async fetchTableData () {
       this.isLoading = true
       try {
         const data = (await queryWithTree(this.searchInfo)).data
@@ -168,7 +150,7 @@ export default {
             this.$message.success('操作成功!')
             resolve()
             await this.fetchTableData()
-            this.authorityTreeData = await listAllAuthorityWithTree()
+            await this.getDeptTreeData()
           }
         })
       })
@@ -182,15 +164,21 @@ export default {
       await this.axiosDeleteRecord(id)
       this.$message.success('操作成功!')
       await this.fetchTableData()
-      this.authorityTreeData = await listAllAuthorityWithTree()
+      await this.getDeptTreeData()
     },
-    /** 弹框确定按钮触发的回调（拉取分页数据，查看详情时除外） */
     async onModalOk(type, payload) {
       if (type !== 'detail') {
         await this.fetchTableData()
-        this.authorityTreeData = await listAllAuthorityWithTree()
+        await this.getDeptTreeData()
       }
+    },
+    async getDeptTreeData() {
+      this.deptTreeData = (await listAllWithTree()).data
     }
   }
 }
 </script>
+
+<style scoped>
+
+</style>
