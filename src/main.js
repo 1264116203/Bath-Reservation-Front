@@ -3,8 +3,9 @@ import Vue from 'vue'
 
 import './config/import-ant-design'
 import NProgress from 'nprogress'
-import VContextMenu from 'v-contextmenu'
 import 'nprogress/nprogress.css'
+import VContextMenu from 'v-contextmenu'
+import 'v-contextmenu/dist/index.css'
 
 import '@/config/axios'
 
