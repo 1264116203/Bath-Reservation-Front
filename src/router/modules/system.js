@@ -15,14 +15,14 @@ export default [
       isAuth: true
     },
     component: () => import(/* webpackChunkName: "system" */ '@/views/system/dept-management/dept-management-index')
-  // }, {
-  //   path: '/system/dict',
-  //   name: '字典管理',
-  //   meta: {
-  //     isTab: true,
-  //     isAuth: true
-  //   },
-  //   component: () => import(/* webpackChunkName: "system" */ '@/views/system/dict/dict-list.vue')
+  }, {
+    path: '/system/dict',
+    name: '字典管理',
+    meta: {
+      isTab: true,
+      isAuth: true
+    },
+    component: () => import(/* webpackChunkName: "system" */ '@/views/system/dict-management/dict-management-index')
   }, {
     path: '/system/authority',
     name: '权限与菜单管理',

@@ -161,7 +161,7 @@ export default {
     getFormDataForUpdate() {
       return ({
         id: this.id,
-        ...this.formData
+        ...this.getFormDataForCreation()
       })
     },
 

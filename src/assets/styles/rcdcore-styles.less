@@ -10,6 +10,26 @@
   }
 }
 
+.no-border-table .ant-table-small {
+  border: none;
+}
+.no-border-table .ant-table-thead > tr > th, .no-border-table .ant-table-tbody > tr > td {
+  border-right: none;
+}
+
+.inner-table {
+  margin-top: 20px;
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+  .ant-table-body {
+    margin: 0 !important;
+    th, td {
+      padding: 4px 8px !important;
+    }
+  }
+}
+
 .table-list-warp {
   margin: @general-padding;
 
