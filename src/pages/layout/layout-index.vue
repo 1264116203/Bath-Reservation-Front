@@ -67,6 +67,12 @@ export default {
       return this.$store.state.tab.keepAliveComponentNames
     }
   }
+  // watch: {
+  //   $route(to, from) {
+  //     console.log('主工作区变化！', from, to)
+  //    // 使用watch监听route的时候，在第一次路由进入的时候不会触发
+  //   }
+  // }
 }
 </script>
 

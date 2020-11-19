@@ -9,8 +9,8 @@ import 'v-contextmenu/dist/index.css'
 
 import '@/config/axios'
 
-import '@/config/router-config'
 import router from './router'
+import '@/config/router-config'
 import store from './store'
 import '@/filters/text-clip'
 import '@/filters/moment-time'

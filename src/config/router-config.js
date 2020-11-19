@@ -4,3 +4,4 @@ import '@/router'
 // 加载路由拦截器
 import '@/router/interceptors/auth-interceptor'
 import '@/router/interceptors/tab-switching-interceptor'
+import '@/router/interceptors/keep-alive-destroyer'
