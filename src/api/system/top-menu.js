@@ -25,9 +25,9 @@ export function getById(id) {
 export function listWithPagination(page, size, params) {
   return axios.get(contextPath + '/pagination', {
     params: {
-      ...params,
       page,
-      size
+      size,
+      ...params
     }
   })
 }

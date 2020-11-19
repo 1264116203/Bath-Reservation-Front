@@ -39,14 +39,14 @@ export default [
       isAuth: true
     },
     component: () => import(/* webpackChunkName: "system" */ '@/views/system/top-menu-management/top-menu-management-index')
-  // }, {
-  //   path: '/system/param',
-  //   name: '参数管理',
-  //   meta: {
-  //     isTab: true,
-  //     isAuth: true
-  //   },
-  //   component: () => import(/* webpackChunkName: "system" */ '@/views/system/param-list')
+  }, {
+    path: '/system/param',
+    name: '参数管理',
+    meta: {
+      isTab: true,
+      isAuth: true
+    },
+    component: () => import(/* webpackChunkName: "system" */ '@/views/system/param-management/param-management-index')
   }, {
     path: '/authority/role',
     name: '角色与授权',

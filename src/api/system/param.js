@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const contextPath = '/api/system/user'
+const contextPath = '/api/system/param'
 
 export function add(row) {
   return axios.post(contextPath, row)
@@ -29,13 +29,5 @@ export function listWithPagination(page, size, params) {
       size,
       ...params
     }
-  })
-}
-
-/** 重置密码 */
-export function resetPassword(password, userIdList) {
-  return axios.put(contextPath + '/reset-password', {
-    password,
-    userIdList
   })
 }
