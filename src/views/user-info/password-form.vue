@@ -1,48 +1,43 @@
 <template>
   <div>
-    <a-form ref="form" :form="passwordForm"
-            class="width64-centered"
-            :label-col="{ span: 3 }"
-            :wrapper-col="{ span: 21 }"
+    <a-form-model ref="form" :model="formData"
+                  :rules="rules"
+                  layout="vertical"
+                  class="user-info-centered"
     >
-      <a-form-item label="原密码">
+      <a-form-model-item label="原密码" prop="oldPassword">
         <a-input-password
-          v-decorator="['oldPassword', { rules: [
-            { required: true, message: '请输入密码' }
-          ]}]"
+          v-model="formData.oldPassword"
           placeholder="请输入原密码"
           allow-clear
         />
-      </a-form-item>
-      <a-form-item label="新密码">
+      </a-form-model-item>
+      <a-form-model-item label="新密码" prop="newPassword">
         <a-input-password
-          v-decorator="['newPassword', { rules: [
-            { required: true, validator: validatePass },
-            { pattern:/^(?=.*[0-9a-zA-Z])\w{4,16}$/, message: '必须有数字或者字母并且长度在4~16之间' }
-          ]}]"
+          v-model="formData.newPassword"
           placeholder="请输入密码"
           allow-clear
         />
-      </a-form-item>
-      <a-form-item label="确认密码">
+      </a-form-model-item>
+      <a-form-model-item label="确认密码" prop="newPasswordAgain">
         <a-input-password
-          v-decorator="['newPassword1', { rules: [
-            { required: true, validator: validatePass2 }
-          ]}]"
+          v-model="formData.newPasswordAgain"
           placeholder="请再次输入密码"
           allow-clear
         />
-      </a-form-item>
-      <a-divider />
-      <a-form-item class="text-right" :wrapper-col="{ span: 24 }">
+      </a-form-model-item>
+    </a-form-model>
+    <a-divider />
+    <div class="text-right">
+      <a-space>
         <a-button @click="onCancel">
           清除
         </a-button>
-        <a-button type="primary" style="margin-left: 15px" @click="onSubmit">
+        <a-button type="primary" @click="onSubmit">
           提交
         </a-button>
-      </a-form-item>
-    </a-form>
+      </a-space>
+    </div>
   </div>
 </template>
 
@@ -61,7 +56,7 @@ export default {
       }
     }
     const validatePass2 = (rule, value, callback) => {
-      const password = this.passwordForm.getFieldValue('newPassword')
+      const password = this.formData.newPassword
       if (!value) {
         callback(new Error('请再次输入密码'))
       } else if (value !== password) {
@@ -71,29 +66,36 @@ export default {
       }
     }
     return {
-      passwordForm: this.$form.createForm(this),
-      /** 验证密码 */
-      validatePass,
-      validatePass2
+      formData: {
+        oldPassword: '',
+        newPassword: '',
+        newPasswordAgain: ''
+      },
+      rules: {
+        oldPassword: [{ required: true, message: '请输入密码' }],
+        newPassword: [
+          { required: true, validator: validatePass },
+          { pattern: /^(?=.*[0-9a-zA-Z])\w{4,16}$/, message: '必须有数字或者字母并且长度在4~16之间' }
+        ],
+        newPasswordAgain: [{ required: true, validator: validatePass2 }]
+      }
     }
   },
   methods: {
     ...mapActions('auth', ['logout']),
     onSubmit() {
-      this.passwordForm.validateFields((errors, values) => {
-        if (!errors) {
-          updatePassword(this.passwordForm.getFieldValue('oldPassword'), this.passwordForm.getFieldValue('newPassword')).then(res => {
-            this.$message.success('修改密码成功!')
-            this.doLogout()
-          })
+      this.$refs.form.validate(async valid => {
+        if (valid) {
+          await updatePassword(this.formData.oldPassword, this.formData.newPassword)
+          this.$message.success('修改密码成功!')
+          this.doLogout()
         } else {
           this.$message.error('校验失败！')
-          console.error(errors, values)
         }
       })
     },
     onCancel() {
-      this.passwordForm.resetFields()
+      this.$refs.form.resetFields()
     },
     doLogout() {
       this.logout()
