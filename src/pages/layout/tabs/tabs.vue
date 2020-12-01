@@ -104,7 +104,7 @@ export default {
     },
     closeAllTabs() {
       this.$store.commit('tab/closeAllTabs')
-      this.switchTab(this.tabList[0])
+      this.onTabClick(this.tabList[0].key)
     },
     closeTab(key) {
       const index = this.tabList.findIndex((val) => val.key === key)
