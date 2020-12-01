@@ -83,28 +83,26 @@ axios.interceptors.response.use(res => {
 
   // 针对令牌是否合法的特殊处理
   if (status === 401) {
-    // 如果返回内容为"invalid refresh token"，说明此时已经执行过刷新令牌重请求，但刷新令牌已失效，故跳回登录页
-    if (res.data && res.data.refreshToken === 'invalid refresh token') {
-      return store.dispatch('auth/logout')
-        .then(() => router.push({ path: '/login' }))
-    } else {
-      // 其他情况下，说明还没开始换取refreshToken
-      // 如果返回体内容为"invalid jwt token"，则说明服务器认定JWT令牌已失效，此时应发请求换取新的JWT令牌
+    if (res.data) {
+      if (res.data.title === 'invalid_token' && res.data.detail.indexOf('Invalid refresh token') === 0) {
+        return store.dispatch('auth/logout')
+          .then(() => router.push({ path: '/login' }))
+      }
       // 只有存在refreshToken时，再提交令牌重刷
       const refreshToken = store.state.auth.refreshToken
-      if (res.data && res.data.error === 'invalid_token' && refreshToken) {
+      if (refreshToken) {
         return store.dispatch('auth/refreshToken').then(() => {
           return axios.request(res.config)
         })
+      } else {
+        return store.dispatch('auth/logout')
+          .then(() => router.push({ path: '/login' }))
       }
     }
   }
 
-  // 如果服务器端有错误信息，则会将其URIEncode后放到X-ERROR-MESSAGE头信息里
-  let message = res.headers['X-ERROR-MESSAGE']
-  if (message) {
-    message = decodeURIComponent(message)
-  }
+  // 如果服务器端有错误信息，则会将其放到detail里
+  let message = res.data.detail
   if (!message) {
     message = getMessageFromHttpStatusCode(status)
   }

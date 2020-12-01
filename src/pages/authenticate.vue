@@ -13,6 +13,7 @@ import { checkAuthenticate } from '@/api/common/auth'
 import store from '@/store'
 import { getSelfInfo } from '@/api/common/user-self'
 import { mapMutations } from 'vuex'
+import router from '@/router'
 
 export default {
   name: 'Authenticate',
@@ -33,9 +34,6 @@ export default {
     },
     lastPageBeforeLogin() {
       return this.$store.state.auth.lastPageBeforeLogin
-    },
-    token() {
-      return this.$store.state.auth.token
     }
   },
   async created() {
@@ -43,9 +41,22 @@ export default {
       const res = await checkAuthenticate()
       const status = res.status
       if (status === 401) {
-        if (res.data && res.data.refreshToken !== 'invalid refresh token') {
-          try {
-            await store.dispatch('auth/refreshToken')
+        if (res.data) {
+          if (res.data.title === 'invalid_token' && res.data.detail.indexOf('Invalid refresh token') === 0) {
+            return store.dispatch('auth/logout')
+              .then(() => router.push({ path: '/login' }))
+          }
+          // 只有存在refreshToken时，再提交令牌重刷
+          const refreshToken = store.state.auth.refreshToken
+          if (refreshToken) {
+            try {
+              await store.dispatch('auth/refreshToken')
+            } catch (e) {
+              console.error(e)
+              this.authenticated = 'no'
+              await this.$router.push('/login')
+              return
+            }
             this.authenticated = 'yes'
             if (this.lastPageBeforeLogin) {
               await this.$router.push(this.lastPageBeforeLogin)
@@ -53,14 +64,10 @@ export default {
             } else {
               await this.$router.push('/')
             }
-          } catch (e) {
-            console.error(e)
+          } else {
             this.authenticated = 'no'
             await this.$router.push('/login')
           }
-        } else {
-          this.authenticated = 'no'
-          await this.$router.push('/login')
         }
       } else {
         this.authenticated = 'yes'

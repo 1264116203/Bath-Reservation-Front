@@ -1,27 +1,4 @@
 import axios from 'axios'
-import application from '@/config/application'
-
-/**
- * @return {*}
- */
-function getBasicHeaderConfig() {
-  const config = {
-    meta: {
-      basicAuth: true,
-      isSerialize: true
-    }
-  }
-  let basicAuthVal = ''
-  if (application.clientId && application.clientSecret) {
-    basicAuthVal = 'Basic ' + btoa(application.clientId + ':' + application.clientSecret)
-  }
-  if (basicAuthVal) {
-    config.headers = {
-      Authorization: basicAuthVal
-    }
-  }
-  return config
-}
 
 /**
  * 登录接口，用于换取用户令牌和刷新令牌
@@ -32,25 +9,27 @@ function getBasicHeaderConfig() {
  * @param refreshTokenValidHours 刷新令牌的有效时长（小时）
  */
 export function loginByPassword(username, password, pwdEncoded = false, refreshTokenValidHours = 24) {
-  return axios.post('/api/auth/oauth/token', {
-    grant_type: 'password',
+  return axios.post('/api/authenticate', {
     username,
     password,
-    pwd_encoded: pwdEncoded
+    pwdEncoded
     // TODO 暂未加入
     // refreshTokenValidHours
-  }, getBasicHeaderConfig())
+  })
 }
 
 /** 使用刷新令牌重新获取token */
 export function requestRefreshToken(refreshToken) {
-  return axios.post('/api/auth/oauth/token', {
-    grant_type: 'refresh_token',
-    refresh_token: refreshToken
-  }, getBasicHeaderConfig())
+  return axios.post('/api/authenticate/refresh-token', {
+    refreshToken
+  })
 }
 
 /** 检查当前用户的登录状态 */
 export function checkAuthenticate() {
-  return axios.get('/api/auth/login-status/check')
+  return axios.get('/api/auth/login-status/check', {
+    validateStatus (status) {
+      return (status >= 200 && status < 300) || status === 401
+    }
+  })
 }

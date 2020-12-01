@@ -47,25 +47,21 @@ export default {
   actions: {
     /**
      * 根据用户名密码登录
-     * @param userInfo
-     * @param {string}  userInfo.username 用户名
-     * @param {string}  userInfo.password 密码
-     * @param {boolean} userInfo.pwdEncoded 密码是否转码
-     * @param {number}  userInfo.refreshTokenValidHours 刷新令牌的有效时间
+     * @param loginInfo
+     * @param {string}  loginInfo.username 用户名
+     * @param {string}  loginInfo.password 密码
+     * @param {boolean} loginInfo.pwdEncoded 密码是否转码
+     * @param {number}  loginInfo.refreshTokenValidHours 刷新令牌的有效时间
      */
-    async loginByPassword({ commit, dispatch }, userInfo) {
+    async loginByPassword({ commit, dispatch }, loginInfo) {
       dispatch('clearAll')
-      const data = (await loginByPassword(userInfo.username, userInfo.password, userInfo.pwdEncoded)).data
-      // 如果返回值里有异常描述，说明登录失败
-      if (data.error_description) {
-        return Promise.reject(data.error_description)
-      } else {
-        commit('setAccessToken', data.access_token)
-        commit('setRefreshToken', data.refresh_token)
-        commit('setAuthenticated', 'yes')
-        const userInfo = (await getSelfInfo()).data
-        commit('setUserInfo', userInfo)
-      }
+      const data = (await loginByPassword(loginInfo.username, loginInfo.password, loginInfo.pwdEncoded)).data
+      commit('setAccessToken', data.accessToken)
+      commit('setRefreshToken', data.refreshToken)
+      commit('setAuthenticated', 'yes')
+      // 登录成功后，刷新用户信息
+      const userInfo = (await getSelfInfo()).data
+      commit('setUserInfo', userInfo)
     },
     /**
      * 清空所有用户鉴权信息及配套的
@@ -85,8 +81,8 @@ export default {
     refreshToken({ commit, state }) {
       return requestRefreshToken(state.refreshToken).then(res => {
         const data = res.data
-        commit('setAccessToken', data.access_token)
-        commit('setRefreshToken', data.refresh_token)
+        commit('setAccessToken', data.accessToken)
+        commit('setRefreshToken', data.refreshToken)
       })
     },
     // 登出

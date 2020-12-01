@@ -10,10 +10,6 @@ export default {
   key: 'RCDCore',
   // 首页文字
   indexTitle: 'RCDCore Front',
-  // 客户端id
-  clientId: 'user-client',
-  // 客户端密钥
-  clientSecret: 'user-secret-8888',
   // 配置首页不可关闭
   firstPageCloseable: false,
   homepageTab: {
