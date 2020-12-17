@@ -83,6 +83,11 @@ axios.interceptors.response.use(res => {
 
   // 针对令牌是否合法的特殊处理
   if (status === 401) {
+    // 首先判断请求是不是源自刷新令牌的拉取
+    if (res.request.url.indexOf('/authenticate/refresh-token') !== 0) {
+      return store.dispatch('auth/logout')
+        .then(() => router.push({ path: '/login' }))
+    }
     if (res.data) {
       if (res.data.title === 'invalid_token' && res.data.detail.indexOf('Invalid refresh token') === 0) {
         return store.dispatch('auth/logout')
