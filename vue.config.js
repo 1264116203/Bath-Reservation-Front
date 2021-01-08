@@ -15,9 +15,10 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        // 本地服务接口地址
-        // target: 'http://192.168.2.160:8080',
-        target: 'http://localhost:8080',
+        // 本地服务接口地址，如要修改，请在项目根目录建立一个名为".env.development.local"的文件，并设置
+        // VUE_APP_DEV_SERVER_HOST=要连接的远端服务，不要直接修改本配置项
+        // 因为.env.development.local文件不会添加到Git管理，所以不会影响别人
+        target: process.env.VUE_APP_DEV_SERVER_HOST,
         ws: true,
         pathRewrite: {
           '^/api': '/'

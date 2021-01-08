@@ -7,9 +7,6 @@
       <a-form-model-item label="字典编码" prop="code">
         <a-input v-model="searchInfo.code" placeholder="字典编码" />
       </a-form-model-item>
-      <a-form-model-item label="字典备注" prop="remark">
-        <a-input v-model="searchInfo.remark" placeholder="字典备注" />
-      </a-form-model-item>
       <a-form-model-item>
         <a-button type="primary" @click="onSearch">
           搜索
@@ -88,8 +85,8 @@ const columns = [
     dataIndex: 'code'
   },
   {
-    title: '字典排序',
-    dataIndex: 'sort'
+    title: '字典备注',
+    dataIndex: 'remark'
   },
   {
     title: '操作',

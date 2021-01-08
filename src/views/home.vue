@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+  <div class="general-padding">
+    <h2>欢迎使用 RCDCore V2 核心系统！</h2>
   </div>
 </template>
 
