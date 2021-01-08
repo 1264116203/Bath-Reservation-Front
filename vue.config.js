@@ -1,4 +1,3 @@
-const { baseUrl } = require('./src/config/base-url')
 const { modifyVars } = require('./build/less-modify-vars')
 
 module.exports = {
@@ -21,10 +20,10 @@ module.exports = {
         target: 'http://localhost:8080',
         ws: true,
         pathRewrite: {
-          '^/api': baseUrl
+          '^/api': '/'
         }
       }
     }
   },
-  publicPath: baseUrl
+  publicPath: process.env.VUE_APP_BASE_PATH
 }

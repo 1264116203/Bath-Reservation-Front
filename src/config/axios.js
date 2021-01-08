@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import NProgress from 'nprogress'
 import axios from 'axios'
-import { baseUrl } from '@/config/base-url'
 import store from '@/store'
 import router from '@/router'
 import { serialize } from '@/util/utils'
 import { getCsrfToken } from '@/util/auth-util'
 import { getMessageFromHttpStatusCode } from '@/util/http-status-message'
+
 const env = process.env
+
 if (env.NODE_ENV === 'development') {
   // 开发环境下，默认不设置超时时间
   axios.defaults.timeout = 0
@@ -21,7 +22,7 @@ axios.defaults.validateStatus = function (status) {
 }
 // 跨域请求时是否需要使用凭证
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = baseUrl
+axios.defaults.baseURL = process.env.VUE_APP_BASE_PATH
 
 /**
  * 默认的请求拦截器
@@ -43,13 +44,6 @@ axios.interceptors.request.use(config => {
   // 如果不想在请求失败时弹出notification，设置此属性为真
   if (meta.doNotMessage) {
     config.headers['X-DONT-MESSAGE'] = 'YES'
-  }
-
-  // TODO: 此处以后改为Cookie模式
-  if (store.state.auth.accessToken) {
-    if (!meta.basicAuth) {
-      config.headers.Authorization = 'Bearer ' + store.state.auth.accessToken
-    }
   }
 
   // 如果不想使用JSON作为body而是使用序列化表单，设置此值为真
