@@ -13,7 +13,6 @@ import { checkAuthenticate } from '@/api/common/auth'
 import store from '@/store'
 import { getSelfInfo } from '@/api/common/user-self'
 import { mapMutations } from 'vuex'
-import router from '@/router'
 
 export default {
   name: 'Authenticate',
@@ -41,45 +40,25 @@ export default {
       const res = await checkAuthenticate()
       const status = res.status
       if (status === 401) {
-        if (res.data) {
-          if (res.data.title === 'invalid_token' && res.data.detail.indexOf('Invalid refresh token') === 0) {
-            return store.dispatch('auth/logout')
-              .then(() => router.push({ path: '/login' }))
-          }
-          // 只有存在refreshToken时，再提交令牌重刷
-          const refreshToken = store.state.auth.refreshToken
-          if (refreshToken) {
-            try {
-              await store.dispatch('auth/refreshToken')
-            } catch (e) {
-              console.error(e)
-              this.authenticated = 'no'
-              await this.$router.push('/login')
-              return
-            }
-            this.authenticated = 'yes'
-            if (this.lastPageBeforeLogin) {
-              await this.$router.push(this.lastPageBeforeLogin)
-              this.$store.commit('auth/setLastPageBeforeLogin', null)
-            } else {
-              await this.$router.push('/')
-            }
-          } else {
+        // 只有存在refreshToken时，再提交令牌重刷
+        const refreshToken = store.state.auth.refreshToken
+        if (refreshToken) {
+          try {
+            await store.dispatch('auth/refreshToken')
+          } catch (e) {
+            console.error(e)
             this.authenticated = 'no'
             await this.$router.push('/login')
+            return
           }
+          await this.fetchUserInfoAndGotoLastPageBeforeLogin()
+        } else {
+          this.authenticated = 'no'
+          await this.$router.push('/login')
         }
       } else {
-        this.authenticated = 'yes'
         this.$store.commit('auth/setAccessToken', res.data)
-        const userInfo = (await getSelfInfo()).data
-        this.setUserInfo(userInfo)
-        if (this.lastPageBeforeLogin) {
-          await this.$router.push(this.lastPageBeforeLogin)
-          this.$store.commit('auth/setLastPageBeforeLogin', null)
-        } else {
-          await this.$router.push('/')
-        }
+        await this.fetchUserInfoAndGotoLastPageBeforeLogin()
       }
     } catch (err) {
       console.error(err)
@@ -88,7 +67,18 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('auth', ['setUserInfo'])
+    ...mapMutations('auth', ['setUserInfo']),
+    async fetchUserInfoAndGotoLastPageBeforeLogin() {
+      this.authenticated = 'yes'
+      const userInfo = (await getSelfInfo()).data
+      this.setUserInfo(userInfo)
+      if (this.lastPageBeforeLogin) {
+        await this.$router.push(this.lastPageBeforeLogin)
+        this.$store.commit('auth/setLastPageBeforeLogin', null)
+      } else {
+        await this.$router.push('/')
+      }
+    }
   }
 }
 </script>
