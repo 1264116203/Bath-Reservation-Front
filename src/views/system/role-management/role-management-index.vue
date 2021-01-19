@@ -1,11 +1,11 @@
 <template>
   <a-spin class="table-list-warp" :spinning="isLoading">
     <a-form-model ref="searchForm" layout="inline" :model="searchInfo">
-      <a-form-model-item label="角色名称" prop="roleName">
-        <a-input v-model="searchInfo.roleName" placeholder="角色名称" />
+      <a-form-model-item label="角色名称" prop="name">
+        <a-input v-model="searchInfo.name" placeholder="角色名称" />
       </a-form-model-item>
-      <a-form-model-item label="角色编码" prop="roleAlias">
-        <a-input v-model="searchInfo.roleAlias" placeholder="角色编码" />
+      <a-form-model-item label="角色编码" prop="code">
+        <a-input v-model="searchInfo.code" placeholder="角色编码" />
       </a-form-model-item>
       <a-form-model-item>
         <a-button type="primary" @click="onSearch">
@@ -117,11 +117,11 @@ import EditModal from './role-management-modal'
 const columns = [
   {
     title: '角色名称',
-    dataIndex: 'roleName'
+    dataIndex: 'name'
   },
   {
     title: '角色编码',
-    dataIndex: 'roleAlias'
+    dataIndex: 'code'
   },
   {
     title: '角色排序',
@@ -143,8 +143,8 @@ export default {
     return {
       /** 搜索的条件  角色名称 角色编码 */
       searchInfo: {
-        roleName: '',
-        roleAlias: ''
+        name: '',
+        code: ''
       },
       columns,
 

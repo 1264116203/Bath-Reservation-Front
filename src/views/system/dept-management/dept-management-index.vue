@@ -1,8 +1,8 @@
 <template>
   <a-spin class="table-list-warp" :spinning="isLoading">
     <a-form-model ref="searchForm" layout="inline" :model="searchInfo">
-      <a-form-model-item label="组织机构名称" prop="deptName">
-        <a-input v-model="searchInfo.deptName" placeholder="组织机构名称" />
+      <a-form-model-item label="组织机构名称" prop="name">
+        <a-input v-model="searchInfo.name" placeholder="组织机构名称" />
       </a-form-model-item>
       <a-form-model-item>
         <a-button type="primary" @click="onSearch">
@@ -74,7 +74,7 @@ const columns = [
   },
   {
     title: '组织机构编码',
-    dataIndex: 'alias'
+    dataIndex: 'code'
   },
   {
     title: '组织机构类别',
@@ -94,7 +94,7 @@ export default {
   data () {
     return {
       searchInfo: {
-        deptName: ''
+        name: ''
       },
       columns,
       deptTreeData: []

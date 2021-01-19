@@ -11,15 +11,15 @@
     >
       <a-spin :spinning="spinning">
         <a-form-model ref="form" layout="vertical" :model="formData">
-          <a-form-model-item label="角色名称" prop="roleName">
+          <a-form-model-item label="角色名称" prop="name">
             <a-input
-              v-model="formData.roleName"
+              v-model="formData.name"
               placeholder="请输入角色名称"
               :disabled="isDisable"
             />
           </a-form-model-item>
 
-          <a-form-model-item prop="roleAlias">
+          <a-form-model-item prop="code">
             <template #label>
               <a-tooltip>
                 <template slot="title">
@@ -29,7 +29,7 @@
               </a-tooltip>
             </template>
             <a-input
-              v-model="formData.roleAlias"
+              v-model="formData.code"
               placeholder="请输入角色编码"
               :disabled="isDisable"
             />
@@ -71,8 +71,8 @@ import { disableNode } from '@/util/tree-util'
 
 class FormData {
   constructor () {
-    this.roleName = ''
-    this.roleAlias = ''
+    this.name = ''
+    this.code = ''
     this.parentId = '0'
     this.sort = '100'
   }
@@ -87,8 +87,8 @@ export default {
   data() {
     return {
       rules: {
-        roleName: [{ required: true, message: '请输入角色名称' }],
-        roleAlias: [
+        name: [{ required: true, message: '请输入角色名称' }],
+        code: [
           { required: true, message: '请输入角色编码' },
           { pattern: /^[a-zA-Z0-9-]{3,64}$/, message: '只能是3-64个英文字符、数字或连字符' }
         ],

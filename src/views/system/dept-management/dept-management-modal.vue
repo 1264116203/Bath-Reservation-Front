@@ -21,10 +21,10 @@
             :label-col="{ span: 4 }"
             :wrapper-col="{ span: 20 }"
             style="width: 100%"
-            prop="deptName"
+            prop="name"
           >
             <a-input
-              v-model="formData.deptName"
+              v-model="formData.name"
               :disabled="isDisable"
               placeholder="请输入组织机构名称"
             />
@@ -46,13 +46,13 @@
 
           <a-form-model-item label="组织机构类别" prop="deptCategory">
             <a-input
-              v-model="formData.deptCategory"
+              v-model="formData.category"
               placeholder="请输入组织机构类别"
               :disabled="isDisable"
             />
           </a-form-model-item>
 
-          <a-form-model-item prop="alias">
+          <a-form-model-item prop="code">
             <template slot="label">
               <a-tooltip>
                 <template slot="title">
@@ -62,7 +62,7 @@
               </a-tooltip>
             </template>
             <a-input
-              v-model="formData.alias"
+              v-model="formData.code"
               :disabled="isDisable"
               placeholder="请输入组织机构编码"
             />
@@ -118,11 +118,11 @@ import { ACTION_TYPE } from '@/config/constants'
 
 class FormData {
   constructor () {
-    this.deptName = ''
-    this.deptCategory = ''
+    this.name = ''
+    this.category = ''
     this.fullName = ''
     this.sort = '100'
-    this.alias = ''
+    this.code = ''
     this.remark = ''
     this.parentId = '0'
   }
@@ -146,7 +146,7 @@ export default {
           { required: true, message: '请输入组织机构类别' },
           { whitespace: true, message: '组织机构类别不能为空' }
         ],
-        alias: [
+        code: [
           { required: true, message: '请输入组织机构编码' },
           { whitespace: true, message: '组织机构编码不能为空' },
           { pattern: /^[a-zA-Z0-9-]{3,64}$/, message: '只能是3-64个英文字符、数字或连字符' }
