@@ -137,12 +137,12 @@ export default {
   data() {
     return {
       rules: {
-        deptName: [{ required: true, message: '请输入组织机构名称' }],
+        name: [{ required: true, message: '请输入组织机构名称' }],
         fullName: [
           { required: true, message: '请输入组织机构全称' },
           { whitespace: true, message: '组织机构全称不能为空' }
         ],
-        deptCategory: [
+        category: [
           { required: true, message: '请输入组织机构类别' },
           { whitespace: true, message: '组织机构类别不能为空' }
         ],
