@@ -9,11 +9,11 @@
   >
     <a-form-model ref="form" :model="formData" layout="vertical">
       <a-form-model-item
-        label="参数名称" prop="paramName"
+        label="参数名称" prop="name"
         :rules="[{ required: true, message: '请输入参数名称' }]"
       >
         <a-input
-          v-model="formData.paramName"
+          v-model="formData.name"
           :disabled="isDisable"
           placeholder="请输入参数名称"
         />
@@ -56,7 +56,7 @@ import { ModalMixin } from '@/mixins/common-crud-mixin'
 class FormData {
   constructor() {
     /** 参数名称 */
-    this.paramName = ''
+    this.name = ''
     /** 参数键 */
     this.paramKey = ''
     /** 参数值 */

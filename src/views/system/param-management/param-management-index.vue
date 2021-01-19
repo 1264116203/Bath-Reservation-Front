@@ -1,8 +1,8 @@
 <template>
   <a-spin class="table-list-warp" :spinning="isLoading">
     <a-form-model ref="searchForm" layout="inline" :model="searchInfo">
-      <a-form-model-item label="参数名称" prop="paramName">
-        <a-input v-model="searchInfo.paramName" placeholder="参数名称" />
+      <a-form-model-item label="参数名称" prop="name">
+        <a-input v-model="searchInfo.name" placeholder="参数名称" />
       </a-form-model-item>
 
       <a-form-model-item label="参数键名" prop="paramKey">
@@ -72,7 +72,7 @@ import { ListMixin } from '@/mixins/common-crud-mixin'
 
 const columns = [{
   title: '参数名称',
-  dataIndex: 'paramName'
+  dataIndex: 'name'
 }, {
   title: '参数键名',
   dataIndex: 'paramKey'
@@ -93,7 +93,7 @@ export default {
     return {
       /** 查询条件 */
       searchInfo: {
-        paramName: '',
+        name: '',
         paramKey: ''
       },
       columns
