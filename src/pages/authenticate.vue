@@ -63,7 +63,17 @@ export default {
     } catch (err) {
       console.error(err)
       this.gotError = true
-      this.tip = '鉴定用户身份时发生了未知异常，似乎没能连接至后端服务！'
+      this.authenticated = false
+      this.tip = (
+        <div>
+          <div style="margin-bottom: 1rem;">鉴定用户身份时发生了未知异常，似乎没能连接至后端服务！</div>
+          <div>
+            <a-button type="primary" icon="arrow-left" onClick={() => this.$router.push('/login')}>
+              回登录页
+            </a-button>
+          </div>
+        </div>
+      )
     }
   },
   methods: {
