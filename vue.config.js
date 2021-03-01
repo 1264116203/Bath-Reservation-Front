@@ -1,7 +1,7 @@
 const ImportRetry = require('webpack-plugin-import-retry')
 const { modifyVars } = require('./build/less-modify-vars')
 
-module.exports = {
+const config = {
   lintOnSave: true,
   css: {
     loaderOptions: {
@@ -34,3 +34,10 @@ module.exports = {
     ]
   }
 }
+
+// 只在打包时开启编译优化
+if (process.env.NODE_ENV === 'production') {
+  config.transpileDependencies = ['ant-design-vue', 'v-contextmenu', 'vue-runtime-helpers']
+}
+
+module.exports = config

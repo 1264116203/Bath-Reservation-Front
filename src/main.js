@@ -1,7 +1,6 @@
-import 'babel-polyfill'
 import Vue from 'vue'
 
-import './config/import-ant-design'
+import '@/plugins/ant-design-vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import VContextMenu from 'v-contextmenu'

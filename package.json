@@ -2,6 +2,7 @@
   "name": "rcdcore-front",
   "version": "0.1.0",
   "private": true,
+  "browserslist": ["chrome > 49", "IE 11"],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
@@ -34,7 +35,6 @@
     "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",
     "babel-plugin-import": "^1.13.1",
-    "babel-polyfill": "^6.26.0",
     "chai": "^4.1.2",
     "cypress": "^7.0.0",
     "cypress-commands": "^1.1.0",
