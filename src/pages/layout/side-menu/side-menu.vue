@@ -24,7 +24,7 @@ import { mapState } from 'vuex'
 import application from '@/config/application'
 import router from '@/router'
 import { tabDiff } from '@/util/tab-util'
-import { deepSearch } from '@/util/tree-util'
+import { deepForEach, deepSearch } from '@/util/tree-util'
 import { destroyCurrentRouteComponent } from '@/util/router-util'
 import MySubMenu from './my-sub-menu'
 import { isUrl } from '@/util/validate-util'
@@ -63,14 +63,14 @@ export default {
   watch: {
     menuList: function () {
       if (!this.isCollapse) {
-        this.openKeys = this.menuList.filter(item => item.isDefaultExpanded).map(item => item.path || item.code)
+        this.openKeys = this.getDefaultOpenedKeys()
       }
     },
     isCollapse: function (collapse) {
       if (collapse) {
         this.openKeys = []
       } else {
-        this.openKeys = this.menuList.filter(item => item.isDefaultExpanded).map(item => item.path || item.code)
+        this.openKeys = this.getDefaultOpenedKeys()
       }
     }
   },
@@ -127,6 +127,15 @@ export default {
     },
     onOpenChange(val) {
       this.openKeys = val
+    },
+    getDefaultOpenedKeys() {
+      const result = []
+      deepForEach(this.menuList, elem => {
+        if (elem.isDefaultExpanded) {
+          result.push(elem.path || elem.code)
+        }
+      })
+      return result
     }
   }
 }
