@@ -158,7 +158,7 @@ export default {
         ],
         password: [
           { required: true, message: '请输入密码' },
-          { pattern: /^[a-zA-Z]\w{5,17}$/, message: '以字母开头，长度在6~18之间' }
+          { pattern: /^[a-zA-Z].{5,17}$/, message: '以字母开头，长度在6~18之间' }
         ],
         passwordAgain: [{ required: true, validator: this.validatePass }],
         name: [{ required: true, message: '请输入用户昵称' }],

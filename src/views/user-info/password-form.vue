@@ -75,7 +75,7 @@ export default {
         oldPassword: [{ required: true, message: '请输入密码' }],
         newPassword: [
           { required: true, validator: validatePass },
-          { pattern: /^(?=.*[0-9a-zA-Z])\w{4,16}$/, message: '必须有数字或者字母并且长度在4~16之间' }
+          { pattern: /^[a-zA-Z].{5,17}$/, message: '以字母开头，长度在6~18之间' }
         ],
         newPasswordAgain: [{ required: true, validator: validatePass2 }]
       }
