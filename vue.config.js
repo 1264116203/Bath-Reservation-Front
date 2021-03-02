@@ -1,3 +1,4 @@
+const ImportRetry = require('webpack-plugin-import-retry')
 const { modifyVars } = require('./build/less-modify-vars')
 
 module.exports = {
@@ -26,5 +27,10 @@ module.exports = {
       }
     }
   },
-  publicPath: process.env.VUE_APP_BASE_PATH
+  publicPath: process.env.VUE_APP_BASE_PATH,
+  configureWebpack: {
+    plugins: [
+      new ImportRetry()
+    ]
+  }
 }

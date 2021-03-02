@@ -48,11 +48,12 @@
     "eslint-plugin-vue": "^6.2.2",
     "less": "^3.0.4",
     "less-loader": "^6.0.0",
+    "vue-template-compiler": "^2.6.11",
     "mocha": "^8.3.2",
     "mochawesome": "^6.2.2",
     "mochawesome-merge": "^4.2.0",
     "mochawesome-report-generator": "^5.2.0",
-    "vue-template-compiler": "^2.6.11"
+    "webpack-plugin-import-retry": "^1.0.2"
   },
   "resolutions": {
     "cypress": "^7.0.0"
