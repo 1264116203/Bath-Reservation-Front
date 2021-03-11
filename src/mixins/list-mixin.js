@@ -120,6 +120,7 @@ export default {
           onOk: async () => {
             await this.axiosBatchDelete(this.selectedRowKeys.join(','))
             this.$message.success('操作成功!')
+            this.selectedRowKeys = []
             resolve()
             await this.fetchTableData()
           }
