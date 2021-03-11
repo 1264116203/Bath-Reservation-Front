@@ -14,14 +14,16 @@ export default {
     isFullScreen: false,
     // 屏幕大小，0超小屏幕，1小屏幕，2中屏幕，3大屏幕
     screen: -1,
-    // 是否显示标签栏
-    showTab: true,
+    // 是否显示顶部导航条
+    showTopBanner: true,
     // 是否显示菜单折叠按钮
     showCollapse: true,
     // 是否显示全屏切换按钮
     showFullScreen: true,
+    // 是否显示标签栏
+    showTab: true,
     // 是否显示菜单
-    showMenu: true,
+    showSideMenu: true,
     // 是否显示页脚
     showFooter: true
   },
@@ -39,6 +41,18 @@ export default {
     },
     setScreen: (state, screen) => {
       state.screen = screen
+    },
+    hideAllFrameset: (state) => {
+      state.showTopBanner = false
+      state.showTab = false
+      state.showSideMenu = false
+      state.showFooter = false
+    },
+    showAllFrameset(state) {
+      state.showTopBanner = true
+      state.showTab = true
+      state.showSideMenu = true
+      state.showFooter = true
     }
   }
 }

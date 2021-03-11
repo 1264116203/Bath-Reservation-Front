@@ -1,6 +1,7 @@
 <template>
   <a-layout>
     <a-layout-sider
+      v-show="showSideMenu"
       v-model="collapsed"
       width="260px"
       :style="{ overflow: 'auto', height: '100vh' }"
@@ -10,11 +11,11 @@
     </a-layout-sider>
 
     <a-layout class="right-side-layout">
-      <a-layout-header class="header">
+      <a-layout-header v-if="showTopBanner" class="header">
         <top-banner />
       </a-layout-header>
 
-      <tabs />
+      <tabs v-show="showTab" />
 
       <a-layout-content style="min-height: auto; display: flex">
         <div id="main-content" class="main-content padding-content">
@@ -44,7 +45,7 @@ export default {
   name: 'LayoutIndex',
   components: { TopLogo, TopBanner, SideMenu, LayoutFooter, Tabs, IframeComponents },
   computed: {
-    ...mapState('common', ['showFooter']),
+    ...mapState('common', ['showTopBanner', 'showTab', 'showSideMenu', 'showFooter']),
     isIframeShow: {
       get () {
         return this.$store.state.tab.isIframeShow
@@ -67,12 +68,6 @@ export default {
       return this.$store.state.tab.keepAliveComponentNames
     }
   }
-  // watch: {
-  //   $route(to, from) {
-  //     console.log('主工作区变化！', from, to)
-  //    // 使用watch监听route的时候，在第一次路由进入的时候不会触发
-  //   }
-  // }
 }
 </script>
 
