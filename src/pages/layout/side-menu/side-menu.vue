@@ -115,6 +115,7 @@ export default {
         }
       }
       // 如果待切换Tab和当前Tab是同一个，则刷新
+      // TODO 会直接销毁所有iframe页面
       if (tabDiff(this.$store.getters['tab/activeTab'], tabElem)) {
         destroyCurrentRouteComponent()
         router.replace('/hot-refresh')

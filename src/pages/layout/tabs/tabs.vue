@@ -20,6 +20,12 @@
       </a-tab-pane>
     </a-tabs>
     <v-contextmenu ref="contextmenu">
+      <template v-if="contextMenuTabKey === activeTabKey">
+        <v-contextmenu-item @click="reloadTab">
+          刷新
+        </v-contextmenu-item>
+        <v-contextmenu-item divider />
+      </template>
       <v-contextmenu-item :disabled="closeTabItemDisabled" @click="closeTabByContextMenu">
         关闭标签页
       </v-contextmenu-item>
@@ -38,6 +44,8 @@
 
 import { mapMutations, mapState } from 'vuex'
 import { isUrl } from '@/util/validate-util'
+import { destroyCurrentRouteComponent } from '@/util/router-util'
+import router from '@/router'
 
 export default {
   name: 'Tabs',
@@ -122,6 +130,11 @@ export default {
           this.onTabClick(this.tabList[index - 1].key)
         }
       }
+    },
+    reloadTab() {
+      // TODO 会直接销毁所有iframe页面
+      destroyCurrentRouteComponent()
+      router.replace('/hot-refresh')
     }
   }
 }
