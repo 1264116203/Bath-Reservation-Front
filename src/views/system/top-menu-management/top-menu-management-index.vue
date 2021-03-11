@@ -83,7 +83,7 @@ import { ListMixin } from '@/mixins/common-crud-mixin'
 import EditModal from './top-menu-management-modal'
 import { listWithPagination, batchRemove, grant, removeById } from '@/api/system/top-menu'
 import {
-  listAllWithTreeForTreeSelect as listAllMenuWithTree,
+  listAllMenuWithTreeForTreeSelect as listAllMenuWithTree,
   listMenuByTopMenuIdWithTree
 } from '@/api/common/authrority'
 import { deepForEach } from '@/util/tree-util'
