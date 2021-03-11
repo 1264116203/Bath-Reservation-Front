@@ -53,5 +53,7 @@ export default {
 <style lang="less" scoped>
 .topMenuWarp{
   padding: 6px 0;
+  flex: 1 1;
+  overflow-x: hidden;
 }
 </style>

@@ -13,9 +13,6 @@
       <top-menu />
     </div>
     <div class="top-banner-right">
-      <!--<div v-if="isDev">
-        <demo-menu/>
-      </div>-->
       <div>
         <a-tooltip placement="bottom" title="全屏切换">
           <a-icon class="right-button"
@@ -56,7 +53,6 @@
 import { mapActions, mapMutations, mapState } from 'vuex'
 import { fullscreenListener, toggleFullscreen } from '@/util/utils'
 import TopMenu from './top-menu'
-// import DemoMenu from '@/page/demo/demo-menu'
 export default {
   name: 'TopBanner',
   components: {
@@ -116,6 +112,8 @@ export default {
   .top-banner-left {
     display: inline-flex;
     justify-items: center;
+    flex: 1 1;
+    overflow-x: hidden;
 
     .collapseButton {
       margin: 0 1rem;
