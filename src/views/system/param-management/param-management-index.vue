@@ -2,11 +2,11 @@
   <a-spin class="table-list-warp" :spinning="isLoading">
     <a-form-model ref="searchForm" layout="inline" :model="searchInfo">
       <a-form-model-item label="参数名称" prop="name">
-        <a-input v-model="searchInfo.name" placeholder="参数名称" />
+        <a-input v-model.trim="searchInfo.name" placeholder="参数名称" />
       </a-form-model-item>
 
       <a-form-model-item label="参数键名" prop="paramKey">
-        <a-input v-model="searchInfo.paramKey" placeholder="参数键名" />
+        <a-input v-model.trim="searchInfo.paramKey" placeholder="参数键名" />
       </a-form-model-item>
 
       <a-form-model-item>

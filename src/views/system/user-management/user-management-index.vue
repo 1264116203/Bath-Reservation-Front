@@ -2,10 +2,10 @@
   <a-spin class="table-list-warp" :spinning="isLoading">
     <a-form-model ref="searchForm" layout="inline" :model="searchInfo">
       <a-form-model-item label="登录账号" prop="account">
-        <a-input v-model="searchInfo.account" placeholder="登录账号" />
+        <a-input v-model.trim="searchInfo.account" placeholder="登录账号" />
       </a-form-model-item>
       <a-form-model-item label="用户昵称" prop="name">
-        <a-input v-model="searchInfo.name" placeholder="用户昵称" />
+        <a-input v-model.trim="searchInfo.name" placeholder="用户昵称" />
       </a-form-model-item>
       <a-form-model-item>
         <a-button type="primary" @click="onSearch">

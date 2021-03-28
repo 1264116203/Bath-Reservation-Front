@@ -2,10 +2,10 @@
   <a-spin class="table-list-warp" :spinning="isLoading">
     <a-form-model ref="searchForm" layout="inline" :model="searchInfo">
       <a-form-model-item label="服务id" prop="serviceId">
-        <a-input v-model="searchInfo.serviceId" placeholder="服务id" />
+        <a-input v-model.trim="searchInfo.serviceId" placeholder="服务id" />
       </a-form-model-item>
       <a-form-model-item label="服务host" prop="serverHost">
-        <a-input v-model="searchInfo.serverHost" placeholder="服务host" />
+        <a-input v-model.trim="searchInfo.serverHost" placeholder="服务host" />
       </a-form-model-item>
       <a-form-model-item>
         <a-button type="primary" @click="onSearch">

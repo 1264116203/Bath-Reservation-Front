@@ -2,10 +2,10 @@
   <a-spin class="table-list-warp" :spinning="isLoading">
     <a-form-model ref="searchForm" layout="inline" :model="searchInfo">
       <a-form-model-item label="字典名称" prop="name">
-        <a-input v-model="searchInfo.name" placeholder="字典名称" />
+        <a-input v-model.trim="searchInfo.name" placeholder="字典名称" />
       </a-form-model-item>
       <a-form-model-item label="字典编码" prop="code">
-        <a-input v-model="searchInfo.code" placeholder="字典编码" />
+        <a-input v-model.trim="searchInfo.code" placeholder="字典编码" />
       </a-form-model-item>
       <a-form-model-item>
         <a-button type="primary" @click="onSearch">
