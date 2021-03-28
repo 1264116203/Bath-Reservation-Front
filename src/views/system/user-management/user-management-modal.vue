@@ -27,7 +27,7 @@
             <a-input
               v-model="formData.realName"
               placeholder="请输入用户姓名"
-              :disabled="isDisable"
+              :disabled="actionType !== 'creation'"
             />
           </a-form-model-item>
 
