@@ -104,7 +104,10 @@
                                :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }"
                                prop="path"
             >
-              <a-input v-model="formData.path" placeholder="请输入路由地址" :disabled="isDisable" />
+              <a-input
+                v-model="formData.path"
+                :placeholder="isDisable ? '' : '请输入路由地址'"
+                :disabled="isDisable" />
             </a-form-model-item>
           </template>
 
@@ -115,7 +118,7 @@
           >
             <a-textarea
               v-model="formData.remark"
-              placeholder="请输入备注信息"
+              :placeholder="isDisable ? '' : '请输入备注信息'"
               :auto-size="{ minRows: 2, maxRows: 6 }"
               :disabled="isDisable"
             />

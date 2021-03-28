@@ -57,7 +57,7 @@
           >
             <a-textarea
               v-model="formData.remark"
-              placeholder="请输入字典备注"
+              :placeholder="isDisable ? '' : '请输入字典备注'"
               :auto-size="{ minRows: 2, maxRows: 6 }"
               :disabled="isDisable"
             />

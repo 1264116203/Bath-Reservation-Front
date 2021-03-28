@@ -57,7 +57,7 @@
           <a-form-model-item label="手机号" prop="phone">
             <a-input
               v-model="formData.phone"
-              placeholder="请输入手机号"
+              :placeholder="isDisable ? '' : '请输入手机号'"
               type="phone"
               :disabled="isDisable"
             />
@@ -100,7 +100,7 @@
           >
             <a-input
               v-model="formData.email"
-              placeholder="请输入电子邮箱"
+              :placeholder="isDisable ? '' : '请输入电子邮箱'"
               type="email"
               :disabled="isDisable"
             />
@@ -163,13 +163,11 @@ export default {
         passwordAgain: [{ required: true, validator: this.validatePass }],
         name: [{ required: true, message: '请输入用户昵称' }],
         phone: [
-          { required: true, message: '请输入手机号' },
           { pattern: /^1[0-9]{10}$/, message: '请输入以1开头的11位手机号码' }
         ],
         currentRoles: [{ required: true, message: '请选择所属角色' }],
         currentDepts: [{ required: true, message: '请选择所属部门' }],
         email: [
-          { required: true, message: '请输入电子邮箱' },
           { pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/, message: '请输入正确的邮箱' }
         ]
       }

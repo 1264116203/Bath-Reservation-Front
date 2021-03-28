@@ -47,7 +47,7 @@
           <a-form-model-item label="组织机构类别" prop="deptCategory">
             <a-input
               v-model="formData.category"
-              placeholder="请输入组织机构类别"
+              :placeholder="isDisable ? '' : '请输入部门类别'"
               :disabled="isDisable"
             />
           </a-form-model-item>
@@ -100,7 +100,7 @@
               v-model="formData.remark"
               :auto-size="{ minRows: 2, maxRows: 6 }"
               :disabled="isDisable"
-              placeholder="请输入备注"
+              :placeholder="isDisable ? '' : '请输入备注'"
             />
           </a-form-model-item>
         </a-form-model>
@@ -141,10 +141,6 @@ export default {
         fullName: [
           { required: true, message: '请输入组织机构全称' },
           { whitespace: true, message: '组织机构全称不能为空' }
-        ],
-        category: [
-          { required: true, message: '请输入组织机构类别' },
-          { whitespace: true, message: '组织机构类别不能为空' }
         ],
         code: [
           { required: true, message: '请输入组织机构编码' },
