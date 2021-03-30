@@ -47,7 +47,7 @@
           <a-form-model-item label="组织机构类别" prop="deptCategory">
             <a-input
               v-model="formData.category"
-              :placeholder="isDisable ? '' : '请输入部门类别'"
+              :placeholder="isDisable ? '' : '请输入组织机构类别'"
               :disabled="isDisable"
             />
           </a-form-model-item>
