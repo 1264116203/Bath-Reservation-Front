@@ -36,6 +36,7 @@
     "babel-plugin-import": "^1.13.1",
     "babel-polyfill": "^6.26.0",
     "chai": "^4.1.2",
+    "cypress-xpath": "^1.6.2",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
