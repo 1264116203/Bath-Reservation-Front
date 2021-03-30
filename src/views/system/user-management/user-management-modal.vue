@@ -20,14 +20,14 @@
             <a-input
               v-model="formData.account"
               placeholder="登录账号"
-              :disabled="isDisable"
+              :disabled="actionType !== 'creation'"
             />
           </a-form-model-item>
           <a-form-model-item label="用户姓名" prop="realName">
             <a-input
               v-model="formData.realName"
               placeholder="请输入用户姓名"
-              :disabled="actionType !== 'creation'"
+              :disabled="isDisable"
             />
           </a-form-model-item>
 
