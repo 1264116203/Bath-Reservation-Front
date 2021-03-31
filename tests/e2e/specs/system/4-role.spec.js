@@ -70,8 +70,11 @@ context('Role', () => {
     cy.get('@roleGrant').then(() => {
       // 开始验证
       // 刷新页面
+      cy.intercept('/api/system/authority/menu-tree/current-user*').as('currentMenuTree')
       cy.reload()
-      cy.get('.ant-menu-submenu-selected').contains('字典管理').should('not.exist')
+      cy.wait('@currentMenuTree').then(() => {
+        cy.get('.ant-menu-submenu-selected').contains('字典管理').should('not.exist')
+      })
     })
   })
 
@@ -90,7 +93,7 @@ context('Role', () => {
       cy.get('.ant-menu-submenu-selected').contains('字典管理').should('be.visible')
     })
   })
-  
+
   it('role-create-01 正确的角色数据输入', () => {
     // 点击添加按钮
     cy.get('.ant-btn-primary').eq(1).click()
