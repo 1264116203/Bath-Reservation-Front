@@ -5,6 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
+    "cypress:open": "cypress open",
+    "cy:run": "node scripts/cypress.js",
     "lint": "vue-cli-service lint",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
@@ -14,6 +16,7 @@
     "ant-design-vue": "^1.7.1",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
+    "cypress-commands": "^1.1.0",
     "js-cookie": "^2.2.1",
     "moment": "^2.29.1",
     "nprogress": "^0.2.0",
@@ -37,6 +40,7 @@
     "babel-polyfill": "^6.26.0",
     "chai": "^4.1.2",
     "cypress-xpath": "^1.6.2",
+    "cypress-file-upload": "^5.0.3",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
@@ -45,6 +49,10 @@
     "eslint-plugin-vue": "^6.2.2",
     "less": "^3.0.4",
     "less-loader": "^6.0.0",
+    "mocha": "^8.3.2",
+    "mochawesome": "^6.2.2",
+    "mochawesome-merge": "^4.2.0",
+    "mochawesome-report-generator": "^5.2.0",
     "vue-template-compiler": "^2.6.11"
   }
 }
