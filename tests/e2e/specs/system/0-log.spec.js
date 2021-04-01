@@ -58,10 +58,7 @@ context('Log', () => {
       url: '/api/test/testApi/testException',
       failOnStatusCode: false
     })
-    cy.request({
-      url: '/api/system/test/testApi/testException',
-      failOnStatusCode: false
-    })
+
     cy.wait(1000)
 
     cy.visit('/#/monitor/log/error')
@@ -79,6 +76,4 @@ context('Log', () => {
     cy.get('input.ant-input-disabled').eq(5).should('have.value', 'GET')
     cy.get('input.ant-input-disabled').eq(6).should('have.value', '/test/testApi/testException')
   })
-
-
 })

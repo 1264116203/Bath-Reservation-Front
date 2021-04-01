@@ -7,7 +7,7 @@
   "numTestsKeptInMemory": 10,
   "reporter": "mochawesome",
   "reporterOptions": {
-    "reportDir": "cypress/results",
+    "reportDir": "tests/e2e/results",
     "overwrite": false,
     "html": false,
     "json": true
