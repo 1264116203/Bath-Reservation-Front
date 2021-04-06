@@ -107,7 +107,8 @@
               <a-input
                 v-model="formData.path"
                 :placeholder="isDisable ? '' : '请输入路由地址'"
-                :disabled="isDisable" />
+                :disabled="isDisable"
+              />
             </a-form-model-item>
           </template>
 
