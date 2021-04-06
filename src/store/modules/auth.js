@@ -1,4 +1,4 @@
-import { loginByPassword, requestRefreshToken } from '@/api/common/auth'
+import { loginByPassword, logout, requestRefreshToken } from '@/api/common/auth'
 import { getStore, setStore } from '@/util/browser-storage-util'
 import { getSelfInfo } from '@/api/common/user-self'
 
@@ -72,6 +72,7 @@ export default {
       commit('setRefreshToken', '')
       commit('setRoleList', [])
       commit('setAuthorityList', [])
+      commit('setUserInfo', {})
       commit('setAuthenticated', 'no')
       // 清空顶部菜单数据、左侧菜单的选择数据和标签页开启数据
       commit('top-menu/setCurrentTopMenuKey', '', { root: true })
@@ -86,8 +87,8 @@ export default {
       })
     },
     // 登出
-    logout({ commit, dispatch }) {
-      // await logout()
+    async logout({ dispatch }) {
+      await logout()
       dispatch('clearAll')
     }
   },

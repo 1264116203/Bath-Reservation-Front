@@ -27,9 +27,13 @@ export function requestRefreshToken(refreshToken) {
 
 /** 检查当前用户的登录状态 */
 export function checkAuthenticate() {
-  return axios.get('/api/auth/login-status/check', {
+  return axios.get('/api/auth/login-status', {
     validateStatus (status) {
       return (status >= 200 && status < 300) || status === 401
     }
   })
+}
+
+export function logout() {
+  return axios.post('/api/auth/logout')
 }
