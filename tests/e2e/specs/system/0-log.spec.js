@@ -50,7 +50,9 @@ context('Log', () => {
   it('错误日志', () => {
     cy.intercept('/api/system/log-error/pagination*').as('logErrorPagination')
     cy.intercept('/api/test/testApi/testException').as('testException')
+
     cy.toModule('默认顶部', '系统监控', '错误日志', false)
+
     cy.wait('@logErrorPagination').then(() => {
     })
 

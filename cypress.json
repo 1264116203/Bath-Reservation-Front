@@ -4,7 +4,7 @@
   "viewportHeight": 1080,
   "baseUrl": "http://localhost:8081",
   "experimentalStudio": true,
-  "numTestsKeptInMemory": 10,
+  "numTestsKeptInMemory": 50,
   "reporter": "mochawesome",
   "reporterOptions": {
     "reportDir": "tests/e2e/results",
