@@ -5,7 +5,7 @@ context('Authority', () => {
     cy.login('admin', 'admin')
     cy.intercept('/api/system/authority/query*').as('authorityQuery')
     cy.intercept('/api/system/authority/tree').as('authorityTree')
-    cy.toModule('系统管理', '系统管理', '权限与菜单管理', false)
+    cy.visit('/#/system/authority')
     cy.wait(['@authorityQuery', '@authorityTree']).then(() => {
     })
   })
@@ -187,7 +187,7 @@ context('Authority', () => {
     cy.intercept('/api/system/authority/tree').as('authorityTree')
     cy.intercept('/api/system/top-menu/list').as('topMenuList')
     cy.intercept('/api/system/role/tree').as('roleTree')
-    cy.toModule('系统管理', '系统管理', '角色及授权管理', false)
+    cy.visit('/#/authority/role')
     cy.wait(['@roleQuery', '@authorityTree', '@topMenuList', '@roleTree']).then(() => {
     })
 
@@ -196,7 +196,7 @@ context('Authority', () => {
       .find('a').contains('授予权限').click()
 
     cy.get('div.ant-modal-body').find('div.ant-spin-container > div')
-      .scrollTo('bottom', {duration: 200})
+      .scrollTo('bottom', { duration: 200 })
     cy.get('div.ant-modal-body').find('div.ant-spin-container > div')
       .find('span[title="测试菜单A"]').siblings('span.ant-tree-checkbox').click()
     cy.get('div.ant-modal-content').find('button.ant-btn-primary').click()
@@ -205,7 +205,7 @@ context('Authority', () => {
 
     cy.intercept('/api/system/top-menu/pagination').as('topMenuPagination')
     cy.intercept('/api/system/authority/tree').as('authorityTree')
-    cy.toModule('系统管理', '系统管理', '顶部菜单', false)
+    cy.visit('/#/system/topmenu')
     cy.wait(['@topMenuPagination', '@authorityTree']).then(() => {
     })
 
@@ -215,7 +215,7 @@ context('Authority', () => {
 
     cy.get('div.ant-modal-header').contains('下级菜单配置').parent().next()
       .find('div.ant-spin-container > div')
-      .scrollTo('bottom', {duration: 200})
+      .scrollTo('bottom', { duration: 200 })
     cy.get('div.ant-modal-header').contains('下级菜单配置').parent().next()
       .find('div.ant-spin-container > div')
       .find('span[title="测试菜单A"]').siblings('span.ant-tree-checkbox').click()
@@ -265,7 +265,7 @@ context('Authority', () => {
     cy.get('button.ant-modal-close').click()
 
     cy.intercept('/api/system/authority/current-user/menu-tree*').as('currentMenuTree')
-    cy.reload()
+    cy.toModule('系统管理', '系统管理', '权限与菜单管理', false)
     cy.wait('@currentMenuTree').then(() => {
       cy.get('ul.ant-menu-dark')
         .find('li.ant-menu-submenu-inline')

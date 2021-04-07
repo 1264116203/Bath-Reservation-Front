@@ -2,7 +2,7 @@ context('Dept', () => {
   beforeEach(() => {
     cy.login('admin', 'admin')
     cy.intercept('/api/system/dept/tree*').as('deptTree')
-    cy.toModule('系统管理', '系统管理', '部门管理', false)
+    cy.visit('/#/system/dept')
     cy.wait('@deptTree').then(() => {
     })
   })
@@ -43,16 +43,14 @@ context('Dept', () => {
     cy.get('div.ant-modal-content').find('span.ant-select').should('have.text', '顶级组织机构')
 
     cy.get('button.ant-modal-close').click()
-
-    cy.get('div.ant-tabs-tab').contains(' 部门管理 ').siblings().first().click()
-
+    cy.get('div.ant-tabs-tab').eq(1).contains(' 组织机构管理 ').siblings().first().click()
     cy.visit('/#/main/home')
 
     cy.reload()
     cy.intercept('/api/system/dept/tree*').as('deptTree')
     cy.intercept('/api/system/role/tree').as('roleTree')
     cy.intercept('/api/system/user/pagination*').as('userPagination')
-    cy.toModule('系统管理', '系统管理', '用户管理', false)
+    cy.visit('/#/system/user')
     cy.wait(['@deptTree', '@roleTree', '@userPagination']).then(() => {
     })
 
@@ -209,7 +207,7 @@ context('Dept', () => {
     cy.visit('/#/main/home')
 
     cy.intercept('/api/system/user/pagination*').as('userPagination')
-    cy.toModule('系统管理', '系统管理', '用户管理', false)
+    cy.visit('/#/system/user')
     cy.wait('@userPagination').then(() => {
     })
     cy.get('button').contains('添 加').parent().click()
@@ -278,12 +276,12 @@ context('Dept', () => {
 
     cy.get('button.ant-modal-close').click()
 
-    cy.get('div.ant-tabs-tab').contains(' 部门管理 ').siblings().first().click()
+    cy.get('div.ant-tabs-tab').contains(' 组织机构管理 ').siblings().first().click()
 
     cy.visit('/#/main/home')
 
     cy.intercept('/api/system/user/pagination*').as('userPagination')
-    cy.toModule('系统管理', '系统管理', '用户管理', false)
+    cy.visit('/#/system/user')
     cy.wait('@userPagination').then(() => {
     })
 

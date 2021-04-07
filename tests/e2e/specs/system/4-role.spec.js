@@ -5,7 +5,7 @@ context('Role', () => {
     cy.intercept('/api/system/role/tree').as('roleTree')
     cy.intercept('/api/system/authority/tree').as('authorityTree')
     cy.intercept('/api/system/top-menu/list').as('topMenuList')
-    cy.toModule('系统管理', '系统管理', '角色及授权管理', false)
+    cy.visit('/#/authority/role')
     cy.wait(['@query', '@roleTree', '@authorityTree', '@topMenuList']).then(() => {
     })
   })
@@ -73,6 +73,7 @@ context('Role', () => {
       cy.intercept('/api/system/authority/menu-tree/current-user*').as('currentMenuTree')
       cy.reload()
       cy.wait('@currentMenuTree').then(() => {
+        cy.toModule('系统管理', '系统管理', '角色及授权管理', false)
         cy.get('.ant-menu-submenu-selected').contains('字典管理').should('not.exist')
       })
     })
@@ -89,7 +90,7 @@ context('Role', () => {
     cy.get('@roleGrant').then(() => {
       // 开始验证
       // 刷新页面
-      cy.reload()
+      cy.toModule('系统管理', '系统管理', '角色及授权管理', false)
       cy.get('.ant-menu-submenu-selected').contains('字典管理').should('be.visible')
     })
   })
@@ -332,7 +333,7 @@ context('Role', () => {
 context('Role-1', () => {
   beforeEach(() => {
     cy.login('admin', 'admin')
-    cy.toModuleNoTopMenu('系统管理', '角色及授权管理', false)
+    cy.visit('/#/authority/role')
   })
 
   it('role-sonMenu-01 添加子集菜单 ', () => {

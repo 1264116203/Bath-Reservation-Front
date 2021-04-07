@@ -4,7 +4,7 @@ context('User', () => {
     cy.intercept('/api/system/user/pagination*').as('userPagination')
     cy.intercept('/api/system/role/tree').as('roleTree')
     cy.intercept('/api/system/dept/tree').as('deptTree')
-    cy.toModule('系统管理', '系统管理', '用户管理', false)
+    cy.visit('/#/system/user')
     cy.wait(['@userPagination', '@roleTree', '@deptTree']).then(() => {
     })
   })
@@ -389,7 +389,6 @@ context('User', () => {
   })
 
   it('user-delete-03 删除自身用户', () => {
-
     cy.get('tbody.ant-table-tbody').find('tr > td')
       .contains('admin').parent().find('td').last()
       .find('a').contains('删除').click()

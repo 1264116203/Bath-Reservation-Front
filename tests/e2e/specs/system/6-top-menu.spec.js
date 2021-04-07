@@ -4,16 +4,15 @@ context('TopMenu', () => {
 
     cy.intercept('/api/system/top-menu/pagination*').as('topMenuPagination')
     cy.intercept('/api/system/authority/menu-tree').as('authorityTree')
-    cy.toModule('系统管理', '系统管理', '顶部菜单', false)
+    cy.visit('/#/system/topmenu')
     cy.wait(['@topMenuPagination', '@authorityTree']).then(() => {
     })
   })
-  
   /* 新增顶部菜单信息 */
   it('create-top-menu', function () {
+    cy.toModule('系统管理', '系统管理', '顶部菜单', false)
     createTopMenuAndQuery()
     subsetMenuSettings()
-
   })
 
   /* 顶部菜单数据输入，滞空部分表单 */

@@ -1,7 +1,7 @@
 context('Dictionary', () => {
   beforeEach(() => {
     cy.login('admin', 'admin')
-    cy.toModule('系统管理', '系统管理', '字典管理', false)
+    cy.visit('/#/system/dict')
   })
 
   it('dictionary-select-01 输入非法查询字段查询字典信息', function () {

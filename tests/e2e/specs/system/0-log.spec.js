@@ -50,7 +50,7 @@ context('Log', () => {
   it('错误日志', () => {
     cy.intercept('/api/system/log-error/pagination*').as('logErrorPagination')
     cy.intercept('/api/test/testApi/testException').as('testException')
-
+    cy.visit('/#/monitor/log/error')
     cy.toModule('默认顶部', '系统监控', '错误日志', false)
 
     cy.wait('@logErrorPagination').then(() => {
@@ -62,9 +62,7 @@ context('Log', () => {
     })
 
     cy.wait(1000)
-
     cy.visit('/#/monitor/log/error')
-
     cy.intercept('/api/system/log-error/pagination*').as('logErrorPagination')
     cy.get('button.ant-btn-primary')
       .contains('搜 索').parent().click()

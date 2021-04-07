@@ -1,7 +1,7 @@
 context('SystemParameter', () => {
   beforeEach(() => {
     cy.login('admin', 'admin')
-    cy.toModule('系统管理', '系统管理', '系统参数', false)
+    cy.visit('/#/system/param')
   })
 
   it('systemParam-select-01 无输入查询字段查询系统参数信息', function () {
