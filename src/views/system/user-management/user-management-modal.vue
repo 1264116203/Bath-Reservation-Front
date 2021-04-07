@@ -11,8 +11,10 @@
     >
       <a-spin :spinning="spinning">
         <a-form-model
-          ref="form" class="d2-col-form"
+          ref="form"
+          class="d2-col-form"
           :model="formData"
+          :rules="rules"
           :label-col="{ span: 6 }"
           :wrapper-col="{ span: 18 }"
         >

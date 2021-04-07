@@ -10,7 +10,12 @@
       @ok="onOk"
     >
       <a-spin :spinning="spinning">
-        <a-form-model ref="form" layout="vertical" :model="formData">
+        <a-form-model
+          ref="form"
+          layout="vertical"
+          :model="formData"
+          :rules="rules"
+        >
           <a-form-model-item label="角色名称" prop="name">
             <a-input
               v-model="formData.name"
