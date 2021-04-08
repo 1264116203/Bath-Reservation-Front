@@ -137,18 +137,18 @@ export default {
     deptList: { type: Array, default: () => [] }
   },
   data() {
+    /** 验证密码 */
+    const validatePass = (rule, value, callback) => {
+      const password = this.formData.password
+      if (!value) {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== password) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
-      /** 验证密码 */
-      validatePass: (rule, value, callback) => {
-        const password = this.formData.password
-        if (!value) {
-          callback(new Error('请再次输入密码'))
-        } else if (value !== password) {
-          callback(new Error('两次输入密码不一致!'))
-        } else {
-          callback()
-        }
-      },
       rules: {
         account: [
           { required: true, message: '请输入登录账号' },
@@ -162,7 +162,7 @@ export default {
           { required: true, message: '请输入密码' },
           { pattern: /^[a-zA-Z].{5,17}$/, message: '以字母开头，长度在6~18之间' }
         ],
-        passwordAgain: [{ required: true, validator: this.validatePass }],
+        passwordAgain: [{ required: true, validator: validatePass }],
         name: [{ required: true, message: '请输入用户昵称' }],
         phone: [
           { pattern: /^1[0-9]{10}$/, message: '请输入以1开头的11位手机号码' }
