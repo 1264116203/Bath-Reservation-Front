@@ -54,8 +54,11 @@ context('SystemParameter', () => {
     cy.get('.ant-modal-body > .ant-form > :nth-child(2) > .ant-form-item-control-wrapper > .ant-form-item-control > .ant-form-item-children > .ant-input').type('paramOpen')
     // 在“参数键值”输入框输入“isOpen"
     cy.get(':nth-child(3) > .ant-form-item-control-wrapper > .ant-form-item-control > .ant-form-item-children > .ant-input').type('isOpen')
+
+    cy.intercept('/api/system/param/pagination*').as('systemParamPage')
     // 点击“确定”按钮
     cy.get('.ant-modal-footer > div > .ant-btn-primary').click()
+    cy.wait('@systemParamPage').then(() => {})
 
     // 开始验证
     cy.get('.ant-message').contains('数据插入成功').should('be.visible')

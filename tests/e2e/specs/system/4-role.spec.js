@@ -121,7 +121,7 @@ context('Role', () => {
     cy.get('.ant-modal-footer').contains('取 消').click()
   })
 
-  it.skip('role-create-02 角色数据输入，表单的部分数据置空', () => {
+  it('role-create-02 角色数据输入，表单的部分数据置空', () => {
     // 点击添加按钮
     cy.get('.ant-btn-primary').eq(1).click()
     //  输入角色名称
@@ -130,8 +130,8 @@ context('Role', () => {
     // 点击确定按妞
     cy.get('.ant-modal-footer').contains('确 定').click()
     // 验证提示错误的红色字体
-    cy.wait(800)
-    cy.get('.ant-message').contains('校验失败')
+    cy.wait(200)
+    cy.get('.ant-message').should('have.text', '校验未通过！')
     cy.get('.has-error').eq(0).contains('请输入角色编码').should('be.visible')
     cy.get('.has-error').eq(1).contains('请输入角色排序').should('be.visible')
     // 点击取消按钮
@@ -141,7 +141,7 @@ context('Role', () => {
     cy.get('tbody>tr').contains('testRole-02').should('not.exist')
   })
 
-  it.skip('role-create-03 进行非法的数据输入', () => {
+  it('role-create-03 进行非法的数据输入', () => {
     // 点击添加按钮
     cy.get('.ant-btn-primary').eq(1).click()
     //  输入角色名称
@@ -151,8 +151,8 @@ context('Role', () => {
     // 点击确定按妞
     cy.get('.ant-modal-footer').contains('确 定').click()
     // 验证错误的提示信息
-    cy.wait(800)
-    cy.get('.ant-message').contains('校验失败')
+    cy.wait(200)
+    cy.get('.ant-message').should('have.text', '校验未通过！')
     cy.get('.ant-form-explain').contains('只能是3-64个英文字符、数字或连字符')
     // 点击取消按钮
     cy.get('.ant-modal-footer').contains('取 消').click()
@@ -201,18 +201,18 @@ context('Role', () => {
     cy.get('.ant-modal-footer').contains('取 消').click()
   })
 
-  it.skip('role-update-02 角色数据输入，表单的部份数据置空', () => {
+  it('role-update-02 角色数据输入，表单的部份数据置空', () => {
     // 点击testRole所在行的“修改”按钮
     cy.get('tbody').contains('testRole').parent().find('td').last().find('div>a').eq(1)
       .click()
     // 将角色名称置空
-    cy.get('#roleName').clear()
+    cy.get('input[placeholder="请输入角色名称"]').clear()
     // 将角色排序置空
-    cy.get('#sort > div.ant-input-number-input-wrap > input').clear()
+    cy.get('input[placeholder="请输入角色排序"]').clear()
     // 点击确定
     cy.get('.ant-modal-footer').contains('确 定').click()
     // 开始验证提示的错误信息
-    cy.get('.ant-message').contains('校验失败').should('be.visible')
+    cy.get('.ant-message').should('have.text', '校验未通过！')
     cy.get('.ant-form-explain').eq(0).contains('请输入角色名称').should('be.visible')
     cy.get('.ant-form-explain').eq(1).contains('请输入角色排序').should('be.visible')
 
@@ -220,16 +220,16 @@ context('Role', () => {
     cy.get('.ant-modal-footer').contains('取 消').click()
   })
 
-  it.skip('role-update-03 进行非法的数据输入', () => {
+  it('role-update-03 进行非法的数据输入', () => {
     // 点击testRole所在行的“修改”按钮
     cy.get('tbody').contains('testRole').parent().find('td').last().find('div>a').eq(1)
       .click()
     // 将角色编码置空
-    cy.get('#roleAlias').clear().type('TR')
+    cy.get('input[placeholder="请输入角色编码"]').clear().type('TR')
     // 点击确定
     cy.get('.ant-modal-footer').contains('确 定').click()
     // 开始验证错误的提示信息
-    cy.get('.ant-message').contains('校验失败').should('be.visible')
+    cy.get('.ant-message').should('have.text', '校验未通过！')
     cy.get('.ant-form-explain').eq(0).contains('只能是3-64个英文字符、数字或连字符').should('be.visible')
     // 点击取消
     cy.get('.ant-modal-footer').contains('取 消').click()

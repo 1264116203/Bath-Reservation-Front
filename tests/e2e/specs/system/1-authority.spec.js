@@ -183,7 +183,7 @@ context('Authority', () => {
   })
 
   it('authority-update-01 修改权限菜单数据-前置条件', () => {
-    cy.intercept('/api/system/role/query').as('roleQuery')
+    cy.intercept('/api/system/role/query*').as('roleQuery')
     cy.intercept('/api/system/authority/tree').as('authorityTree')
     cy.intercept('/api/system/top-menu/list').as('topMenuList')
     cy.intercept('/api/system/role/tree').as('roleTree')
@@ -203,10 +203,10 @@ context('Authority', () => {
 
     cy.visit('/#/main/home')
 
-    cy.intercept('/api/system/top-menu/pagination').as('topMenuPagination')
-    cy.intercept('/api/system/authority/tree').as('authorityTree')
+    cy.intercept('/api/system/top-menu/pagination*').as('topMenuPagination')
+    cy.intercept('/api/system/authority/menu-tree').as('authorityMenuTree')
     cy.visit('/#/system/topmenu')
-    cy.wait(['@topMenuPagination', '@authorityTree']).then(() => {
+    cy.wait(['@topMenuPagination', '@authorityMenuTree']).then(() => {
     })
 
     cy.get('tbody.ant-table-tbody').find('tr > td')

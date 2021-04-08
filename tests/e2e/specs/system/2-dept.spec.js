@@ -44,24 +44,20 @@ context('Dept', () => {
 
     cy.get('button.ant-modal-close').click()
     cy.get('div.ant-tabs-tab').eq(1).contains(' 组织机构管理 ').siblings().first().click()
-    cy.visit('/#/main/home')
 
-    cy.reload()
-    cy.intercept('/api/system/dept/tree*').as('deptTree')
+    cy.intercept('/api/system/dept/tree').as('deptTree')
     cy.intercept('/api/system/role/tree').as('roleTree')
     cy.intercept('/api/system/user/pagination*').as('userPagination')
     cy.visit('/#/system/user')
-    cy.wait(['@deptTree', '@roleTree', '@userPagination']).then(() => {
-    })
+    cy.wait(['@deptTree', '@roleTree', '@userPagination']).then(() => {})
 
-    cy.intercept('/api/system/user').as('userById')
+    cy.intercept('/api/system/user/*').as('userById')
     cy.get('tbody.ant-table-tbody').find('tr > td').contains('boss').siblings().last()
       .contains('修改').click()
-    cy.wait('@userById').then(() => {
-    })
+    cy.wait('@userById').then(() => {})
 
     cy.get('span.ant-select-search__field__placeholder').last().parent().click('left')
-    cy.get('div#rc-tree-select-list_2').find('li').contains('测试部门A').click()
+    cy.get('div#rc-tree-select-list_3').find('li').contains('测试部门A').click()
     cy.get('span.ant-select-search__field__placeholder').last().parent().click('left')
 
     cy.intercept('/api/system/user/pagination*').as('userPagination')

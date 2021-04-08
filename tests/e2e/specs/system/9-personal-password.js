@@ -7,7 +7,7 @@ context('PersonalPassword', () => {
   })
 
   /* 滞空部分后更新密码 */
-  it.only('update-password-empty', () => {
+  it('update-password-empty', () => {
     cy.get('input[placeholder="请输入原密码"]').type('admin')
     cy.get('.ant-btn-primary').eq(1).click()
 

@@ -59,7 +59,7 @@ context('User', () => {
       .first().should('have.text', '1部1组')
   })
 
-  it.skip('user-create-02 表单部分数据滞空', () => {
+  it('user-create-02 表单部分数据滞空', () => {
     cy.get('button').contains('添 加').parent().click()
 
     cy.get('div.ant-modal-content').find('input[placeholder="登录账号"]').type('testA')
@@ -71,7 +71,7 @@ context('User', () => {
     cy.get('input[placeholder="请输入电子邮箱"]').click().type('testA@rcdcore.com')
     cy.get('div.ant-modal-content').find('button.ant-btn-primary').click()
     //  操作完毕开始进行验证
-    cy.get('.ant-message').should('have.text', '校验失败！')
+    cy.get('.ant-message').should('have.text', '校验未通过！')
 
     cy.get('input[placeholder="请输入用户姓名"]').parent().parent()
       .should('have.text', '请输入用户姓名')
@@ -79,15 +79,14 @@ context('User', () => {
     cy.get('input[placeholder="请再次输入密码"]').parent().parent().parent()
       .should('have.text', '请再次输入密码')
 
-    cy.get('span.ant-select-search__field__placeholder').last().parent().siblings()
+    cy.get('span.ant-select-search__field__placeholder').last().parent().parent().parent().next()
       .should('have.text', '请选择所属部门')
   })
 
-  it.skip('user-create-03 表单输入部分非法数据', () => {
+  it('user-create-03 表单输入部分非法数据', () => {
     cy.get('button').contains('添 加').parent().click()
 
     cy.get('input[placeholder="请输入密码"]').type('pwd123456')
-    cy.get('input[placeholder="请输入用户姓名"]').clear().type('张三AU')
     cy.get('input[placeholder="请输入用户昵称"]').type('昵称A')
     cy.get('input[placeholder="请输入用户姓名"]').type('张三ABCD')
     cy.get('input[placeholder="请再次输入密码"]').type('pwd12345')
@@ -100,7 +99,7 @@ context('User', () => {
     cy.get('div.ant-modal-content').find('button.ant-btn-primary').click()
 
     //  操作完毕开始进行验证
-    cy.get('.ant-message').should('have.text', '校验失败！')
+    cy.get('.ant-message').should('have.text', '校验未通过！')
 
     cy.get('input[placeholder="请输入用户姓名"]').parent().parent()
       .should('have.text', '姓名长度在2到5个字符')
@@ -173,39 +172,37 @@ context('User', () => {
     //  TODO 验证登录后
   })
 
-  it.skip('user-update-02 修改用户信息时滞空部分数据', () => {
+  it('user-update-02 修改用户信息时滞空部分数据', () => {
     cy.get('tbody.ant-table-tbody').find('tr').first()
       .find('td').last().find('a').contains('修改').click()
 
     cy.get('input[placeholder="请输入用户姓名"]').clear()
 
-    cy.get('span.ant-select-search__field__placeholder').first().click('left')
+    cy.get('span.ant-select-search__field__placeholder').first().parent().click('left')
     cy.get('div#rc-tree-select-list_1').find('li').contains('用户').click()
 
-    cy.get('span.ant-select-search__field__placeholder').last().click('left')
+    cy.get('span.ant-select-search__field__placeholder').last().parent().click('left')
     cy.get('div#rc-tree-select-list_2').find('li').contains('1部1组').click()
 
     cy.get('input[placeholder="请输入电子邮箱"]').click().clear()
 
     cy.get('div.ant-modal-content').find('button.ant-btn-primary').click()
 
-    cy.wait(1000)
+    cy.wait(200)
     //  操作完毕开始进行验证
-    cy.get('.ant-message').should('have.text', '校验失败！')
+    cy.get('.ant-message').should('have.text', '校验未通过！')
 
     cy.get('input[placeholder="请输入用户姓名"]').parent().parent()
       .should('have.text', '请输入用户姓名')
 
-    cy.get('span.ant-select-search__field__placeholder').first().parent().siblings()
+    cy.get('span.ant-select-search__field__placeholder').first().parent().parent().parent().next()
       .should('have.text', '请选择所属角色')
 
-    cy.get('span.ant-select-search__field__placeholder').last().parent().siblings()
+    cy.get('span.ant-select-search__field__placeholder').last().parent().parent().parent().next()
       .should('have.text', '请选择所属部门')
   })
 
-  it.skip('user-update-03 修改用户信息时部分数据改为非法数据', () => {
-    // cy.url().should('eq', '/#/system/user')
-
+  it('user-update-03 修改用户信息时部分数据改为非法数据', () => {
     cy.get('tbody.ant-table-tbody').find('tr').first()
       .find('td').last().find('a').contains('修改').click()
 
@@ -217,9 +214,9 @@ context('User', () => {
 
     cy.get('div.ant-modal-content').find('button.ant-btn-primary').click()
 
-    cy.wait(1000)
+    cy.wait(200)
     //  操作完毕开始进行验证
-    cy.get('.ant-message').should('have.text', '校验失败！')
+    cy.get('.ant-message').should('have.text', '校验未通过！')
 
     cy.get('input[placeholder="请输入用户姓名"]').parent().parent()
       .should('have.text', '姓名长度在2到5个字符')
@@ -337,7 +334,7 @@ context('User', () => {
     cy.get('div.ant-message').should('have.text', '校验失败！')
 
     cy.get('div.ant-modal-content').find('input[type="password"]').parent().parent().parent()
-      .should('have.text', '必须有数字或者字母并且长度在4~16之间')
+      .should('have.text', '以字母开头，长度在6~18之间')
   })
 
   it('user-delete-01 进行单个删除', () => {
