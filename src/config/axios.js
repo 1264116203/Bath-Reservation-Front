@@ -81,7 +81,7 @@ axios.interceptors.response.use(res => {
     const url = res.request.url || res.request.responseURL
     if (url.indexOf('/authenticate/refresh-token') !== -1) {
       return store.dispatch('auth/logout')
-        .then(() => router.push({ path: '/login' }))
+        .finally(() => router.push({ path: '/login' }))
     }
     if (res.data) {
       // 只有存在refreshToken时，再提交令牌重刷
@@ -92,7 +92,7 @@ axios.interceptors.response.use(res => {
         })
       } else {
         return store.dispatch('auth/logout')
-          .then(() => router.push({ path: '/login' }))
+          .finally(() => router.push({ path: '/login' }))
       }
     }
   }
