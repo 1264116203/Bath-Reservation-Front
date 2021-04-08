@@ -7,11 +7,10 @@ context('PersonalPassword', () => {
   })
 
   /* 滞空部分后更新密码 */
-  it('update-password-empty', () => {
+  it.only('update-password-empty', () => {
     cy.get('input[placeholder="请输入原密码"]').type('admin')
-    cy.get('.ant-tabs-tabpane-active > [data-v-037067ec=""] > .text-right > .ant-space > :nth-child(2) > .ant-btn').click()
+    cy.get('.ant-btn-primary').eq(1).click()
 
-    //  cy.get('.ant-tabs-tabpane-active > [data-v-037067ec=""] > .text-right > .ant-space > :nth-child(2) > .ant-btn').click()
     cy.get('.ant-message').wait(300).should('have.text', '校验失败！')
     cy.get('input[placeholder="请输入原密码"]').should('have.value', 'admin')
     cy.get('input[placeholder="请输入密码"]').should('have.value', '')
@@ -23,9 +22,9 @@ context('PersonalPassword', () => {
     cy.get('input[placeholder="请输入原密码"]').type('admin')
     cy.get('input[placeholder="请输入密码"]').type('abc')
     cy.get('input[placeholder="请再次输入密码"]').type('abc')
-    cy.get('.ant-tabs-tabpane-active > [data-v-037067ec=""] > .text-right > .ant-space > :nth-child(2) > .ant-btn').click()
+    cy.get('.ant-btn-primary').eq(1).click()
     cy.get('.ant-message').wait(300).should('have.text', '校验失败！')
-    cy.get('input[placeholder="请输入密码"]').parent().parent().parent().find('> div').wait(500).should('have.text', '必须有数字或者字母并且长度在4~16之间')
+    cy.get('input[placeholder="请输入密码"]').parent().parent().parent().find('> div').wait(500).should('have.text', '以字母开头，长度在6~18之间')
 
     cy.get('input[placeholder="请输入原密码"]').should('have.value', 'admin')
     cy.get('input[placeholder="请输入密码"]').should('have.value', 'abc')
@@ -34,7 +33,7 @@ context('PersonalPassword', () => {
 
   /* 直接更新密码 */
   it('update-password-direct', () => {
-    cy.get('.ant-tabs-tabpane-active > [data-v-037067ec=""] > .text-right > .ant-space > :nth-child(2) > .ant-btn').click()
+    cy.get('.ant-btn-primary').eq(1).click()
     cy.get('.ant-message').wait(300).should('have.text', '校验失败！')
     cy.get('input[placeholder="请输入密码"]').parent().parent().parent().find('> div').wait(500).should('have.text', '请输入密码')
     cy.get('input[placeholder="请再次输入密码"]').parent().parent().parent().find('> div').wait(500).should('have.text', '请再次输入密码')
@@ -55,7 +54,7 @@ context('PersonalPassword', () => {
     cy.get('input[placeholder="请输入原密码"]').type('admin')
     cy.get('input[placeholder="请输入密码"]').type('adminadmin')
     cy.get('input[placeholder="请再次输入密码"]').type('adminadmin')
-    cy.get('.ant-tabs-tabpane-active > [data-v-037067ec=""] > .text-right > .ant-space > :nth-child(2) > .ant-btn').click()
+    cy.get('.ant-btn-primary').eq(1).click()
     cy.get('.ant-message').wait(300).should('have.text', '修改密码成功!')
     cy.login('admin', 'adminadmin')
   })
