@@ -7,7 +7,7 @@ context('PersonalPassword', () => {
   })
 
   /* 滞空部分后更新密码 */
-  it('update-password-empty', () => {
+  it('update-password-empty 滞空部分后更新密码', () => {
     cy.get('input[placeholder="请输入原密码"]').type('admin')
     cy.get('.ant-btn-primary').eq(1).click()
 
@@ -18,7 +18,7 @@ context('PersonalPassword', () => {
   })
 
   /* 非法数据更新密码 */
-  it('update-password-illegal', () => {
+  it('update-password-illegal 非法数据更新密码', () => {
     cy.get('input[placeholder="请输入原密码"]').type('admin')
     cy.get('input[placeholder="请输入密码"]').type('abc')
     cy.get('input[placeholder="请再次输入密码"]').type('abc')
@@ -32,7 +32,7 @@ context('PersonalPassword', () => {
   })
 
   /* 直接更新密码 */
-  it('update-password-direct', () => {
+  it('update-password-direct 直接更新密码', () => {
     cy.get('.ant-btn-primary').eq(1).click()
     cy.get('.ant-message').wait(300).should('have.text', '校验失败！')
     cy.get('input[placeholder="请输入密码"]').parent().parent().parent().find('> div').wait(500).should('have.text', '请输入密码')
@@ -43,14 +43,14 @@ context('PersonalPassword', () => {
   })
 
   /* 查询个人密码数据 */
-  it('query-password', () => {
+  it('query-password 查询个人密码数据', () => {
     cy.get('input[placeholder="请输入原密码"]').should('have.value', '')
     cy.get('input[placeholder="请输入密码"]').should('have.value', '')
     cy.get('input[placeholder="请再次输入密码"]').should('have.value', '')
   })
 
   /* 正确更新密码 */
-  it('update-password', () => {
+  it('update-password 正确更新密码', () => {
     cy.get('input[placeholder="请输入原密码"]').type('admin')
     cy.get('input[placeholder="请输入密码"]').type('adminadmin')
     cy.get('input[placeholder="请再次输入密码"]').type('adminadmin')

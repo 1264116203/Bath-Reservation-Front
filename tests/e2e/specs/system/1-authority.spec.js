@@ -10,7 +10,7 @@ context('Authority', () => {
     })
   })
 
-  it('authority-create-01', () => {
+  it('authority-create-01 新增菜单权限数据 正确添加表单信息', () => {
     cy.get('button').contains('添 加').parent().click()
 
     cy.get('input[placeholder="请输入权限项名称"]').type('测试菜单A')

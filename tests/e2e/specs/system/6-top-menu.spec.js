@@ -9,14 +9,14 @@ context('TopMenu', () => {
     })
   })
   /* 新增顶部菜单信息 */
-  it('create-top-menu', function () {
+  it('create-top-menu 新增顶部菜单信息', function () {
     cy.toModule('系统管理', '系统管理', '顶部菜单', false)
     createTopMenuAndQuery()
     subsetMenuSettings()
   })
 
   /* 顶部菜单数据输入，滞空部分表单 */
-  it('create-top-menu-empty', function () {
+  it('create-top-menu-empty 顶部菜单数据输入，滞空部分表单', function () {
     /*  ==== Generated with Cypress Studio ====  */
     cy.get('.ant-space-item > .ant-btn-primary').click()
     cy.get('input[placeholder="请输入菜单名称"]').type('测试菜单A')
@@ -34,7 +34,7 @@ context('TopMenu', () => {
   })
 
   /* 进行非法数据输入 */
-  it('create-top-menu-illegal', function () {
+  it('create-top-menu-illegal 进行非法数据输入', function () {
     /*  ==== Generated with Cypress Studio ====  */
     cy.get('.ant-space-item > .ant-btn-primary').click()
     cy.get('input[placeholder="请输入菜单名称"]').type('测试菜单A')
@@ -52,14 +52,14 @@ context('TopMenu', () => {
   })
 
   /* 插入重复数据 */
-  it('create-top-menu-duplicate', function () {
+  it('create-top-menu-duplicate 插入重复数据', function () {
     createTopMenu()
     cy.get('div.ant-notification-notice-message').should('have.text', '请求失败')
       .next().should('have.text', '编码为test-code-A的顶部菜单记录已经存在！')
   })
 
   /* 修改顶部菜单信息 */
-  it('update-top-menu', function () {
+  it('update-top-menu 修改顶部菜单信息', function () {
     /*  ==== Generated with Cypress Studio ====  */
     cy.get('.ant-table-tbody').find('.ant-table-row ').contains('test-code-A').parent().find(' :nth-child(6) > :nth-child(1) > :nth-child(2)').click()
     cy.get('input[placeholder="请输入菜单名称"]').type('{selectall}{backspace}').type('测试菜单A-update')
@@ -80,7 +80,7 @@ context('TopMenu', () => {
   })
 
   /* 修改顶部菜单信息时不进行任何修改 */
-  it('update-top-menu-illegal', function () {
+  it('update-top-menu-illegal 修改顶部菜单信息时不进行任何修改', function () {
     /*  ==== Generated with Cypress Studio ====  */
     cy.get('.ant-table-tbody').find('.ant-table-row ').contains('test-code-A').parent().find(' :nth-child(6) > :nth-child(1) > :nth-child(2)').click()
     cy.get('.ant-modal-footer > div > .ant-btn-primary').click()
@@ -98,7 +98,7 @@ context('TopMenu', () => {
   })
 
   /* 验证修改查重 */
-  it('update-top-menu-duplicate', function () {
+  it('update-top-menu-duplicate 验证修改查重', function () {
     /*  ==== Generated with Cypress Studio ====  */
     cy.get('.ant-table-tbody').find('.ant-table-row ').contains('test-code-A-update')
       .siblings().last().find('a').contains('修改').click()
@@ -111,7 +111,7 @@ context('TopMenu', () => {
   })
 
   /* 删除顶部菜单信息 */
-  it('delete-top-menu', function () {
+  it('delete-top-menu 删除顶部菜单信息', function () {
     /*  ==== Generated with Cypress Studio ====  */
     cy.get('.ant-table-tbody').find('.ant-table-row ').contains('测试菜单A-update').parent().find(' :nth-child(6) > .ant-space > :nth-child(3)').click()
     cy.get('.ant-popover-buttons > .ant-btn-primary').click()
@@ -122,7 +122,7 @@ context('TopMenu', () => {
   })
 
   /* 批量删除顶部菜单信息 */
-  it('delete-all-top-menu', function () {
+  it('delete-all-top-menu 批量删除顶部菜单信息', function () {
     createTopMenu('测试菜单A', 'test-code-A')
     createTopMenu('测试菜单B', 'test-code-B')
     createTopMenu('测试菜单C', 'test-code-C')
@@ -136,7 +136,7 @@ context('TopMenu', () => {
     cy.get('.ant-table-tbody ').should('not.contain', '测试菜单C')
   })
   /* 模糊查询 */
-  it('fuzzy-query-top-menu', function () {
+  it('fuzzy-query-top-menu 模糊查询', function () {
     /*  ==== Generated with Cypress Studio ====  */
     cy.get(':nth-child(1) > .ant-form-item-control-wrapper > .ant-form-item-control > .ant-form-item-children > .ant-input').type('系统')
     cy.get(':nth-child(3) > .ant-col > .ant-form-item-control > .ant-form-item-children > .ant-btn').click()
@@ -145,7 +145,7 @@ context('TopMenu', () => {
   })
 
   /* 查询不存在的数据 */
-  it('fuzzy-query-top-menu-illgeal', function () {
+  it('fuzzy-query-top-menu-illgeal 查询不存在的数据', function () {
     cy.get(':nth-child(1) > .ant-form-item-control-wrapper > .ant-form-item-control > .ant-form-item-children > .ant-input').type('未命名菜单')
     cy.get(':nth-child(3) > .ant-col > .ant-form-item-control > .ant-form-item-children > .ant-btn').click()
     cy.get('.ant-empty-description').should('have.text', '暂无数据')

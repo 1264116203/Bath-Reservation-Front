@@ -11,7 +11,7 @@ context('PersonalInfo', () => {
   })
 
   /* 正确更新数据 */
-  it('update-personal-information', function () {
+  it('update-personal-information 正确更新数据', function () {
     cy.get('.ant-space-item').prev().click()
     cy.get('.ant-upload>input').attachFile('OIP.jpeg')
     cy.get('input[placeholder="请输入用户真实姓名"]').clear().type('测试管理员')
@@ -28,7 +28,7 @@ context('PersonalInfo', () => {
   })
 
   /* 滞空部分更新数据 */
-  it('update-personal-information-empty', function () {
+  it('update-personal-information-empty 滞空部分更新数据', function () {
     cy.get('.ant-space-item').prev().click()
 
     cy.get('.ant-upload>input').attachFile('OIP.jpeg')
@@ -46,7 +46,7 @@ context('PersonalInfo', () => {
   })
 
   /* 非法更新数据 */
-  it('update-personal-information-illegal', function () {
+  it('update-personal-information-illegal 非法更新数据', function () {
     cy.get('.ant-space-item').prev().click()
 
     cy.get('.ant-upload>input').attachFile('OIP.jpeg')
@@ -65,7 +65,7 @@ context('PersonalInfo', () => {
     cy.get('input[placeholder="请输入电子邮箱"]').should('have.value', 'abc')
   })
   /* 不保存直接更新数据 */
-  it('update-personal-information-direct', function () {
+  it('update-personal-information-direct 不保存直接更新数据', function () {
     cy.get('.ant-btn-primary').wait(400).click()
     cy.get('.ant-message').wait(300).should('have.text', '修改信息成功!')
     cy.get('.ant-upload>div img').should('have.class', 'avatar-img')
@@ -75,7 +75,7 @@ context('PersonalInfo', () => {
     cy.get('input[placeholder="请输入电子邮箱"]').should('have.value', '17800000000@qq.com')
   })
 
-  it('query-personal-infomation', function () {
+  it('query-personal-infomation 查询个人信息', function () {
     cy.get('input[placeholder="请输入用户真实姓名"]').should('have.value', '测试管理员')
     cy.get('input[placeholder="请输入用户名（昵称）"]').should('have.value', '管理员-test')
     cy.get('input[placeholder="请输入手机号"]').should('have.value', '17800000000')
@@ -83,7 +83,7 @@ context('PersonalInfo', () => {
   })
 
   /* 正确更新数据 */
-  it('update-personal-information-backup', function () {
+  it('update-personal-information-backup 正确更新数据', function () {
     cy.get('.ant-space-item').prev().click()
 
     cy.get('.ant-upload>input').attachFile('OIP.jpeg')
