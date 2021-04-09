@@ -6,8 +6,8 @@ context('PersonalPassword', () => {
     cy.get('.ant-card-body > .ant-tabs > .ant-tabs-bar > .ant-tabs-nav-container > .ant-tabs-nav-wrap > .ant-tabs-nav-scroll > .ant-tabs-nav > :nth-child(1) > [aria-selected="false"]').click()
   })
 
-  /* 滞空部分后更新密码 */
-  it('update-password-empty 滞空部分后更新密码', () => {
+  /* 置空部分后更新密码 */
+  it('update-password-empty 置空部分后更新密码', () => {
     cy.get('input[placeholder="请输入原密码"]').type('admin')
     cy.get('.ant-btn-primary').eq(1).click()
 

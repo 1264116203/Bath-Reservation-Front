@@ -85,7 +85,7 @@ context('Authority', () => {
       .next().should('have.text', 999)
   })
 
-  it('authority-create-02 新增菜单权限数据，滞空部分表单数据', () => {
+  it('authority-create-02 新增菜单权限数据，置空部分表单数据', () => {
     cy.get('button').contains('添 加').parent().click()
     cy.get('input.ant-input-number-input').clear().type(0)
     cy.get('div.ant-modal-content').find('button.ant-btn-primary').click()

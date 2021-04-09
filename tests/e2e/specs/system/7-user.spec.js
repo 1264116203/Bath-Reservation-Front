@@ -59,7 +59,7 @@ context('User', () => {
       .first().should('have.text', '1部1组')
   })
 
-  it('user-create-02 表单部分数据滞空', () => {
+  it('user-create-02 表单部分数据置空', () => {
     cy.get('button').contains('添 加').parent().click()
 
     cy.get('div.ant-modal-content').find('input[placeholder="登录账号"]').type('testA')
@@ -172,7 +172,7 @@ context('User', () => {
     //  TODO 验证登录后
   })
 
-  it('user-update-02 修改用户信息时滞空部分数据', () => {
+  it('user-update-02 修改用户信息时置空部分数据', () => {
     cy.get('tbody.ant-table-tbody').find('tr').first()
       .find('td').last().find('a').contains('修改').click()
 

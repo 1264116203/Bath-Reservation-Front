@@ -73,7 +73,7 @@ context('Dept', () => {
       .contains(' 测试部门A ').should('be.exist')
   })
 
-  it('dept-create-02 新增组织机构，滞空部分表单数据', () => {
+  it('dept-create-02 新增组织机构，置空部分表单数据', () => {
     cy.get('button').contains('添 加').parent().click()
     cy.get('input[placeholder="请输入组织机构名称"]').type('测试部门B')
     cy.get('input.ant-input-number-input').clear()

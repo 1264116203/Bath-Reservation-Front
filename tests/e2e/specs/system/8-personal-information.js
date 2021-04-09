@@ -27,8 +27,8 @@ context('PersonalInfo', () => {
     cy.get('input[placeholder="请输入电子邮箱"]').should('have.value', '17800000000@qq.com')
   })
 
-  /* 滞空部分更新数据 */
-  it('update-personal-information-empty 滞空部分更新数据', function () {
+  /* 置空部分更新数据 */
+  it('update-personal-information-empty 置空部分更新数据', function () {
     cy.get('.ant-space-item').prev().click()
 
     cy.get('.ant-upload>input').attachFile('OIP.jpeg')

@@ -15,8 +15,8 @@ context('TopMenu', () => {
     subsetMenuSettings()
   })
 
-  /* 顶部菜单数据输入，滞空部分表单 */
-  it('create-top-menu-empty 顶部菜单数据输入，滞空部分表单', function () {
+  /* 顶部菜单数据输入，置空部分表单 */
+  it('create-top-menu-empty 顶部菜单数据输入，置空部分表单', function () {
     /*  ==== Generated with Cypress Studio ====  */
     cy.get('.ant-space-item > .ant-btn-primary').click()
     cy.get('input[placeholder="请输入菜单名称"]').type('测试菜单A')
