@@ -61,6 +61,7 @@ import {
 } from '@/api/system/dept'
 import EditModal from './dept-management-modal'
 import { ListMixin } from '@/mixins/common-crud-mixin'
+import TreeListMixin from '@/mixins/tree-list-mixin'
 import { deepSort } from '@/util/tree-util'
 
 const columns = [
@@ -90,7 +91,7 @@ const columns = [
 export default {
   name: 'DeptList',
   components: { EditModal },
-  mixins: [ListMixin],
+  mixins: [ListMixin, TreeListMixin],
   data () {
     return {
       searchInfo: {
@@ -138,7 +139,6 @@ export default {
           reject(new Error('请选择至少一条数据'))
           return
         }
-
         this.$confirm({
           title: '系统提示',
           content: '确定将选择数据删除?',
@@ -146,7 +146,7 @@ export default {
           okType: 'danger',
           cancelText: '否',
           onOk: async () => {
-            await this.axiosBatchDelete(this.selectedRowKeys.join(','))
+            await this.axiosBatchDelete(this.getSelectedParentKeys().join(','))
             this.$message.success('操作成功!')
             resolve()
             await this.fetchTableData()

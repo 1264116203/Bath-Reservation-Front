@@ -112,6 +112,7 @@ import {
 import { listAll as listAllTopMenu, listByRoleId } from '@/api/common/top-menu'
 import { deepForEach, deepSort } from '@/util/tree-util'
 import { ListMixin } from '@/mixins/common-crud-mixin'
+import TreeListMixin from '@/mixins/tree-list-mixin'
 import EditModal from './role-management-modal'
 
 const columns = [
@@ -138,7 +139,7 @@ const columns = [
 export default {
   name: 'RoleManagementIndex',
   components: { EditModal },
-  mixins: [ListMixin],
+  mixins: [ListMixin, TreeListMixin],
   data() {
     return {
       /** 搜索的条件  角色名称 角色编码 */
@@ -237,7 +238,7 @@ export default {
           okType: 'danger',
           cancelText: '否',
           onOk: async () => {
-            await this.axiosBatchDelete(this.selectedRowKeys.join(','))
+            await this.axiosBatchDelete(this.getSelectedParentKeys().join(','))
             this.$message.success('操作成功!')
             resolve()
             this.roleListForModal = await listAllRoleWithTree()

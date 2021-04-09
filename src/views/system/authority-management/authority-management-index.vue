@@ -61,6 +61,7 @@
 import { queryWithTree, batchRemove, removeById } from '@/api/system/authority'
 import EditModal from './authority-management-modal'
 import { ListMixin } from '@/mixins/common-crud-mixin'
+import TreeListMixin from '@/mixins/tree-list-mixin'
 import { deepSort } from '@/util/tree-util'
 import { listAllWithTreeForTreeSelect as listAllAuthorityWithTree } from '@/api/common/authrority'
 
@@ -107,7 +108,7 @@ const columns = [
 export default {
   name: 'AuthorityManagementIndex',
   components: { EditModal },
-  mixins: [ListMixin],
+  mixins: [ListMixin, TreeListMixin],
   data () {
     return {
       searchInfo: {
@@ -164,7 +165,7 @@ export default {
           okType: 'danger',
           cancelText: '否',
           onOk: async () => {
-            await this.axiosBatchDelete(this.selectedRowKeys.join(','))
+            await this.axiosBatchDelete(this.getSelectedParentKeys().join(','))
             this.$message.success('操作成功!')
             resolve()
             await this.fetchTableData()
