@@ -1,4 +1,4 @@
-<template>
+\<template>
   <div class="no-border-margin-tabs">
     <a-tabs v-model="activeTabKey"
             type="editable-card"
