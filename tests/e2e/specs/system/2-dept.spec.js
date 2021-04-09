@@ -436,7 +436,7 @@ context('Dept', () => {
     cy.get('div.ant-modal-body').find('button.ant-btn-danger').click()
 
     cy.get('div.ant-notification-notice-message').should('have.text', '请求失败')
-      .next().should('have.text', '服务器内部错误。')
+      .next().should('have.text', '请先删除记录的子节点！')
 
     cy.get('div.ant-modal-body').find('button').first().click()
 
