@@ -24,7 +24,7 @@
               <router-view class="router-view" />
             </keep-alive>
           </div>
-          <iframe-components v-show="isIframeShow" ref="iframeComponentRef" />
+          <iframe-component v-show="isIframeShow" ref="iframeComponentRef" />
         </div>
       </a-layout-content>
       <layout-footer v-if="showFooter" />
@@ -38,12 +38,12 @@ import TopLogo from './top-logo'
 import SideMenu from './side-menu/side-menu'
 import TopBanner from './top-banner/top-banner'
 import Tabs from './tabs/tabs'
-import IframeComponents from './iframe/iframe-component'
+import IframeComponent from './iframe/iframe-component'
 import LayoutFooter from './layout-footer'
 
 export default {
   name: 'LayoutIndex',
-  components: { TopLogo, TopBanner, SideMenu, LayoutFooter, Tabs, IframeComponents },
+  components: { TopLogo, TopBanner, SideMenu, LayoutFooter, Tabs, IframeComponent },
   computed: {
     ...mapState('common', ['showTopBanner', 'showTab', 'showSideMenu', 'showFooter']),
     isIframeShow: {
