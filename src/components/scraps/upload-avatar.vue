@@ -5,7 +5,7 @@
     list-type="picture-card"
     class="avatar-uploader"
     :action="action"
-    :headers="{ Authorization: 'Bearer ' + accessToken }"
+    :headers="requestHeader"
     :show-upload-list="false"
     :before-upload="beforeUpload"
     @change="onChangeAvatar"
@@ -27,6 +27,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getCsrfToken } from '@/util/auth-util'
 
 export default {
   name: 'UploadAvatar',
@@ -43,13 +44,20 @@ export default {
   data() {
     return {
       loading: false,
-      avatarFile: null
+      avatarFile: null,
+      csrfToken: ''
     }
   },
   computed: {
     ...mapState('auth', ['accessToken']),
     imageUrl() {
       return this.defaultImageUrl
+    },
+    requestHeader() {
+      return {
+        Authorization: 'Bearer ' + this.accessToken,
+        'X-XSRF-TOKEN': this.csrfToken
+      }
     }
   },
   methods: {
@@ -69,6 +77,7 @@ export default {
       }
     },
     beforeUpload(file) {
+      this.csrfToken = getCsrfToken()
       const isJPG = file.type === 'image/jpeg'
       if (!isJPG) {
         this.$message.error('You can only upload JPG file!')
