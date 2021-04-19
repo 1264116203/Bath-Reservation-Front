@@ -31,7 +31,7 @@
     <div class="text-right">
       <a-space>
         <a-button @click="onCancel">
-          清除
+          清空
         </a-button>
         <a-button type="primary" @click="onSubmit">
           提交
