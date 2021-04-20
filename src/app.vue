@@ -8,12 +8,26 @@
 
 <script>
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
+import { getStore } from '@/util/browser-storage-util'
 export default {
   name: 'App',
   components: {},
   data () {
     return {
       zhCN
+    }
+  },
+  mounted() {
+    window.addEventListener('focus', this.refreshWhenUserChanged)
+  },
+  methods: {
+    refreshWhenUserChanged() {
+      const userInfo = this.$store.state.auth.userInfo
+      const realUser = getStore('userInfo')
+
+      if (userInfo?.id !== realUser?.id) {
+        document.location.reload(true)
+      }
     }
   }
 }

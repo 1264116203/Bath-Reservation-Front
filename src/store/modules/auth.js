@@ -21,6 +21,7 @@ export default {
   },
   mutations: {
     setUserInfo(state, payload) {
+      setStore('userInfo', payload, 'local')
       state.userInfo = payload
     },
     setRoleList(state, payload) {
