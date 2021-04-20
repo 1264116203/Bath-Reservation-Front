@@ -4,7 +4,6 @@ import axios from 'axios'
 import store from '@/store'
 import router from '@/router'
 import { serialize } from '@/util/utils'
-import { getCsrfToken } from '@/util/auth-util'
 import { getMessageFromHttpStatusCode } from '@/util/http-status-message'
 
 const env = process.env
@@ -37,10 +36,6 @@ axios.interceptors.request.use(config => {
    * doNotMessage - 是否不显示默认的浮动式notification
    */
   const meta = (config.meta || {})
-  // 在发送增、删、改请求时，携带Csrf令牌，防止Csrf攻击
-  if (config.method !== 'get' && config.method !== 'option' && getCsrfToken()) {
-    config.headers['XSRF-TOKEN'] = getCsrfToken()
-  }
   // 如果不想在请求失败时弹出notification，设置此属性为真
   if (meta.doNotMessage) {
     config.headers['X-DONT-MESSAGE'] = 'YES'
@@ -79,7 +74,11 @@ axios.interceptors.response.use(res => {
   if (status === 401) {
     // 首先判断请求是不是源自刷新令牌的拉取
     const url = res.request.url || res.request.responseURL
-    if (url.indexOf('/authenticate/refresh-token') !== -1) {
+    if (/\/api\/auth\/logout$/.test(url)) {
+      store.commit('auth/setAuthenticated', 'no')
+      return router.push({ path: '/login' })
+    }
+    if (/\/api\/authenticate\/refresh-token$/.test(url)) {
       return store.dispatch('auth/logout')
         .finally(() => router.push({ path: '/login' }))
     }

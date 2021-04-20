@@ -84,10 +84,6 @@ export default {
         .then(() => {
           this.$router.push('/login')
         })
-        .catch(err => {
-          this.$message.error('注销失败！')
-          console.error(err)
-        })
     },
     doBackHome () {
       this.$router.push('/main/home')
