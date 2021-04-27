@@ -82,7 +82,7 @@ axios.interceptors.response.use(res => {
       return store.dispatch('auth/logout')
         .finally(() => router.push({ path: '/login' }))
     }
-    if (res.data) {
+    if (res.data && res.data.title === 'invalid jwt token') {
       // 只有存在refreshToken时，再提交令牌重刷
       const refreshToken = store.state.auth.refreshToken
       if (refreshToken) {
