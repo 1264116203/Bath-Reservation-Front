@@ -5,7 +5,7 @@ import { getSelfInfo } from '@/api/common/user-self'
 export default {
   state: {
     // 用户信息
-    userInfo: {},
+    userInfo: getStore('userInfo') || {},
     // 角色列表
     roleList: [],
     // 权限项列表

@@ -82,14 +82,19 @@ export default {
     }
   },
   computed: {
-    ...mapState('auth', ['lastPageBeforeLogin'])
+    ...mapState('auth', ['lastPageBeforeLogin', 'userInfo'])
   },
   created() {
   },
   mounted() {
+    console.log('mounted')
+    if (this.userInfo && this.userInfo.id) {
+      // 当进入登录页时，会直接删除已登录的信息
+      this.clearAll()
+    }
   },
   methods: {
-    ...mapActions('auth', ['loginByPassword']),
+    ...mapActions('auth', ['loginByPassword', 'clearAll']),
     ...mapMutations('auth', ['setLastPageBeforeLogin']),
     showPassword() {
       this.passwordType === ''

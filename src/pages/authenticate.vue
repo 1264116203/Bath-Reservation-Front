@@ -12,7 +12,7 @@
 import { checkAuthenticate } from '@/api/common/auth'
 import store from '@/store'
 import { getSelfInfo } from '@/api/common/user-self'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   name: 'Authenticate',
@@ -23,6 +23,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('auth', ['refreshToken']),
     authenticated: {
       get() {
         return this.$store.getters.authenticated
@@ -36,6 +37,11 @@ export default {
     }
   },
   async created() {
+    if (!this.refreshToken) {
+      this.authenticated = 'no'
+      await this.$router.push('/login')
+      return
+    }
     try {
       const res = await checkAuthenticate()
       const status = res.status
@@ -63,7 +69,7 @@ export default {
     } catch (err) {
       console.error(err)
       this.gotError = true
-      this.authenticated = false
+      this.authenticated = 'no'
       this.tip = (
         <div>
           <div style="margin-bottom: 1rem;">鉴定用户身份时发生了未知异常，似乎没能连接至后端服务！</div>
