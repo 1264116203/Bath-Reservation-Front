@@ -75,6 +75,10 @@ const columns = [
     dataIndex: 'message'
   },
   {
+    title: '用户ID',
+    dataIndex: 'userId'
+  },
+  {
     title: '操作',
     dataIndex: 'operation',
     width: '24em',

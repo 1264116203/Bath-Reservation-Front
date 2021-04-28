@@ -1,126 +1,170 @@
 <template>
-  <a-spin class="table-list-warp" :spinning="isLoading">
-    <a-form-model ref="searchForm" layout="inline" :model="searchInfo">
-      <!-- 在此处添加查询条件 -->
-      <!--<a-form-model-item label="参数名称" prop="paramName">
-        <a-input v-model="searchInfo.paramName" placeholder="参数名称" />
-      </a-form-model-item>-->
-
-      <a-form-model-item>
-        <a-button type="primary" @click="onSearch">
-          搜索
-        </a-button>
-      </a-form-model-item>
-
-      <a-form-model-item>
-        <a-button @click="clearSearch">
-          清空
-        </a-button>
-      </a-form-model-item>
-    </a-form-model>
-
-    <a-space class="operation-btn-container">
-      <a-button type="primary" @click="openCreateModal">
-        添加
-      </a-button>
-      <a-button type="danger" @click="commonBatchDelete">
-        批量删除
-      </a-button>
-    </a-space>
-
-    <a-table
-      bordered
-      row-key="id"
-      :columns="columns"
-      :pagination="pagination"
-      :data-source="tableData"
-      :row-selection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-      @change="onTableChange"
+  <div>
+  <a-modal
+      v-model="isModalVisible"
+      width="600px"
+      :title="title"
+      :mask-closable="false"
+      :after-close="reset"
+      @cancel="onCancel"
+      @ok="onOk"
     >
-      <template #momentTime="text">
-        <span>{{ text | momentTime }}</span>
-      </template>
-      <template #operation="text, record">
-        <a-space class="editable-row-operations">
-          <a @click="openDetailModal(record.id)">
-            <a-icon type="eye" /> 查看
-          </a>
-          <a @click="openUpdateModal(record.id)">
-            <a-icon type="edit" /> 修改
-          </a>
-          <a-popconfirm title="是否删除?" @confirm="commonDeleteRecord(record.id)">
-            <a>
-              <a-icon type="delete" /> 删除
-            </a>
-          </a-popconfirm>
-        </a-space>
-      </template>
-    </a-table>
-
-    <edit-modal ref="modal" @ok="onModalOk" />
-  </a-spin>
+      <a-form-model ref="form" :model="formData" layout="vertical">
+        <a-form-model-item
+          label="预订的浴池房间号" prop="bathRoomNum"
+          :rules="[{ required: true, message: '请输入预订的浴池房间号' }]"
+        >
+          <a-input-number
+            v-model="formData.bathRoomNum"
+            :setp="1"
+            :min="0"
+            :max="100"
+            :disabled="isDisable"
+            style="width: 100%;"
+            allow-clear
+            placeholder="请输入预订的浴池房间号"
+          />
+        </a-form-model-item>
+        <a-form-model-item
+          label="预约开始时间" prop="startTime"
+          :rules="[{ required: true, message: '请输入预约开始时间' }]"
+        >
+          <a-date-picker
+            v-model="formData.startTime"
+            :show-time="{ format: 'HH:mm' }"
+            :disabled="isDisable"
+            style="width: 100%;"
+            allow-clear
+            placeholder="请选择预约开始时间"
+          />
+        </a-form-model-item>
+        <a-form-model-item
+          label="加时时间" prop="extraTime"
+          :rules="[{ required: true, message: '请输入加时时间' }]"
+        >
+          <a-input-number
+            v-model="formData.extraTime"
+            :setp="1"
+            :min="0"
+            :max="100"
+            :disabled="isDisable"
+            style="width: 100%;"
+            allow-clear
+            placeholder="请输入加时时间"
+          />
+        </a-form-model-item>
+        <a-form-model-item
+          label="备注" prop="remark"
+          :rules="[{ required: true, message: '请输入备注' }]"
+        >
+          <a-input
+            v-model="formData.remark"
+            :disabled="isDisable"
+            placeholder="请输入备注"
+          />
+        </a-form-model-item>
+      </a-form-model>
+    </a-modal>
+  </div>
 </template>
-<script>
-import {
-  listWithPagination,
-  batchRemove,
-  removeById
-} from '@/api/reservation/br-order-submit'
-import EditModal from './br-order-submit-modal'
-import { ListMixin } from '@/mixins/common-crud-mixin'
 
-const columns = [
-  {
-    title: '预订的浴池房间号',
-    dataIndex: 'bathRoomNum'
-  },
-  {
-    title: '预约开始时间',
-    dataIndex: 'startTime',
-    scopedSlots: { customRender: 'momentTime' }
-  },
-  {
-    title: '加时时间',
-    dataIndex: 'extraTime'
-  },
-  {
-    title: '备注',
-    dataIndex: 'remark'
-  },
-  {
-    title: '操作',
-    dataIndex: 'operation',
-    width: '24em',
-    scopedSlots: { customRender: 'operation' }
+<script>
+import moment from 'moment'
+import {
+  add,
+  update,
+  getById
+} from '@/api/reservation/br-order-submit'
+import { ModalMixin } from '@/mixins/common-crud-mixin'
+
+/** 表单数据的模板，预定义后将更加一目了然 */
+class FormData {
+  constructor() {
+    /** 预订的浴池房间号 */
+    this.bathRoomNum = null
+    /** 预约开始时间 */
+    this.startTime = null
+    /** 加时时间 */
+    this.extraTime = null
+    /** 备注 */
+    this.remark = ''
   }
-]
+}
 
 export default {
-  name: 'BrOrderSubmitList',
-  components: { EditModal },
-  mixins: [ListMixin],
-  data() {
-    return {
-      /** 查询条件 */
-      searchInfo: {},
-      columns
-    }
-  },
+  name: 'BrOrderSubmitEdit',
+  mixins: [ModalMixin],
   created() {
     this.setup({
-      axiosListWithPagination: listWithPagination,
-      axiosDeleteRecord: removeById,
-      axiosBatchDelete: batchRemove
+      FormDataClass: FormData,
+      axiosGetById: getById,
+      axiosAdd: add,
+      axiosUpdate: update
     })
-    this.fetchTableData()
+  },
+  methods: {
+    /**
+     * 根据id拉取服务器数据
+     *
+     * 如果不符合需求可以重写本方法
+     * @return {Promise<void>}
+     */
+    async getRecordById() {
+      this.spinning = true
+      try {
+        const data = (await this.axiosGetById(this.id)).data
+        for (const key of Object.keys(data)) {
+          if (key.endsWith('Time') && data[key]) {
+            data[key] = moment(data[key])
+          }
+        }
+        this.formData = data
+      } catch (error) {
+        console.error(error)
+      }
+      this.spinning = false
+    },
+    /**
+     * 生成添加数据时要使用的数据
+     *
+     * 默认直接传入this.formData
+     * 如果不符合需求可以重写
+     *
+     * @return {*} 要推送给服务器的数据
+     */
+    getFormDataForCreation() {
+      const formData = ({ ...this.formData })
+      for (const key of Object.keys(formData)) {
+        if (key.endsWith('Time') && formData[key] && formData[key].valueOf) {
+          formData[key] = formData[key].valueOf()
+        }
+      }
+      return formData
+    },
+    /**
+     * 生成更新数据时要使用的数据
+     *
+     * 默认直接传入this.formData + this.id
+     * 如果不符合需求可以重写
+     *
+     * @return {*} 要推送给服务器的数据
+     */
+    getFormDataForUpdate() {
+      const formData = {
+        id: this.id,
+        ...this.formData
+      }
+      for (const key of Object.keys(formData)) {
+        if (key.endsWith('Time') && formData[key] && formData[key].valueOf) {
+          formData[key] = formData[key].valueOf()
+        }
+      }
+      return formData
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
-  .grant-tree-container {
-    height: 50vh;
-    min-height: 300px;
-    overflow-y: auto
-  }
+
 </style>

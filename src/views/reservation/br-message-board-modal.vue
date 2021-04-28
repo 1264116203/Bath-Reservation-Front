@@ -20,6 +20,16 @@
             placeholder="请输入顾客留言"
           />
         </a-form-model-item>
+        <a-form-model-item
+          label="用户ID" prop="userId"
+          :rules="[{ required: true, message: '请输入用户ID' }]"
+        >
+          <a-input
+            v-model="formData.userId"
+            :disabled="isDisable"
+            placeholder="请输入用户ID"
+          />
+        </a-form-model-item>
       </a-form-model>
     </a-modal>
   </div>
@@ -39,6 +49,8 @@ class FormData {
   constructor() {
     /** 顾客留言 */
     this.message = ''
+    /** 用户ID */
+    this.userId = ''
   }
 }
 

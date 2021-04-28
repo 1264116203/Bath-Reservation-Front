@@ -49,7 +49,7 @@ export default [
     },
     component: () => import(/* webpackChunkName: "base" */ '@/views/reservation/br-parameter-index')
   }, {
-    path: '/reservation/brInfo',
+    path: '/reservation/brReservationInfo',
     name: '浴间预订时段详情信息',
     meta: {
       isTab: true,
