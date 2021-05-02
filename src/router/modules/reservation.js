@@ -48,13 +48,5 @@ export default [
       isAuth: true
     },
     component: () => import(/* webpackChunkName: "base" */ '@/views/reservation/br-parameter-index')
-  }, {
-    path: '/reservation/brReservationInfo',
-    name: '浴间预订时段详情信息',
-    meta: {
-      isTab: true,
-      isAuth: true
-    },
-    component: () => import(/* webpackChunkName: "base" */ '@/views/reservation/br-reservation-info-index')
   }
 ]

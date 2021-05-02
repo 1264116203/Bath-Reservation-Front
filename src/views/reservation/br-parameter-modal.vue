@@ -11,6 +11,46 @@
     >
       <a-form-model ref="form" :model="formData" layout="vertical">
         <a-form-model-item
+          label="门店名称" prop="storeName"
+          :rules="[{ required: true, message: '请输入门店名称' }]"
+        >
+          <a-input
+            v-model="formData.storeName"
+            :disabled="isDisable"
+            placeholder="请输入门店名称"
+          />
+        </a-form-model-item>
+        <a-form-model-item
+          label="门店地址" prop="storeAddress"
+          :rules="[{ required: true, message: '请输入门店地址' }]"
+        >
+          <a-input
+            v-model="formData.storeAddress"
+            :disabled="isDisable"
+            placeholder="请输入门店地址"
+          />
+        </a-form-model-item>
+        <a-form-model-item
+          label="门店电话" prop="storeTelephone"
+          :rules="[{ required: true, message: '请输入门店电话' }]"
+        >
+          <a-input
+            v-model="formData.storeTelephone"
+            :disabled="isDisable"
+            placeholder="请输入门店电话"
+          />
+        </a-form-model-item>
+        <a-form-model-item
+          label="门店图标" prop="storePhoto"
+          :rules="[{ required: true, message: '请输入门店图标' }]"
+        >
+          <a-input
+            v-model="formData.storePhoto"
+            :disabled="isDisable"
+            placeholder="请输入门店图标"
+          />
+        </a-form-model-item>
+        <a-form-model-item
           label="营业状态(0:已休息，1:正在营业)" prop="openingState"
           :rules="[{ required: true, message: '请输入营业状态(0:已休息，1:正在营业)' }]"
         >
@@ -80,6 +120,18 @@
           />
         </a-form-model-item>
         <a-form-model-item
+          label="清洁时间" prop="cleanTime"
+          :rules="[{ required: true, message: '请输入清洁时间' }]"
+        >
+          <a-date-picker
+            v-model="formData.cleanTime"
+            :disabled="isDisable"
+            style="width: 100%;"
+            allow-clear
+            placeholder="请选择清洁时间"
+          />
+        </a-form-model-item>
+        <a-form-model-item
           label="营业时间(最早可预定时间)" prop="openingTime"
           :rules="[{ required: true, message: '请输入营业时间(最早可预定时间)' }]"
         >
@@ -130,6 +182,14 @@ import { ModalMixin } from '@/mixins/common-crud-mixin'
 /** 表单数据的模板，预定义后将更加一目了然 */
 class FormData {
   constructor() {
+    /** 门店名称 */
+    this.storeName = ''
+    /** 门店地址 */
+    this.storeAddress = ''
+    /** 门店电话 */
+    this.storeTelephone = ''
+    /** 门店图标 */
+    this.storePhoto = ''
     /** 营业状态(0:已休息，1:正在营业) */
     this.openingState = null
     /** 预订起步时长 */
@@ -140,6 +200,8 @@ class FormData {
     this.extraPackagePrice = null
     /** 洗浴时间加量包时长 */
     this.extraPackageTime = null
+    /** 清洁时间 */
+    this.cleanTime = null
     /** 营业时间(最早可预定时间) */
     this.openingTime = null
     /** 打烊时间（理想状况下，订单完成时间不可超过打烊时间） */

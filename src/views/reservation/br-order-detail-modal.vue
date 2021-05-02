@@ -11,8 +11,8 @@
     >
       <a-form-model ref="form" :model="formData" layout="vertical">
         <a-form-model-item
-          label="订单状态（0：未支付，1：已支付，2：已完成，3：已取消，4：已退款）" prop="orderState"
-          :rules="[{ required: true, message: '请输入订单状态（0：未支付，1：已支付，2：已完成，3：已取消，4：已退款）' }]"
+          label="订单状态（0：未完成，1：已完成，2：已取消）" prop="orderState"
+          :rules="[{ required: true, message: '请输入订单状态（0：未完成，1：已完成，2：已取消）' }]"
         >
           <a-input-number
             v-model="formData.orderState"
@@ -22,7 +22,7 @@
             :disabled="isDisable"
             style="width: 100%;"
             allow-clear
-            placeholder="请输入订单状态（0：未支付，1：已支付，2：已完成，3：已取消，4：已退款）"
+            placeholder="请输入订单状态（0：未完成，1：已完成，2：已取消）"
           />
         </a-form-model-item>
         <a-form-model-item
@@ -95,16 +95,6 @@
           />
         </a-form-model-item>
         <a-form-model-item
-          label="支付方式" prop="payMethod"
-          :rules="[{ required: true, message: '请输入支付方式' }]"
-        >
-          <a-input
-            v-model="formData.payMethod"
-            :disabled="isDisable"
-            placeholder="请输入支付方式"
-          />
-        </a-form-model-item>
-        <a-form-model-item
           label="备注" prop="remark"
           :rules="[{ required: true, message: '请输入备注' }]"
         >
@@ -146,7 +136,7 @@ import { ModalMixin } from '@/mixins/common-crud-mixin'
 /** 表单数据的模板，预定义后将更加一目了然 */
 class FormData {
   constructor() {
-    /** 订单状态（0：未支付，1：已支付，2：已完成，3：已取消，4：已退款） */
+    /** 订单状态（0：未完成，1：已完成，2：已取消） */
     this.orderState = null
     /** 预订的浴池房间号 */
     this.bathRoomNum = null
@@ -158,8 +148,6 @@ class FormData {
     this.endTime = null
     /** 订单价格 */
     this.price = null
-    /** 支付方式 */
-    this.payMethod = ''
     /** 备注 */
     this.remark = ''
     /** 预约码 */

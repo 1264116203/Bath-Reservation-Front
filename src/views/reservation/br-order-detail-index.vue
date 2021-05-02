@@ -71,7 +71,7 @@ import { ListMixin } from '@/mixins/common-crud-mixin'
 
 const columns = [
   {
-    title: '订单状态（0：未支付，1：已支付，2：已完成，3：已取消，4：已退款）',
+    title: '订单状态（0：未完成，1：已完成，2：已取消）',
     dataIndex: 'orderState'
   },
   {
@@ -96,10 +96,6 @@ const columns = [
     title: '订单价格',
     dataIndex: 'price',
     scopedSlots: { customRender: 'momentTime' }
-  },
-  {
-    title: '支付方式',
-    dataIndex: 'payMethod'
   },
   {
     title: '备注',

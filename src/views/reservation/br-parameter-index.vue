@@ -71,6 +71,22 @@ import { ListMixin } from '@/mixins/common-crud-mixin'
 
 const columns = [
   {
+    title: '门店名称',
+    dataIndex: 'storeName'
+  },
+  {
+    title: '门店地址',
+    dataIndex: 'storeAddress'
+  },
+  {
+    title: '门店电话',
+    dataIndex: 'storeTelephone'
+  },
+  {
+    title: '门店图标',
+    dataIndex: 'storePhoto'
+  },
+  {
     title: '营业状态(0:已休息，1:正在营业)',
     dataIndex: 'openingState'
   },
@@ -89,6 +105,10 @@ const columns = [
   {
     title: '洗浴时间加量包时长',
     dataIndex: 'extraPackageTime'
+  },
+  {
+    title: '清洁时间',
+    dataIndex: 'cleanTime'
   },
   {
     title: '营业时间(最早可预定时间)',

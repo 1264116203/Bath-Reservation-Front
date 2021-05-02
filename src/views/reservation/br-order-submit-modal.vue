@@ -11,6 +11,31 @@
     >
       <a-form-model ref="form" :model="formData" layout="vertical">
         <a-form-model-item
+          label="用户ID" prop="userId"
+          :rules="[{ required: true, message: '请输入用户ID' }]"
+        >
+          <a-input
+            v-model="formData.userId"
+            :disabled="isDisable"
+            placeholder="请输入用户ID"
+          />
+        </a-form-model-item>
+        <a-form-model-item
+          label="预订的浴池房间号" prop="bathRoomNum"
+          :rules="[{ required: true, message: '请输入预订的浴池房间号' }]"
+        >
+          <a-input-number
+            v-model="formData.bathRoomNum"
+            :setp="1"
+            :min="0"
+            :max="100"
+            :disabled="isDisable"
+            style="width: 100%;"
+            allow-clear
+            placeholder="请输入预订的浴池房间号"
+          />
+        </a-form-model-item>
+        <a-form-model-item
           label="预约开始时间" prop="startTime"
           :rules="[{ required: true, message: '请输入预约开始时间' }]"
         >
@@ -36,6 +61,16 @@
             placeholder="请选择预约结束时间"
           />
         </a-form-model-item>
+        <a-form-model-item
+          label="备注" prop="remark"
+          :rules="[{ required: true, message: '请输入备注' }]"
+        >
+          <a-input
+            v-model="formData.remark"
+            :disabled="isDisable"
+            placeholder="请输入备注"
+          />
+        </a-form-model-item>
       </a-form-model>
     </a-modal>
   </div>
@@ -47,21 +82,27 @@ import {
   add,
   update,
   getById
-} from '@/api/reservation/br-reservation-info'
+} from '@/api/reservation/br-order-submit'
 import { ModalMixin } from '@/mixins/common-crud-mixin'
 
 /** 表单数据的模板，预定义后将更加一目了然 */
 class FormData {
   constructor() {
+    /** 用户ID */
+    this.userId = ''
+    /** 预订的浴池房间号 */
+    this.bathRoomNum = null
     /** 预约开始时间 */
     this.startTime = null
     /** 预约结束时间 */
     this.endTime = null
+    /** 备注 */
+    this.remark = ''
   }
 }
 
 export default {
-  name: 'BrReservationInfoEdit',
+  name: 'BrOrderSubmitEdit',
   mixins: [ModalMixin],
   created() {
     this.setup({

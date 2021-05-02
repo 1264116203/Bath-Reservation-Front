@@ -3,7 +3,7 @@
  */
 export default {
   // 网站标题
-  title: 'RCDCore',
+  title: '浴池预订',
   // 网站简写
   subtitle: 'R',
   // 配置主键,目前用于存储

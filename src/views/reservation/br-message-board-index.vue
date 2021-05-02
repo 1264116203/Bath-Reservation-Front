@@ -42,15 +42,14 @@
       </template>
       <template #operation="text, record">
         <a-space class="editable-row-operations">
-          <a @click="openDetailModal(record.id)">
-            <a-icon type="eye" /> 查看
-          </a>
           <a @click="openUpdateModal(record.id)">
-            <a-icon type="edit" /> 修改
+            <a-icon type="edit" />
+            修改
           </a>
           <a-popconfirm title="是否删除?" @confirm="commonDeleteRecord(record.id)">
             <a>
-              <a-icon type="delete" /> 删除
+              <a-icon type="delete" />
+              删除
             </a>
           </a-popconfirm>
         </a-space>
@@ -70,13 +69,14 @@ import EditModal from './br-message-board-modal'
 import { ListMixin } from '@/mixins/common-crud-mixin'
 
 const columns = [
+
+  {
+    title: '用户账户名',
+    dataIndex: 'account'
+  },
   {
     title: '顾客留言',
     dataIndex: 'message'
-  },
-  {
-    title: '用户ID',
-    dataIndex: 'userId'
   },
   {
     title: '操作',
@@ -109,9 +109,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .grant-tree-container {
-    height: 50vh;
-    min-height: 300px;
-    overflow-y: auto
-  }
+.grant-tree-container {
+  height: 50vh;
+  min-height: 300px;
+  overflow-y: auto
+}
 </style>

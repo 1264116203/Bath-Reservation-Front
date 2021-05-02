@@ -1,6 +1,6 @@
 <template>
   <div>
-  <a-modal
+    <a-modal
       v-model="isModalVisible"
       width="600px"
       :title="title"
@@ -11,6 +11,16 @@
     >
       <a-form-model ref="form" :model="formData" layout="vertical">
         <a-form-model-item
+          label="用户账户名" prop="account"
+          :rules="[{ required: true, message: '请输入用户账户名' }]"
+        >
+          <a-input
+            v-model="formData.account"
+            :disabled="isDisable"
+            placeholder="请输入用户账户名"
+          />
+        </a-form-model-item>
+        <a-form-model-item
           label="顾客留言" prop="message"
           :rules="[{ required: true, message: '请输入顾客留言' }]"
         >
@@ -18,16 +28,6 @@
             v-model="formData.message"
             :disabled="isDisable"
             placeholder="请输入顾客留言"
-          />
-        </a-form-model-item>
-        <a-form-model-item
-          label="用户ID" prop="userId"
-          :rules="[{ required: true, message: '请输入用户ID' }]"
-        >
-          <a-input
-            v-model="formData.userId"
-            :disabled="isDisable"
-            placeholder="请输入用户ID"
           />
         </a-form-model-item>
       </a-form-model>
@@ -47,10 +47,12 @@ import { ModalMixin } from '@/mixins/common-crud-mixin'
 /** 表单数据的模板，预定义后将更加一目了然 */
 class FormData {
   constructor() {
-    /** 顾客留言 */
-    this.message = ''
     /** 用户ID */
     this.userId = ''
+    /** 用户账户名 */
+    this.account = ''
+    /** 顾客留言 */
+    this.message = ''
   }
 }
 

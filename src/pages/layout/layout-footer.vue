@@ -1,7 +1,6 @@
 <template>
   <a-layout-footer class="view-layout-footer">
-    <div>RCDCore-Front V2.0</div>
-    <div>烟台东方瑞创达电子科技有限公司北京分公司 &copy;2021</div>
+    <div>浴池预订系统</div>
   </a-layout-footer>
 </template>
 
