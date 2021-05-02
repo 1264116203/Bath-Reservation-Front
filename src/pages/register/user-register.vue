@@ -7,20 +7,33 @@
       layout="horizontal"
       @keyup.enter.native="handleLogin"
     >
+      用户名：
       <a-form-model-item prop="username">
         <a-input
-          v-model="formData.username"
-          placeholder="请输入用户名"
+          v-model="formData.account"
+          placeholder="请设置用户名"
           auto-complete="off"
         >
           <a-icon slot="prefix" type="user" />
         </a-input>
       </a-form-model-item>
+      手机号：
+      <a-form-model-item prop="phone">
+        <a-input
+          v-model="formData.phone"
+          placeholder="请设置手机号"
+          auto-complete="off"
+        >
+          <a-icon slot="prefix" type="user" />
+        </a-input>
+      </a-form-model-item>
+
+      密码：
       <a-form-model-item prop="password">
         <a-input
           v-model="formData.password"
           :type="passwordType"
-          placeholder="请输入密码"
+          placeholder="请设置密码"
           auto-complete="off"
         >
           <a-icon slot="suffix" :type="passwordType ? 'eye' : 'eye-invisible'" @click="showPassword" />
@@ -43,12 +56,8 @@
       </a-form-model-item>-->
       <div>
         <a-button type="primary" block @click.native.prevent="handleLogin">
-          登录
+          提交
         </a-button>
-        <br>
-        <br>
-        <a-button type="primary" block @click.native.prevent="handleRegister">
-          去注册        </a-button>
       </div>
     </a-form-model>
   </a-spin>
@@ -62,7 +71,7 @@ const devUsername = process.env.NODE_ENV === 'development' ? 'admin' : ''
 const devPassword = process.env.NODE_ENV === 'development' ? 'admin' : ''
 
 export default {
-  name: 'UserLogin',
+  name: 'UserRegister',
   props: [],
   data() {
     return {
@@ -74,9 +83,10 @@ export default {
         pwdEncoded: application.pwdEncoded
       },
       loginRules: {
-        username: [
+        account: [
           { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
+        phone: [{ pattern: /^1[0-9]{10}$/, message: '请输入以1开头的11位手机号码' }],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 1, message: '密码长度最少为6位', trigger: 'blur' }
@@ -86,19 +96,14 @@ export default {
     }
   },
   computed: {
-    ...mapState('auth', ['lastPageBeforeLogin', 'userInfo'])
+    ...mapState('auth', ['lastPageBeforeLogin'])
   },
   created() {
   },
   mounted() {
-    console.log('mounted')
-    if (this.userInfo && this.userInfo.id) {
-      // 当进入登录页时，会直接删除已登录的信息
-      this.clearAll()
-    }
   },
   methods: {
-    ...mapActions('auth', ['loginByPassword', 'clearAll']),
+    ...mapActions('auth', ['loginByPassword']),
     ...mapMutations('auth', ['setLastPageBeforeLogin']),
     showPassword() {
       this.passwordType === ''
