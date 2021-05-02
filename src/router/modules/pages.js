@@ -1,4 +1,5 @@
 import LoginIndex from '@/pages/login/login-index'
+import RegisterIndex from '@/pages/register/register-index'
 import AuthenticatePage from '@/pages/authenticate'
 
 const pages = [
@@ -10,6 +11,10 @@ const pages = [
     path: '/login',
     name: '登录页',
     component: LoginIndex
+  }, {
+    path: '/register',
+    name: '注册页',
+    component: RegisterIndex
   }, {
     path: '/hot-refresh',
     name: '热刷新',
