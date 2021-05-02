@@ -11,6 +11,16 @@
     >
       <a-form-model ref="form" :model="formData" layout="vertical">
         <a-form-model-item
+          label="订单所属账户" prop="account"
+          :rules="[{ required: true, message: '请输入订单所属账户' }]"
+        >
+          <a-input
+            v-model="formData.account"
+            :disabled="isDisable"
+            placeholder="请输入订单所属账户"
+          />
+        </a-form-model-item>
+        <a-form-model-item
           label="订单状态（0：未完成，1：已完成，2：已取消）" prop="orderState"
           :rules="[{ required: true, message: '请输入订单状态（0：未完成，1：已完成，2：已取消）' }]"
         >
@@ -26,18 +36,13 @@
           />
         </a-form-model-item>
         <a-form-model-item
-          label="预订的浴池房间号" prop="bathRoomNum"
-          :rules="[{ required: true, message: '请输入预订的浴池房间号' }]"
+          label="预订的浴池房间ID" prop="roomId"
+          :rules="[{ required: true, message: '请输入预订的浴池房间ID' }]"
         >
-          <a-input-number
-            v-model="formData.bathRoomNum"
-            :setp="1"
-            :min="0"
-            :max="100"
+          <a-input
+            v-model="formData.roomId"
             :disabled="isDisable"
-            style="width: 100%;"
-            allow-clear
-            placeholder="请输入预订的浴池房间号"
+            placeholder="请输入预订的浴池房间ID"
           />
         </a-form-model-item>
         <a-form-model-item
@@ -51,21 +56,6 @@
             style="width: 100%;"
             allow-clear
             placeholder="请选择预约开始时间"
-          />
-        </a-form-model-item>
-        <a-form-model-item
-          label="洗浴加量包数量" prop="extraPackageNumber"
-          :rules="[{ required: true, message: '请输入洗浴加量包数量' }]"
-        >
-          <a-input-number
-            v-model="formData.extraPackageNumber"
-            :setp="1"
-            :min="0"
-            :max="100"
-            :disabled="isDisable"
-            style="width: 100%;"
-            allow-clear
-            placeholder="请输入洗浴加量包数量"
           />
         </a-form-model-item>
         <a-form-model-item
@@ -85,13 +75,15 @@
           label="订单价格" prop="price"
           :rules="[{ required: true, message: '请输入订单价格' }]"
         >
-          <a-date-picker
+          <a-input-number
             v-model="formData.price"
-            :show-time="{ format: 'HH:mm' }"
+            :setp="1"
+            :min="0"
+            :max="100"
             :disabled="isDisable"
             style="width: 100%;"
             allow-clear
-            placeholder="请选择订单价格"
+            placeholder="请输入订单价格"
           />
         </a-form-model-item>
         <a-form-model-item
@@ -136,14 +128,14 @@ import { ModalMixin } from '@/mixins/common-crud-mixin'
 /** 表单数据的模板，预定义后将更加一目了然 */
 class FormData {
   constructor() {
+    /** 订单所属账户 */
+    this.account = ''
     /** 订单状态（0：未完成，1：已完成，2：已取消） */
     this.orderState = null
-    /** 预订的浴池房间号 */
-    this.bathRoomNum = null
+    /** 预订的浴池房间ID */
+    this.roomId = ''
     /** 预约开始时间 */
     this.startTime = null
-    /** 洗浴加量包数量 */
-    this.extraPackageNumber = null
     /** 预约结束时间 */
     this.endTime = null
     /** 订单价格 */

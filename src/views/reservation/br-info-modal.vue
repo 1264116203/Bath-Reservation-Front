@@ -11,18 +11,13 @@
     >
       <a-form-model ref="form" :model="formData" layout="vertical">
         <a-form-model-item
-          label="浴间号" prop="roomNumber"
-          :rules="[{ required: true, message: '请输入浴间号' }]"
+          label="浴间名" prop="roomName"
+          :rules="[{ required: true, message: '请输入浴间名' }]"
         >
-          <a-input-number
-            v-model="formData.roomNumber"
-            :setp="1"
-            :min="0"
-            :max="100"
+          <a-input
+            v-model="formData.roomName"
             :disabled="isDisable"
-            style="width: 100%;"
-            allow-clear
-            placeholder="请输入浴间号"
+            placeholder="请输入浴间名"
           />
         </a-form-model-item>
         <a-form-model-item
@@ -41,13 +36,13 @@
           />
         </a-form-model-item>
         <a-form-model-item
-          label="浴间图片" prop="photo"
-          :rules="[{ required: true, message: '请输入浴间图片' }]"
+          label="浴间图片地址" prop="photo"
+          :rules="[{ required: true, message: '请输入浴间图片地址' }]"
         >
           <a-input
             v-model="formData.photo"
             :disabled="isDisable"
-            placeholder="请输入浴间图片"
+            placeholder="请输入浴间图片地址"
           />
         </a-form-model-item>
         <a-form-model-item
@@ -77,11 +72,11 @@ import { ModalMixin } from '@/mixins/common-crud-mixin'
 /** 表单数据的模板，预定义后将更加一目了然 */
 class FormData {
   constructor() {
-    /** 浴间号 */
-    this.roomNumber = null
+    /** 浴间名 */
+    this.roomName = ''
     /** 浴间当前状态（0：可预定，1：清洁中，2：已预订，3：使用中，4：故障） */
     this.roomState = null
-    /** 浴间图片 */
+    /** 浴间图片地址 */
     this.photo = ''
     /** 备注 */
     this.remark = ''

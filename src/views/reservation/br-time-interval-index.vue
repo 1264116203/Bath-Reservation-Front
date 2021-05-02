@@ -65,19 +65,11 @@ import {
   listWithPagination,
   batchRemove,
   removeById
-} from '@/api/reservation/br-order-submit'
-import EditModal from './br-order-submit-modal'
+} from '@/api/reservation/br-time-interval'
+import EditModal from './br-time-interval-modal'
 import { ListMixin } from '@/mixins/common-crud-mixin'
 
 const columns = [
-  {
-    title: '用户ID',
-    dataIndex: 'userId'
-  },
-  {
-    title: '预订的浴池房间号',
-    dataIndex: 'bathRoomNum'
-  },
   {
     title: '预约开始时间',
     dataIndex: 'startTime',
@@ -89,10 +81,6 @@ const columns = [
     scopedSlots: { customRender: 'momentTime' }
   },
   {
-    title: '备注',
-    dataIndex: 'remark'
-  },
-  {
     title: '操作',
     dataIndex: 'operation',
     width: '24em',
@@ -101,7 +89,7 @@ const columns = [
 ]
 
 export default {
-  name: 'BrOrderSubmitList',
+  name: 'BrTimeIntervalList',
   components: { EditModal },
   mixins: [ListMixin],
   data() {

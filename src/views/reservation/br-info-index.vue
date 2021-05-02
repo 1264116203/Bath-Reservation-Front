@@ -71,15 +71,15 @@ import { ListMixin } from '@/mixins/common-crud-mixin'
 
 const columns = [
   {
-    title: '浴间号',
-    dataIndex: 'roomNumber'
+    title: '浴间名',
+    dataIndex: 'roomName'
   },
   {
     title: '浴间当前状态（0：可预定，1：清洁中，2：已预订，3：使用中，4：故障）',
     dataIndex: 'roomState'
   },
   {
-    title: '浴间图片',
+    title: '浴间图片地址',
     dataIndex: 'photo'
   },
   {

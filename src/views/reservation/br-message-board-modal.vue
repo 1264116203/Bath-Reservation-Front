@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-modal
+  <a-modal
       v-model="isModalVisible"
       width="600px"
       :title="title"
@@ -47,8 +47,6 @@ import { ModalMixin } from '@/mixins/common-crud-mixin'
 /** 表单数据的模板，预定义后将更加一目了然 */
 class FormData {
   constructor() {
-    /** 用户ID */
-    this.userId = ''
     /** 用户账户名 */
     this.account = ''
     /** 顾客留言 */

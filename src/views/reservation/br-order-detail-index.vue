@@ -43,14 +43,17 @@
       <template #operation="text, record">
         <a-space class="editable-row-operations">
           <a @click="openDetailModal(record.id)">
-            <a-icon type="eye" /> 查看
+            <a-icon type="eye" />
+            查看
           </a>
           <a @click="openUpdateModal(record.id)">
-            <a-icon type="edit" /> 修改
+            <a-icon type="edit" />
+            修改
           </a>
           <a-popconfirm title="是否删除?" @confirm="commonDeleteRecord(record.id)">
             <a>
-              <a-icon type="delete" /> 删除
+              <a-icon type="delete" />
+              删除
             </a>
           </a-popconfirm>
         </a-space>
@@ -71,21 +74,21 @@ import { ListMixin } from '@/mixins/common-crud-mixin'
 
 const columns = [
   {
+    title: '订单所属账户',
+    dataIndex: 'account'
+  },
+  {
     title: '订单状态（0：未完成，1：已完成，2：已取消）',
     dataIndex: 'orderState'
   },
   {
-    title: '预订的浴池房间号',
-    dataIndex: 'bathRoomNum'
+    title: '预订的浴池房间ID',
+    dataIndex: 'roomId'
   },
   {
     title: '预约开始时间',
     dataIndex: 'startTime',
     scopedSlots: { customRender: 'momentTime' }
-  },
-  {
-    title: '洗浴加量包数量',
-    dataIndex: 'extraPackageNumber'
   },
   {
     title: '预约结束时间',
@@ -94,8 +97,7 @@ const columns = [
   },
   {
     title: '订单价格',
-    dataIndex: 'price',
-    scopedSlots: { customRender: 'momentTime' }
+    dataIndex: 'price'
   },
   {
     title: '备注',
@@ -104,6 +106,12 @@ const columns = [
   {
     title: '预约码',
     dataIndex: 'reservationCode'
+  },
+  {
+    title: '订单创建时间',
+    dataIndex: 'createTime',
+    scopedSlots: { customRender: 'momentTime' }
+
   },
   {
     title: '操作',
@@ -136,9 +144,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .grant-tree-container {
-    height: 50vh;
-    min-height: 300px;
-    overflow-y: auto
-  }
+.grant-tree-container {
+  height: 50vh;
+  min-height: 300px;
+  overflow-y: auto
+}
 </style>

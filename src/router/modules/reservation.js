@@ -33,14 +33,6 @@ export default [
     },
     component: () => import(/* webpackChunkName: "base" */ '@/views/reservation/br-order-detail-index')
   }, {
-    path: '/reservation/brOrderSubmit',
-    name: '订单提交',
-    meta: {
-      isTab: true,
-      isAuth: true
-    },
-    component: () => import(/* webpackChunkName: "base" */ '@/views/reservation/br-order-submit-index')
-  }, {
     path: '/reservation/brParameter',
     name: '浴池统一参数',
     meta: {
