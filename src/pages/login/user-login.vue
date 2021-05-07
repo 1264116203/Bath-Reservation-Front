@@ -39,7 +39,7 @@
           <a-select-option :value="24">24小时</a-select-option>
           <a-select-option :value="24 * 7">1星期</a-select-option>
           <a-select-option :value="24 * 7 * 30">1个月</a-select-option>
-        </a-select>
+        </a-select>F
       </a-form-model-item>-->
       <div>
         <a-button type="primary" block @click.native.prevent="handleLogin">
@@ -48,7 +48,8 @@
         <br>
         <br>
         <a-button type="primary" block @click.native.prevent="handleRegister">
-          去注册        </a-button>
+          去注册
+        </a-button>
       </div>
     </a-form-model>
   </a-spin>
@@ -132,6 +133,9 @@ export default {
     async jumpToLastPageBeforeLogin() {
       await this.$router.push(this.lastPageBeforeLogin ? this.lastPageBeforeLogin : { path: '/' })
       this.setLastPageBeforeLogin(null)
+    },
+    handleRegister() {
+      this.$router.push({ path: '/register' })
     }
   }
 }

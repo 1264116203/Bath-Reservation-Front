@@ -1,8 +1,8 @@
 <template>
-  <div class="register-container">
-    <div class="register-wrapper">
-      <div class="register-left">
-        <div class="register-time">
+  <div class="login-container">
+    <div class="login-wrapper">
+      <div class="login-left">
+        <div class="login-time">
           {{ time | momentTime('yyyy-MM-DD HH:mm:ss') }}
         </div>
         <div>
@@ -13,12 +13,12 @@
         </div>
       </div>
 
-      <div class="register-right">
-        <div class="register-main">
-          <h4 class="register-title">
+      <div class="login-right">
+        <div class="login-main">
+          <h4 class="login-title">
             用户注册
           </h4>
-          <user-register />
+          <user-login />
         </div>
         <!--在需要扩展登录时使用-->
         <!--<div class="login-footer">
@@ -35,29 +35,29 @@
   </div>
 </template>
 <script>
-import UserRegister from './user-register'
+import UserLogin from './user-register'
 import Application from '@/config/application'
 import * as moment from 'moment'
 
 export default {
   name: 'RegisterIndex',
-  components: { UserRegister },
+  components: { UserLogin },
   props: [],
-  data() {
+  data () {
     return {
       time: '',
       activeName: 'user',
       application: Application
     }
   },
-  created() {
+  created () {
     this.getTime()
     setInterval(() => {
       this.getTime()
     }, 1000)
   },
   methods: {
-    getTime() {
+    getTime () {
       this.time = moment()
     }
   }
@@ -148,7 +148,6 @@ export default {
           letter-spacing: 4px;
         }
       }
-
       .login-footer {
         margin-top: 2rem;
       }

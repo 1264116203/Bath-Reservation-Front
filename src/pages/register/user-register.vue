@@ -8,7 +8,7 @@
       @keyup.enter.native="handleLogin"
     >
       用户名：
-      <a-form-model-item prop="username">
+      <a-form-model-item prop="account">
         <a-input
           v-model="formData.account"
           placeholder="请设置用户名"
@@ -55,7 +55,7 @@
         </a-select>
       </a-form-model-item>-->
       <div>
-        <a-button type="primary" block @click.native.prevent="handleLogin">
+        <a-button type="primary" block @click.native.prevent="handleRegister">
           提交
         </a-button>
       </div>
@@ -66,9 +66,7 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
 import application from '@/config/application'
-
-const devUsername = process.env.NODE_ENV === 'development' ? 'admin' : ''
-const devPassword = process.env.NODE_ENV === 'development' ? 'admin' : ''
+import { add } from '@/api/system/user-management'
 
 export default {
   name: 'UserRegister',
@@ -77,8 +75,14 @@ export default {
     return {
       spinning: false,
       formData: {
-        username: devUsername,
-        password: devPassword,
+        account: '',
+        password: '',
+        name: '普通用户',
+        realName: '普通用户',
+        email: '111@qq.com',
+        phone: '11111111111',
+        roleIdList: ['roleIdList'],
+        deptIdList: ['dept-1'],
         refreshTokenValidHours: 24,
         pwdEncoded: application.pwdEncoded
       },
@@ -110,23 +114,27 @@ export default {
         ? (this.passwordType = 'password')
         : (this.passwordType = '')
     },
-    handleLogin() {
+    handleRegister() {
       this.spinning = true
       this.$refs.formRef.validate(async valid => {
         if (!valid) {
           this.spinning = false
           return false
         }
-        const loginData = {
+        const registerData = {
           ...this.formData
         }
-        if (loginData.pwdEncoded) {
-          loginData.password = btoa(loginData.password)
+        if (registerData.pwdEncoded) {
+          registerData.password = btoa(registerData.password)
         }
         try {
           // 先登录，登录成功后跳转至登录前想访问的路由
-          await this.loginByPassword(loginData)
-          await this.jumpToLastPageBeforeLogin()
+          // await this.loginByPassword(registerData)
+          // await this.add()
+          await add(registerData).then(res => {
+            this.$message.success('注册成功！')
+            this.$router.push('/login')
+          })
         } catch (ex) {
           console.error(ex)
         }

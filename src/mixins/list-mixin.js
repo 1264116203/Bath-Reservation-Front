@@ -35,7 +35,8 @@ export default {
       this.isLoading = true
       try {
         const data = (await this.axiosListWithPagination(this.pagination.current - 1, this.pagination.pageSize, this.searchInfo)).data
-        this.tableData = data.content
+        this.form = data.content[0]
+        console.log(this.form)
         this.pagination.total = data.totalElements
       } catch (error) {
         console.error(error)

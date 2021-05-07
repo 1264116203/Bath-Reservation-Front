@@ -82,8 +82,8 @@ const columns = [
     dataIndex: 'orderState'
   },
   {
-    title: '预订的浴池房间ID',
-    dataIndex: 'roomId'
+    title: '预订的浴池房间名',
+    dataIndex: 'roomName'
   },
   {
     title: '预约开始时间',

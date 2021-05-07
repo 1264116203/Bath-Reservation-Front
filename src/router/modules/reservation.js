@@ -1,5 +1,14 @@
 export default [
   {
+    path: '/reservation/brReservation',
+    name: '预定信息表单',
+    meta: {
+      isTab: true,
+      isAuth: true
+    },
+    component: () => import(/* webpackChunkName: "base" */ '@/views/reservation/br-reservation')
+  },
+  {
     path: '/reservation/brInfo',
     name: '浴间信息',
     meta: {
