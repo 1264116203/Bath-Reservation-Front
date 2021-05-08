@@ -1,10 +1,10 @@
 <template>
   <a-spin class="table-list-warp" :spinning="isLoading">
-    <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol" >
+    <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
       <a-form-model-item label="门店图标">
-<!--        <img :src="''+form.storeTelephone">-->
-        <upload-avatar :action="action" :image-url.sync="form.storeTelephone" :default-image-url="form.storeTelephone" />
-        <a-input v-model="form.storeTelephone" />
+        <!--        <img :src="'http://localhost:8080/'+form.storeTelephone+'.png'">-->
+        <upload-avatar :action="action" :image-url.sync="form.storePhoto" :default-image-url="form.storeTelephone" />
+        <a-input v-model="form.storePhoto" />
       </a-form-model-item>
       <a-form-model-item label="门店名称">
         <a-input v-model="form.storeName" />
@@ -13,7 +13,7 @@
         <a-input v-model="form.storeAddress" />
       </a-form-model-item>
       <a-form-model-item label="门店电话">
-        <a-input v-model="form.storePhoto" />
+        <a-input v-model="form.storeTelephone" />
       </a-form-model-item>
       <a-form-model-item label="营业状态">
         <a-select v-model="form.region">
@@ -27,7 +27,7 @@
       </a-form-model-item>
       <a-form-model :layout="vertical" style="height: 90px">
         <a-form-model-item label="预订起步时长" style="float: left; margin: 0 40px">
-          <a-time-picker  v-model="form.timeInterval" format="HH:mm" />
+          <a-time-picker v-model="form.timeInterval" format="HH:mm" />
         </a-form-model-item>
         <a-form-model-item label="预订起步价格" style="float: left; margin: 0 40px">
           <a-input-number v-model="form.startPrice" />
@@ -36,12 +36,12 @@
           <a-input-number v-model="form.extraPackagePrice" />
         </a-form-model-item>
         <a-form-model-item label="洗浴时间加量包时长" style="float: left; margin: 0 40px">
-          <a-time-picker  v-model="form.extraPackageTime" format="HH:mm" />
+          <a-time-picker v-model="form.extraPackageTime" format="HH:mm" />
         </a-form-model-item>
       </a-form-model>
       <a-form-model :layout="vertical" style="height: 90px">
         <a-form-model-item label="清洁时间" style="float: left; margin: 0 40px">
-          <a-time-picker  v-model="form.cleanTime" />
+          <a-time-picker v-model="form.cleanTime" />
         </a-form-model-item>
         <a-form-model-item label="营业时间(最早可预定时间)" style="float: left; margin: 0 40px">
           <a-input-number v-model="form.openingTime" />
@@ -51,10 +51,9 @@
         </a-form-model-item>
       </a-form-model>
       <a-form-model-item label="订单最下方顾客须知">
-        <a-input v-model="form.userNotice" type="textarea"/>
+        <a-input v-model="form.userNotice" type="textarea" />
       </a-form-model-item>
     </a-form-model>
-
   </a-spin>
 </template>
 <script>
@@ -106,12 +105,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .grant-tree-container {
-    height: 50vh;
-    min-height: 300px;
-    overflow-y: auto
-  }
-  .ant-form-item {
-    margin-bottom: 12px;
-  }
+.grant-tree-container {
+  height: 50vh;
+  min-height: 300px;
+  overflow-y: auto
+}
+
+.ant-form-item {
+  margin-bottom: 12px;
+}
 </style>
