@@ -1,10 +1,8 @@
 <template>
   <a-spin class="table-list-warp" :spinning="isLoading">
-    <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
+    <a-form-model ref="form" :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
       <a-form-model-item label="门店图标">
-        <!--        <img :src="'http://localhost:8080/'+form.storeTelephone+'.png'">-->
-        <upload-avatar :action="action" :image-url.sync="form.storePhoto" :default-image-url="form.storeTelephone" />
-        <a-input v-model="form.storePhoto" />
+        <upload-avatar :action="action" :image-url.sync="form.storePhoto" :default-image-url="form.storePhoto" style="width: 100%" />
       </a-form-model-item>
       <a-form-model-item label="门店名称">
         <a-input v-model="form.storeName" />
@@ -16,18 +14,15 @@
         <a-input v-model="form.storeTelephone" />
       </a-form-model-item>
       <a-form-model-item label="营业状态">
-        <a-select v-model="form.region">
-          <a-select-option value="0">
-            已休息
-          </a-select-option>
-          <a-select-option value="1">
-            正在营业
+        <a-select v-model="form.openingState">
+          <a-select-option v-for="item in openingState" :key="item.key" :value="item.key">
+            {{ item.value }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model :layout="vertical" style="height: 90px">
-        <a-form-model-item label="预订起步时长" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="form.timeInterval" format="HH:mm" />
+      <a-form-model layout="vertical" style="height: 92px">
+        <a-form-model-item label="预订起步时长" style="float: left;margin-left:11%; margin-right:40px">
+          <a-time-picker v-model="form.timeInterval" format="HH:mm:ss" />
         </a-form-model-item>
         <a-form-model-item label="预订起步价格" style="float: left; margin: 0 40px">
           <a-input-number v-model="form.startPrice" />
@@ -36,22 +31,27 @@
           <a-input-number v-model="form.extraPackagePrice" />
         </a-form-model-item>
         <a-form-model-item label="洗浴时间加量包时长" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="form.extraPackageTime" format="HH:mm" />
+          <a-time-picker v-model="form.extraPackageTime" format="HH:mm:ss" />
         </a-form-model-item>
       </a-form-model>
-      <a-form-model :layout="vertical" style="height: 90px">
-        <a-form-model-item label="清洁时间" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="form.cleanTime" />
+      <a-form-model layout="vertical" style="height: 98px">
+        <a-form-model-item label="清洁时间" style="float: left;margin-left:11%; margin-right:40px">
+          <a-time-picker v-model="form.cleanTime" format="HH:mm:ss" />
         </a-form-model-item>
         <a-form-model-item label="营业时间(最早可预定时间)" style="float: left; margin: 0 40px">
-          <a-input-number v-model="form.openingTime" />
+          <a-time-picker v-model="form.openingTime" format="HH:mm:ss" />
         </a-form-model-item>
         <a-form-model-item label="打烊时间（理想状况下，订单完成时间不可超过打烊时间）" style="float: left; margin: 0 40px">
-          <a-input-number v-model="form.closingTime" />
+          <a-time-picker v-model="form.closingTime" format="HH:mm:ss" />
         </a-form-model-item>
       </a-form-model>
       <a-form-model-item label="订单最下方顾客须知">
         <a-input v-model="form.userNotice" type="textarea" />
+      </a-form-model-item>
+      <a-form-model-item>
+        <a-button type="primary" style="width: 100%;margin-left: 29%" @click="onSubmit">
+          提交
+        </a-button>
       </a-form-model-item>
     </a-form-model>
   </a-spin>
@@ -60,14 +60,15 @@
 import {
   listWithPagination,
   batchRemove,
-  removeById
+  removeById,
+  update
 } from '@/api/reservation/br-parameter'
 // import EditModal from './br-parameter-modal'
 import { ListMixin } from '@/mixins/common-crud-mixin'
-
+import UploadAvatar from '@/components/scraps/upload-avatar'
 export default {
   name: 'BrParameterList',
-  // components: { EditModal },
+  components: { UploadAvatar },
   mixins: [ListMixin],
   data() {
     return {
@@ -75,7 +76,11 @@ export default {
       wrapperCol: { span: 14 },
       /** 查询条件 */
       searchInfo: {},
-      // action: '/api/upload?subPath=avatar',
+      openingState: [
+        { key: 0, value: '已休息' },
+        { key: 1, value: '正在营业' }
+      ],
+      action: '/api/upload?subPath=avatar',
       form: {
         userNotice: '',
         closingTime: '',
@@ -85,12 +90,12 @@ export default {
         extraPackagePrice: '',
         startPrice: '',
         timeInterval: '',
-        region: '0',
-        storePhoto: '',
+        openingState: '0',
         storeTelephone: '',
         storeAddress: '',
         storeName: ''
-      }
+      },
+      storePhoto: ''
     }
   },
   created() {
@@ -100,6 +105,26 @@ export default {
       axiosBatchDelete: batchRemove
     })
     this.fetchTableData()
+  },
+  methods: {
+    onSubmit() {
+      console.log(this.form)
+      this.$refs.form.validate(async valid => {
+        if (valid) {
+          const formData = {
+            ...this.form,
+            storePhoto: this.storePhoto
+          }
+          console.log(formData)
+          await update(formData)
+          // this.$store.commit('auth/setUserInfo', (await getSelfInfo()).data)
+          this.$message.success('修改信息成功!')
+        } else {
+          this.$message.error('校验未通过！')
+          return false
+        }
+      })
+    }
   }
 }
 </script>
