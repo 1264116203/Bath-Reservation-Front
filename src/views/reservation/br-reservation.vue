@@ -24,7 +24,8 @@
               {{ bathRoom.roomName }}
             </div>
             <div style="margin-top:40px">
-             浴间当前状态: <a-tag :color="borderColorChange(bathRoom)">
+              浴间当前状态:
+              <a-tag :color="borderColorChange(bathRoom)">
                 {{ roomStateMessage }}
               </a-tag>
             </div>
@@ -40,7 +41,7 @@
                              @change="resrvationEndTimeOnChange"
               />
             </div>
-            订单价格：    {{ price }}
+            订单价格： {{ getPrice() }}
 
             <a-button style="position: absolute; bottom: 10px;right: 10px" @click="sublim">
               提交
@@ -76,15 +77,24 @@ export default {
     }
   },
   computed: {
-
   },
   created() {
     this.init()
   },
   methods: {
+    getPrice(reservationDate, resrvationStartTime, reservationEndTime) {
+      const reservationStartDateTime = reservationDate + ' ' + resrvationStartTime
+      const reservationEndDateTime = reservationDate + ' ' + reservationEndTime
+      const date = new Date(reservationStartDateTime)
+      const date1 = new Date(reservationEndDateTime)
+      const subMillisecond = date1.getTime() - date.getTime()
+      const price = this.dataList.extraPackagePrice * (subMillisecond / (60000 * (this.dataList.extraPackageTime[1])))
+
+      const price1 = this.dataList.startPrice + price
+      return price1
+    },
     init() {
       get().then(res => {
-        console.log(res)
         this.dataList = res.data
       })
     },
@@ -114,35 +124,19 @@ export default {
       }
       return this.borderColor
     },
-    getPrice() {
-      this.resrvationStartDateTime = this.reservationDate + ' ' + this.resrvationStartTime
-      this.reservationEndDateTime = this.reservationDate + ' ' + this.reservationEndTime
-      const date = new Date(this.resrvationStartDateTime)
-      const date1 = new Date(this.reservationEndDateTime)
-      const subMillisecond = date1.getTime() - date.getTime()
-      const price = this.dataList.extraPackagePrice * (subMillisecond / (60000 * (this.dataList.extraPackageTime[1])))
-
-      const price1 = this.dataList.startPrice + price
-      console.log('price1:' + price1)
-      this.price = price1
-    },
     onChangeNumber(value) {
       this.form.value = value
     },
     sublim() {
-      console.log(this.form)
     },
     reservationDateOnChange(date, dateString) {
-      this.reservationDate = dateString
+      // this.reservationDate = dateString
     },
     resrvationStartTimeOnChange(date, dateString) {
-      this.resrvationStartTime = dateString
+      // this.resrvationStartTime = dateString
     },
     resrvationEndTimeOnChange(date, dateString) {
-      this.reservationEndTime = dateString
-
-      this.getPrice()
-      console.log('pricetest' + this.price)
+      // this.reservationEndTime = dateString
     }
   }
 }
