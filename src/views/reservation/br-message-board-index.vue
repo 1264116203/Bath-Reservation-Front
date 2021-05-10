@@ -66,7 +66,6 @@ import {
   batchRemove,
   removeById
 } from '@/api/reservation/br-message-board'
-import EditModal from './br-message-board-modal'
 import { ListMixin } from '@/mixins/common-crud-mixin'
 
 const columns = [
@@ -88,7 +87,6 @@ const columns = [
 
 export default {
   name: 'BrMessageBoardList',
-  components: { EditModal },
   mixins: [ListMixin],
   data() {
     return {
