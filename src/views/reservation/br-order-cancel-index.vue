@@ -66,7 +66,6 @@ import {
   batchRemove,
   removeById
 } from '@/api/reservation/br-order-cancel'
-import EditModal from './br-order-cancel-modal'
 import { ListMixin } from '@/mixins/common-crud-mixin'
 
 const columns = [
@@ -92,7 +91,6 @@ const columns = [
 
 export default {
   name: 'BrOrderCancelList',
-  components: { EditModal },
   mixins: [ListMixin],
   data() {
     return {
