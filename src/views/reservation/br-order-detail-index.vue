@@ -1,7 +1,9 @@
-<template>
+﻿<template>
   <a-spin class="table-list-warp" :spinning="isLoading">
     <div>
-      <div v-for="item in dataList" :key="item.id" style="width:90%;border:1px solid #dcdcdc;margin: 10px auto;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px">
+      <div v-for="item in dataList" :key="item.id"
+           style="width:90%;border:1px solid #dcdcdc;margin: 10px auto;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px"
+      >
         <a-row type="flex" justify="space-around" style="padding: 10px 0; background-color: #e0e0e0">
           <a-col :span="6">
             {{ item.createTime | momentTime }}
@@ -16,7 +18,7 @@
         <a-row type="flex" justify="space-around" style="padding: 20px 0">
           <a-col :span="9">
             <div style="margin-bottom: 5px">
-              浴间名：<span style="font-size: 16px">{{ item.roomName }}</span>
+              浴间名：<span style="font-size: 25px">{{ item.roomName }}</span>
             </div>
             <span>预约时段：</span><br>
             <div>{{ item.startTime | momentTime }} ~ {{ item.endTime | momentTime }}</div>
@@ -34,16 +36,20 @@
             </a-tag>
           </a-col>
           <a-col :span="1" style="font-size: 16px;color: #4b4a4a">
-            ￥{{ item.price }}
+            订单价格: ￥{{ item.price }}
           </a-col>
           <a-col :span="5" style="display: flex;justify-content: space-between">
             <div style="width: 85px">
-              预约码：{{ item.reservationCode }}
+              预约码：
+              <a-tag color="green">
+                {{ item.reservationCode }}
+              </a-tag>
             </div>
             <div>
-              <a-button @click="cancel(item)">
+              <a-button :disabled="item.orderState===2" @click="cancel(item)">
                 取消
-              </a-button><br>
+              </a-button>
+              <br>
               <a-button type="primary" style="margin-top: 10px" @click="evaluate(item)">
                 评价
               </a-button>
@@ -58,7 +64,9 @@
       </div>
     </div>
 
-    <a-pagination :current="current" :page-size="pageSize" :total="total" style="float: right;margin: 10px 0 10px 10%" @change="onChange" />
+    <a-pagination :current="current" :page-size="pageSize" :total="total" style="float: right;margin: 10px 0 10px 10%"
+                  @change="onChange"
+    />
 
     <a-modal
       :visible="formVisible"
@@ -104,15 +112,12 @@ export default {
       title: '',
       cancelVisible: false,
       evaluateVisible: false,
-      brOrderCancel: {
-        cancelReason: '',
-        reservationOrderId: ''
-      },
       brMessageBoard: {
         account: '',
         message: ''
       },
       cancelReason: '',
+      reservationOrderId: '',
       message: ''
     }
   },
@@ -138,8 +143,8 @@ export default {
     },
     cancel(val) {
       console.log(val)
-      this.brOrderCancel.reservationOrderId = val.id
-      console.log(this.brOrderCancel.reservationOrderId)
+      this.reservationOrderId = val.id
+      console.log(this.reservationOrderId)
       this.formVisible = true
       this.title = '取消'
       this.cancelVisible = true
@@ -154,9 +159,7 @@ export default {
     },
     onOk() {
       if (this.title === '取消') {
-        this.brOrderCancel.cancelReason = this.cancelReason
-        console.log(this.brOrderCancel)
-        add({ brOrderCancel: this.brOrderCancel }).then(res => {
+        add({ cancelReason: this.cancelReason, reservationOrderId: this.reservationOrderId }).then(res => {
           console.log(res)
           this.$message.success('操作成功！')
           this.init()
@@ -179,8 +182,8 @@ export default {
       this.empty()
     },
     empty() {
-      this.brOrderCancel.cancelReason = ''
-      this.brOrderCancel.reservationOrderId = ''
+      this.cancelReason = ''
+      this.reservationOrderId = ''
       this.brMessageBoard.account = ''
       this.brMessageBoard.message = ''
     }

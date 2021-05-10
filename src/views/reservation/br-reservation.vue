@@ -33,9 +33,13 @@
           <div style="float:left;height: 100px;margin-left: 10px;">
             <div>
               请选择预定开始时间：
-              <a-time-picker format="HH:mm" :minute-step="dataList.extraPackageTime[1]" @change="resrvationStartTimeOnChange" />
+              <a-time-picker format="HH:mm" :minute-step="dataList.extraPackageTime[1]"
+                             @change="resrvationStartTimeOnChange"
+              />
               请选择预定结束时间：
-              <a-time-picker format="HH:mm" :minute-step="dataList.extraPackageTime[1]" @change="resrvationEndTimeOnChange" />
+              <a-time-picker format="HH:mm" :minute-step="dataList.extraPackageTime[1]"
+                             @change="resrvationEndTimeOnChange"
+              />
             </div>
             订单价格： {{ getPrice() }}
 
@@ -50,7 +54,8 @@
 </template>
 
 <script>
-import { get } from '@/api/reservation/br-reservation'
+import { get } from '@/api/reservation/br-reservation-pre-query'
+import { add } from '@/api/reservation/br-order-detail'
 import moment from 'moment'
 
 export default {
@@ -128,6 +133,7 @@ export default {
       this.form.value = value
     },
     sublim() {
+      add(this.form)
     },
     reservationDateOnChange(date, dateString) {
       this.reservationDate = dateString

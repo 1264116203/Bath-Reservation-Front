@@ -1,7 +1,7 @@
 export default [
   {
     path: '/reservation/brReservation',
-    name: '预定信息表单',
+    name: '预定信息预查询',
     meta: {
       isTab: true,
       isAuth: true
