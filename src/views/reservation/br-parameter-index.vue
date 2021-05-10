@@ -31,18 +31,18 @@
           <a-input-number v-model="form.extraPackagePrice" />
         </a-form-model-item>
         <a-form-model-item label="洗浴时间加量包时长（分钟）" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="form.extraPackageTime" format="HH:mm:ss" />
+          <a-time-picker v-model="form.extraPackageTime" format="mm" />
         </a-form-model-item>
       </a-form-model>
       <a-form-model layout="vertical" style="height: 98px">
         <a-form-model-item label="清洁时间（分钟）" style="float: left;margin-left:11%; margin-right:40px">
-          <a-time-picker v-model="form.cleanTime" format="HH:mm:ss" />
+          <a-time-picker v-model="form.cleanTime" format="mm" />
         </a-form-model-item>
         <a-form-model-item label="营业时间(最早可预定时间)" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="form.openingTime" format="HH:mm:ss" />
+          <a-time-picker v-model="form.openingTime" format="HH:mm" />
         </a-form-model-item>
         <a-form-model-item label="打烊时间（理想状况下，订单完成时间不可超过打烊时间）" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="form.closingTime" format="HH:mm:ss" />
+          <a-time-picker v-model="form.closingTime" format="HH:mm" />
         </a-form-model-item>
       </a-form-model>
       <a-form-model-item label="订单最下方顾客须知">
