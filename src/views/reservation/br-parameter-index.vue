@@ -15,7 +15,7 @@
       </a-form-model-item>
       <a-form-model-item label="营业状态">
         <a-select v-model="form.openingState">
-          <a-select-option v-for="item in openingState" :key="item.key" :value="item.key" >
+          <a-select-option v-for="item in openingState" :key="item.key" :value="item.key">
             {{ item.value }}
           </a-select-option>
         </a-select>
@@ -42,19 +42,22 @@
           <a-time-picker v-model="form.openingTime" format="HH:mm" />
         </a-form-model-item>
         <a-form-model-item label="打烊时间（理想状况下，订单完成时间不可超过打烊时间）" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="form.closingTime" format="HH:mm" />
+          <a-time-picker v-model="form.closingTime" format="HH:mm"  />
+<!--          ssssss <a-time-picker use12-hours format="h:mm:ss A" @change="onChange" />-->
+
         </a-form-model-item>
       </a-form-model>
       <a-form-model-item label="订单最下方顾客须知">
         <a-input v-model="form.userNotice" type="textarea" />
       </a-form-model-item>
       <a-form-model-item>
-        <a-button type="primary" @click="onSubmit" style="width: 100%;margin-left: 29%">
+        <a-button type="primary" style="width: 100%;margin-left: 29%" @click="onSubmit">
           提交
         </a-button>
       </a-form-model-item>
     </a-form-model>
   </a-spin>
+
 </template>
 <script>
 import {

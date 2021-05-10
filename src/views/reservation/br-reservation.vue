@@ -102,19 +102,19 @@ export default {
       const roomState = bathRoom.roomState
       switch (roomState) {
         case 0:
-          this.borderColor = 'green'
+          this.borderColor = '#42ea24'
           this.roomStateMessage = '可预订'
           break
         case 1:
-          this.borderColor = 'orange'
+          this.borderColor = '#ead61f'
           this.roomStateMessage = '清洁中'
           break
         case 2:
-          this.borderColor = 'red'
+          this.borderColor = '#d51414'
           this.roomStateMessage = '已预订'
           break
         case 3:
-          this.borderColor = 'red'
+          this.borderColor = '#d51414'
           this.roomStateMessage = '使用中'
           break
         case 4:
