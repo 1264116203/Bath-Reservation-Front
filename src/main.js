@@ -18,7 +18,7 @@ import GlobalComponentsPlugin from '@/components/global'
 import App from './app.vue'
 
 import '@/assets/styles/rcdcore-styles.less'
-
+import moment from 'moment'
 // 配置 NProgress
 NProgress.configure({
   showSpinner: false
@@ -28,7 +28,10 @@ Vue.config.productionTip = false
 
 Vue.use(VContextMenu)
 Vue.use(GlobalComponentsPlugin)
-
+Vue.filter('momentTime', function (value, pattern = 'YYYY-MM-DD HH:mm:ss') {
+  if (!value) return ''
+  return moment(value).format(pattern)
+})
 new Vue({
   router,
   store,
