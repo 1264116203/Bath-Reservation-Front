@@ -8,7 +8,7 @@
       <div>{{ dataList.storeAddress }}</div>
       <div>
         请选择要预定的日期：
-        <a-date-picker @change=" reservationDateOnChange" />
+        <a-date-picker :default-value="moment(getLocalDateString())" @change=" reservationDateOnChange" />
       </div>
     </div>
     {{ price }}
@@ -33,13 +33,9 @@
           <div style="float:left;height: 100px;margin-left: 10px;">
             <div>
               请选择预定开始时间：
-              <a-time-picker format="HH:mm" :minute-step="dataList.extraPackageTime[1]"
-                             @change="resrvationStartTimeOnChange"
-              />
+              <a-time-picker format="HH:mm" :minute-step="dataList.extraPackageTime[1]" @change="resrvationStartTimeOnChange" />
               请选择预定结束时间：
-              <a-time-picker format="HH:mm" :minute-step="dataList.extraPackageTime[1]"
-                             @change="resrvationEndTimeOnChange"
-              />
+              <a-time-picker format="HH:mm" :minute-step="dataList.extraPackageTime[1]" @change="resrvationEndTimeOnChange" />
             </div>
             订单价格： {{ getPrice() }}
 
@@ -55,6 +51,7 @@
 
 <script>
 import { get } from '@/api/reservation/br-reservation'
+import moment from 'moment'
 
 export default {
   name: 'BrReservation',
@@ -76,12 +73,15 @@ export default {
       value: 1
     }
   },
-  computed: {
-  },
   created() {
     this.init()
   },
   methods: {
+    moment,
+    getLocalDateString() {
+      const date = new Date()
+      return date.toLocaleDateString()
+    },
     getPrice(reservationDate, resrvationStartTime, reservationEndTime) {
       const reservationStartDateTime = reservationDate + ' ' + resrvationStartTime
       const reservationEndDateTime = reservationDate + ' ' + reservationEndTime
@@ -130,13 +130,13 @@ export default {
     sublim() {
     },
     reservationDateOnChange(date, dateString) {
-      // this.reservationDate = dateString
+      this.reservationDate = dateString
     },
     resrvationStartTimeOnChange(date, dateString) {
-      // this.resrvationStartTime = dateString
+      this.resrvationStartTime = dateString
     },
     resrvationEndTimeOnChange(date, dateString) {
-      // this.reservationEndTime = dateString
+      this.reservationEndTime = dateString
     }
   }
 }
