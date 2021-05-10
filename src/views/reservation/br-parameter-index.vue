@@ -15,7 +15,7 @@
       </a-form-model-item>
       <a-form-model-item label="营业状态">
         <a-select v-model="form.openingState">
-          <a-select-option v-for="item in openingState" :key="item.key" :value="item.key">
+          <a-select-option v-for="item in openingState" :key="item.key" :value="item.key" >
             {{ item.value }}
           </a-select-option>
         </a-select>
@@ -24,18 +24,18 @@
         <a-form-model-item label="预订起步时长" style="float: left;margin-left:11%; margin-right:40px">
           <a-time-picker v-model="form.timeInterval" format="HH:mm:ss" />
         </a-form-model-item>
-        <a-form-model-item label="预订起步价格" style="float: left; margin: 0 40px">
+        <a-form-model-item label="预订起步价格（¥）" style="float: left; margin: 0 40px">
           <a-input-number v-model="form.startPrice" />
         </a-form-model-item>
-        <a-form-model-item label="洗浴时间加量包单价" style="float: left; margin: 0 40px">
+        <a-form-model-item label="洗浴时间加量包单价（¥）" style="float: left; margin: 0 40px">
           <a-input-number v-model="form.extraPackagePrice" />
         </a-form-model-item>
-        <a-form-model-item label="洗浴时间加量包时长" style="float: left; margin: 0 40px">
+        <a-form-model-item label="洗浴时间加量包时长（分钟）" style="float: left; margin: 0 40px">
           <a-time-picker v-model="form.extraPackageTime" format="HH:mm:ss" />
         </a-form-model-item>
       </a-form-model>
       <a-form-model layout="vertical" style="height: 98px">
-        <a-form-model-item label="清洁时间" style="float: left;margin-left:11%; margin-right:40px">
+        <a-form-model-item label="清洁时间（分钟）" style="float: left;margin-left:11%; margin-right:40px">
           <a-time-picker v-model="form.cleanTime" format="HH:mm:ss" />
         </a-form-model-item>
         <a-form-model-item label="营业时间(最早可预定时间)" style="float: left; margin: 0 40px">

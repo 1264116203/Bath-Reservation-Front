@@ -24,7 +24,7 @@
               {{ bathRoom.roomName }}
             </div>
             <div style="margin-top:40px">
-              <a-tag :color="borderColorChange(bathRoom)">
+             浴间当前状态: <a-tag :color="borderColorChange(bathRoom)">
                 {{ roomStateMessage }}
               </a-tag>
             </div>
