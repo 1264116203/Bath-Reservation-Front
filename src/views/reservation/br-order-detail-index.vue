@@ -1,33 +1,5 @@
 <template>
   <a-spin class="table-list-warp" :spinning="isLoading">
-    <a-form-model ref="searchForm" layout="inline" :model="searchInfo">
-      <!-- 在此处添加查询条件 -->
-      <!--<a-form-model-item label="参数名称" prop="paramName">
-        <a-input v-model="searchInfo.paramName" placeholder="参数名称" />
-      </a-form-model-item>-->
-
-      <a-form-model-item>
-        <a-button type="primary" @click="onSearch">
-          搜索
-        </a-button>
-      </a-form-model-item>
-
-      <a-form-model-item>
-        <a-button @click="clearSearch">
-          清空
-        </a-button>
-      </a-form-model-item>
-    </a-form-model>
-
-    <a-space class="operation-btn-container">
-      <a-button type="primary" @click="openCreateModal">
-        添加
-      </a-button>
-      <a-button type="danger" @click="commonBatchDelete">
-        批量删除
-      </a-button>
-    </a-space>
-
     <a-table
       bordered
       row-key="id"
@@ -60,7 +32,6 @@
       </template>
     </a-table>
 
-    <edit-modal ref="modal" @ok="onModalOk" />
   </a-spin>
 </template>
 <script>

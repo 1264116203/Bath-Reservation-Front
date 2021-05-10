@@ -22,7 +22,7 @@
       </a-form-model-item>
       <a-form-model layout="vertical" style="height: 92px">
         <a-form-model-item label="预订起步时长" style="float: left;margin-left:11%; margin-right:40px">
-          <a-time-picker v-model="timeInterval" format="HH:mm:ss" />
+          <a-time-picker v-model="timeInterval" format="HH:mm" />
         </a-form-model-item>
         <a-form-model-item label="预订起步价格（¥）" style="float: left; margin: 0 40px">
           <a-input-number v-model="form.startPrice" />
@@ -31,18 +31,18 @@
           <a-input-number v-model="form.extraPackagePrice" />
         </a-form-model-item>
         <a-form-model-item label="洗浴时间加量包时长（分钟）" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="extraPackageTime" format="HH:mm:ss" />
+          <a-time-picker v-model="extraPackageTime" format="mm" />
         </a-form-model-item>
       </a-form-model>
       <a-form-model layout="vertical" style="height: 98px">
         <a-form-model-item label="清洁时间（分钟）" style="float: left;margin-left:11%; margin-right:40px">
-          <a-time-picker v-model="cleanTime" format="HH:mm:ss" />
+          <a-time-picker v-model="cleanTime" format="mm" />
         </a-form-model-item>
         <a-form-model-item label="营业时间(最早可预定时间)" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="openingTime" format="HH:mm:ss" />
+          <a-time-picker v-model="openingTime" format="HH:mm" />
         </a-form-model-item>
         <a-form-model-item label="打烊时间（理想状况下，订单完成时间不可超过打烊时间）" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="closingTime" format="HH:mm:ss" />
+          <a-time-picker v-model="closingTime" format="HH:mm" />
         </a-form-model-item>
       </a-form-model>
       <a-form-model-item label="订单最下方顾客须知">
@@ -114,11 +114,11 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.form.timeInterval = moment(this.timeInterval).format('HH:mm:ss')
-      this.form.extraPackageTime = moment(this.extraPackageTime).format('HH:mm:ss')
-      this.form.cleanTime = moment(this.cleanTime).format('HH:mm:ss')
-      this.form.openingTime = moment(this.openingTime).format('HH:mm:ss')
-      this.form.closingTime = moment(this.closingTime).format('HH:mm:ss')
+      this.form.timeInterval = moment(this.timeInterval).format('HH:mm')
+      this.form.extraPackageTime = moment(this.extraPackageTime).format('HH:mm')
+      this.form.cleanTime = moment(this.cleanTime).format('HH:mm')
+      this.form.openingTime = moment(this.openingTime).format('HH:mm')
+      this.form.closingTime = moment(this.closingTime).format('HH:mm')
       this.$refs.form.validate(async valid => {
         if (valid) {
           const formData = {
