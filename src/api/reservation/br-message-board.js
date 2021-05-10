@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const contextPath = '/api/reservation/br-message-board'
 
-export function add(row) {
+export function addMessage(row) {
   return axios.post(contextPath, row)
 }
 

@@ -71,10 +71,10 @@
         :label-col="{ span: 4 }" :wrapper-col="{ span: 15 }"
       >
         <a-form-model-item v-show="cancelVisible" label="原因">
-          <a-textarea v-model="reason" rows="7" placeholder="请输入取消原因" />
+          <a-textarea v-model="cancelReason" rows="7" placeholder="请输入取消原因" />
         </a-form-model-item>
         <a-form-model-item v-show="evaluateVisible" label="评价">
-          <a-textarea v-model="reason" rows="7" placeholder="请对本次服务进行评价" />
+          <a-textarea v-model="message" rows="7" placeholder="请对本次服务进行评价" />
         </a-form-model-item>
       </a-form-model>
     </a-modal>
@@ -86,6 +86,8 @@ import {
   batchRemove,
   removeById
 } from '@/api/reservation/br-order-detail'
+import { add } from '@/api/reservation/br-order-cancel'
+import { addMessage } from '@/api/reservation/br-message-board'
 import { ListMixin } from '@/mixins/common-crud-mixin'
 
 export default {
@@ -101,7 +103,17 @@ export default {
       reason: '',
       title: '',
       cancelVisible: false,
-      evaluateVisible: false
+      evaluateVisible: false,
+      brOrderCancel: {
+        cancelReason: '',
+        reservationOrderId: ''
+      },
+      brMessageBoard: {
+        account: '',
+        message: ''
+      },
+      cancelReason: '',
+      message: ''
     }
   },
   created() {
@@ -125,12 +137,16 @@ export default {
       this.init()
     },
     cancel(val) {
+      console.log(val)
+      this.brOrderCancel.reservationOrderId = val.id
+      console.log(this.brOrderCancel.reservationOrderId)
       this.formVisible = true
       this.title = '取消'
       this.cancelVisible = true
       this.evaluateVisible = false
     },
     evaluate(val) {
+      this.brMessageBoard.account = val.account
       this.formVisible = true
       this.title = '评价'
       this.cancelVisible = false
@@ -138,13 +154,35 @@ export default {
     },
     onOk() {
       if (this.title === '取消') {
+        this.brOrderCancel.cancelReason = this.cancelReason
+        console.log(this.brOrderCancel)
+        add({ brOrderCancel: this.brOrderCancel }).then(res => {
+          console.log(res)
+          this.$message.success('操作成功！')
+          this.init()
+          this.empty()
+        })
       }
       if (this.title === '评价') {
+        this.brMessageBoard.message = this.message
+        addMessage({ brMessageBoard: this.brMessageBoard }).then(res => {
+          console.log(res)
+          this.$message.success('操作成功！')
+          this.init()
+          this.empty()
+        })
       }
       this.formVisible = false
     },
     handleCancel() {
       this.formVisible = false
+      this.empty()
+    },
+    empty() {
+      this.brOrderCancel.cancelReason = ''
+      this.brOrderCancel.reservationOrderId = ''
+      this.brMessageBoard.account = ''
+      this.brMessageBoard.message = ''
     }
   }
 }
