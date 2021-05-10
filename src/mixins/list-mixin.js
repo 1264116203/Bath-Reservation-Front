@@ -36,13 +36,12 @@ export default {
       try {
         const data = (await this.axiosListWithPagination(this.pagination.current - 1, this.pagination.pageSize, this.searchInfo)).data
         this.form = data.content[0]
-        this.form.timeInterval = moment(this.form.timeInterval, 'HH:mm:ss')
-        this.form.extraPackageTime = moment(this.form.extraPackageTime, 'HH:mm:ss')
-        this.form.cleanTime = moment(this.form.cleanTime, 'HH:mm:ss')
-        this.form.openingTime = moment(this.form.openingTime, 'HH:mm:ss')
-        this.form.closingTime = moment(this.form.closingTime, 'HH:mm:ss')
+        this.cleanTime = moment(this.form.cleanTime, 'HH:mm:ss')
+        this.openingTime = moment(this.form.openingTime, 'HH:mm:ss')
+        this.closingTime = moment(this.form.closingTime, 'HH:mm:ss')
+        this.timeInterval = moment(this.form.timeInterval, 'HH:mm:ss')
+        this.extraPackageTime = moment(this.form.extraPackageTime, 'HH:mm:ss')
         this.storePhoto = this.form.storePhoto || ''
-        console.log(this.form.timeInterval)
         this.pagination.total = data.totalElements
       } catch (error) {
         console.error(error)

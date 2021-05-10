@@ -15,14 +15,14 @@
       </a-form-model-item>
       <a-form-model-item label="营业状态">
         <a-select v-model="form.openingState">
-          <a-select-option v-for="item in openingState" :key="item.key" :value="item.key" >
+          <a-select-option v-for="item in openingState" :key="item.key" :value="item.key">
             {{ item.value }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
       <a-form-model layout="vertical" style="height: 92px">
         <a-form-model-item label="预订起步时长" style="float: left;margin-left:11%; margin-right:40px">
-          <a-time-picker v-model="form.timeInterval" format="HH:mm:ss" />
+          <a-time-picker v-model="timeInterval" format="HH:mm:ss" />
         </a-form-model-item>
         <a-form-model-item label="预订起步价格（¥）" style="float: left; margin: 0 40px">
           <a-input-number v-model="form.startPrice" />
@@ -31,25 +31,25 @@
           <a-input-number v-model="form.extraPackagePrice" />
         </a-form-model-item>
         <a-form-model-item label="洗浴时间加量包时长（分钟）" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="form.extraPackageTime" format="HH:mm:ss" />
+          <a-time-picker v-model="extraPackageTime" format="HH:mm:ss" />
         </a-form-model-item>
       </a-form-model>
       <a-form-model layout="vertical" style="height: 98px">
         <a-form-model-item label="清洁时间（分钟）" style="float: left;margin-left:11%; margin-right:40px">
-          <a-time-picker v-model="form.cleanTime" format="HH:mm:ss" />
+          <a-time-picker v-model="cleanTime" format="HH:mm:ss" />
         </a-form-model-item>
         <a-form-model-item label="营业时间(最早可预定时间)" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="form.openingTime" format="HH:mm:ss" />
+          <a-time-picker v-model="openingTime" format="HH:mm:ss" />
         </a-form-model-item>
         <a-form-model-item label="打烊时间（理想状况下，订单完成时间不可超过打烊时间）" style="float: left; margin: 0 40px">
-          <a-time-picker v-model="form.closingTime" format="HH:mm:ss" />
+          <a-time-picker v-model="closingTime" format="HH:mm:ss" />
         </a-form-model-item>
       </a-form-model>
       <a-form-model-item label="订单最下方顾客须知">
         <a-input v-model="form.userNotice" type="textarea" />
       </a-form-model-item>
       <a-form-model-item>
-        <a-button type="primary" @click="onSubmit" style="width: 100%;margin-left: 29%">
+        <a-button type="primary" style="width: 100%;margin-left: 29%" @click="onSubmit">
           提交
         </a-button>
       </a-form-model-item>
@@ -66,6 +66,7 @@ import {
 // import EditModal from './br-parameter-modal'
 import { ListMixin } from '@/mixins/common-crud-mixin'
 import UploadAvatar from '@/components/scraps/upload-avatar'
+import moment from 'moment'
 export default {
   name: 'BrParameterList',
   components: { UploadAvatar },
@@ -95,7 +96,12 @@ export default {
         storeAddress: '',
         storeName: ''
       },
-      storePhoto: ''
+      storePhoto: '',
+      timeInterval: '',
+      extraPackageTime: '',
+      closingTime: '',
+      openingTime: '',
+      cleanTime: ''
     }
   },
   created() {
@@ -108,14 +114,17 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.form)
+      this.form.timeInterval = moment(this.timeInterval).format('HH:mm:ss')
+      this.form.extraPackageTime = moment(this.extraPackageTime).format('HH:mm:ss')
+      this.form.cleanTime = moment(this.cleanTime).format('HH:mm:ss')
+      this.form.openingTime = moment(this.openingTime).format('HH:mm:ss')
+      this.form.closingTime = moment(this.closingTime).format('HH:mm:ss')
       this.$refs.form.validate(async valid => {
         if (valid) {
           const formData = {
             ...this.form,
             storePhoto: this.storePhoto
           }
-          console.log(formData)
           await update(formData)
           // this.$store.commit('auth/setUserInfo', (await getSelfInfo()).data)
           this.$message.success('修改信息成功!')
